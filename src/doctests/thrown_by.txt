@@ -1,0 +1,20 @@
+>>> from should_dsl import DSLObject as _
+
+>>> def divide_one_by_zero():
+...    return 1 / 0
+>>> def divide_x_by_y(x, y):
+...     return x / y
+>>> _(ZeroDivisionError).should_be.thrown_by(divide_one_by_zero)
+True
+>>> _(ZeroDivisionError).should_not_be.thrown_by(divide_one_by_zero)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: ...ZeroDivisionError... is thrown by <function divide_one_by_zero at ...>
+
+>>> _(ZeroDivisionError).should_be.thrown_by(divide_x_by_y, 5, 0)
+True
+
+>>> _(ZeroDivisionError).should_be.thrown_by(divide_x_by_y, 2, 1)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: ...ZeroDivisionError... is not thrown by <function divide_x_by_y at ...>
