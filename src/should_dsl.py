@@ -6,7 +6,7 @@
 
     Here is the point to try make everything
     as transparent as possible
-    >>> _ = DSLObject
+    ``from should_dsl import DSLObject as _``
 
     Take a look at the doctests (doctests folder)
 '''
@@ -117,7 +117,3 @@ class Should(DSLCommon):
                                                              callable_object))
         return True
  
-
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod(optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
