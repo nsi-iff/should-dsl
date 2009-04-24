@@ -11,4 +11,3 @@ ShouldNotSatisfied: True is True
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: False is not True
-

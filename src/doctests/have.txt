@@ -8,3 +8,8 @@ Traceback (most recent call last):
 ShouldNotSatisfied: [1, 2] does not have 3
 >>> _([1,2]).should_not_have(3)
 True
+
+>>> _('should').should_not_have('oul')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: should does have oul
