@@ -1,0 +1,12 @@
+To install should_dsl you just need to have setuptools installed (it's a dependency).
+
+There is just a little step to install should_dsl, and it is:
+$ python setup.py install # maybe you must be root
+
+Now you can use should_dsl!
+
+If you don't have setuptools installed or don't want to download it, you can just copy the should_dsl.py file to your python site-packages directory.
+For example:
+$ cp should_dsl.py /usr/lib/python2.5/lib/site-packages
+
+Enjoy it!
