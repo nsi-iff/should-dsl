@@ -1,0 +1,17 @@
+>>> from should_dsl import DSLObject as _
+
+>>> _(None).should_be.none
+True
+>>> _(None).should_not_be.none
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: None is None
+
+>>> _('Specification').should_not_be.none
+True
+
+>>> _('spec').should_be.equal_to('spec2')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: spec is not equal to spec2
+
