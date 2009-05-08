@@ -1,17 +1,17 @@
->>> from should_dsl import DSLObject as _
+>>> from should_dsl import *
 
->>> _(1).should_be.equal_to(1)
+>>> 1 |should_be.equal_to| 1
 True
->>> _(2).should_be.equal_to(3)
+>>> 2 |should_be.equal_to| 3
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: 2 is not equal to 3
->>> _(1).should_not_be.equal_to(2)
+>>> 1 |should_not_be.equal_to| 2
 True
 >>> name = 'dsl'
->>> _(name).should_be.equal_to('dsl')
+>>> name |should_be.equal_to| 'dsl'
 True
->>> _(name).should_not_be.equal_to('dsl')
+>>> name |should_not_be.equal_to| 'dsl'
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: dsl is equal to dsl

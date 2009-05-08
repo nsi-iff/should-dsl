@@ -1,0 +1,22 @@
+>>> from should_dsl import *
+
+>>> 1 |should_be.greater_than| 0.9
+True
+>>> 1 |should_be.greater_than| 1
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: 1 is not greater than 1
+>>> 1 |should_be.greater_than| 2
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: 1 is not greater than 2
+>>> 1 |should_not_be.greater_than| 2
+True
+>>> name = 'b'
+>>> name |should_be.greater_than| 'a'
+True
+>>> name |should_not_be.greater_than| 'a'
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: b is greater than a
+

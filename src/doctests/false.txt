@@ -1,14 +1,14 @@
->>> from should_dsl import DSLObject as _
+>>> from should_dsl import *
 
->>> _('spec' is not 'SPEC').should_not_be.false
+>>> 'spec' is not 'SPEC' |should_not_be.false
 True
 
->>> _(True).should_be.false
+>>> True |should_be.false
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: True is not False
 
->>> _(False).should_not_be.false
+>>> False |should_not_be.false
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: False is False

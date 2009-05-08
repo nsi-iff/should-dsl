@@ -1,5 +1,7 @@
 Should DSL implemented in Python
 
+This is an implementation with an alternative format for the "should" assertions.
+
 The goal is to write a "should" DSL in Python to be as clear as possible.
 
 It would be good to be as close as:
@@ -11,14 +13,15 @@ It would be good to be as close as:
  SOME_VALUE should not be into SOME_CONTAINER
  
 
-Nowadays, the closer it's got is to import DSLObject as _ (underscode) to make it more "invisible".
+For using this DSL, you need to import all the module's namespace, as:
+from should_dsl import *
 
 For example:
 
-_(1).should_be.equal_to(1), will be true
-_('should').should_have('oul'), will also be true
+1  |should_be.equal_to| 1, will be true
+'should' |should_have| 'oul', will also be true
 
 A nice example of exceptions would be:
 def raise_zerodivisionerror():
     return 1/0
-_(ZeroDivisionError).should_be.thrown_by(raise_zero_divisionerror)
+ZeroDivisionError |should_be.thrown_by| raise_zerodivisionerror

@@ -1,0 +1,22 @@
+>>> from should_dsl import *
+
+>>> 0.9 |should_be.less_than_or_equal_to| 1
+True
+>>> 1 |should_be.less_than_or_equal_to| 1
+True
+>>> 2 |should_be.less_than_or_equal_to| 1
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: 2 is not less than or equal to 1
+>>> 2 |should_not_be.less_than_or_equal_to| 1
+True
+>>> name = 'a'
+>>> name |should_be.less_than_or_equal_to| 'b'
+True
+>>> name |should_be.less_than_or_equal_to| 'a'
+True
+>>> name |should_not_be.less_than_or_equal_to| 'b'
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: a is less than or equal to b
+

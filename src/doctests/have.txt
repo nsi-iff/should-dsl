@@ -1,15 +1,15 @@
->>> from should_dsl import DSLObject as _
+>>> from should_dsl import *
 
->>> _([1,2,3]).should_have(1)
+>>> [1,2,3] |should_have| 1
 True
->>> _([1,2]).should_have(3)
+>>> [1,2] |should_have| 3
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: [1, 2] does not have 3
->>> _([1,2]).should_not_have(3)
+>>> [1,2] |should_not_have| 3
 True
 
->>> _('should').should_not_have('oul')
+>>> 'should' |should_not_have| 'oul'
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: should does have oul
