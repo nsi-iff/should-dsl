@@ -1,17 +1,11 @@
 >>> from should_dsl import *
 
->>> None |should_be.none
+>>> None |should_be| None
 True
->>> None |should_not_be.none
+>>> None |should_not_be| None
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: None is None
 
->>> 'Specification' |should_not_be.none
+>>> 'Specification' |should_not_be| None
 True
-
->>> 'spec' |should_be.equal_to| 'spec2'
-Traceback (most recent call last):
-    ...
-ShouldNotSatisfied: spec is not equal to spec2
-
