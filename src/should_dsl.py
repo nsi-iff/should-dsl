@@ -24,11 +24,10 @@ class Should(object):
 
     def __or__(self, rvalue):
         self._rvalue = rvalue
-        return self._check_assertion()
+        return self._check_expectation()
     
     __rshift__ = __ror__
     __rlshift__ = __or__ 
-    
     
     def __is(self):
         '''The default behavior for a should object, called on constructor'''
@@ -91,7 +90,7 @@ class Should(object):
         clone._is_thrown_by = True
         return clone
     
-    def _check_assertion(self):
+    def _check_expectation(self):
         evaluation = None 
         if self._is_thrown_by and self._rvalue.__class__ in (tuple, list, dict) and len(self._rvalue) > 1:
             evaluation = self._evaluate(self._func(self._lvalue, self._rvalue[0], *self._rvalue[1:]))
