@@ -6,7 +6,7 @@ class Should(object):
         self._negate = negate
         self._is_thrown_by = False
         self._matchers_by_name = dict()
-        self.__is()
+        self.__set_default_matcher()
     
     def _evaluate(self, value):
         if self._negate:
@@ -29,7 +29,7 @@ class Should(object):
     __rshift__ = __ror__
     __rlshift__ = __or__ 
     
-    def __is(self):
+    def __set_default_matcher(self):
         '''The default behavior for a should object, called on constructor'''
         self._func = lambda x, y: x is y
         self._error_message = '%s is %s%s'
