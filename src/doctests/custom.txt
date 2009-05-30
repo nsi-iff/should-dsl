@@ -1,6 +1,6 @@
 >>> from should_dsl import *
 
->>> @should_case 
+>>> @matcher
 ... def the_square_root_of():
 ...     import math
 ...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")

@@ -5,7 +5,7 @@ class Should(object):
     def __init__(self, negate=False):
         self._negate = negate
         self._is_thrown_by = False
-        self.should_functions_by_name = dict()
+        self.matchers_by_name = dict()
         self.__is()
     
     def _evaluate(self, value):
@@ -41,7 +41,7 @@ class Should(object):
     def _make_a_copy(self, func, error_message):
         clone = Should(self._negate)
         clone._is_thrown_by = self._is_thrown_by
-        clone.should_functions_by_name = self.should_functions_by_name
+        clone.matchers_by_name = self.matchers_by_name
         clone._func = func
         clone._error_message = error_message
         return clone
@@ -105,8 +105,8 @@ class Should(object):
         else:
             return True
             
-    def add_should(self, function):
-        '''Adds a new should case.
+    def add_matcher(self, matcher_function):
+        '''Adds a new matcher.
         The function must return a tuple (or any other __getitem__ compatible object)
         containing two elements:
         [0] = a function taking one or two parameters, that will do the desired comparison
@@ -115,12 +115,12 @@ class Should(object):
         "Python is not nicer than Ruby" depending whether |should_be.function_name| or
         |should_not_be.function_name| be applied.
         '''
-        self.should_functions_by_name[function.__name__] = function
+        self.matchers_by_name[matcher_function.__name__] = matcher_function
 
     def __getattr__(self, method_info):
         def method_missing(*args):
             try:
-                function = self.should_functions_by_name[str(method_info)]
+                function = self.matchers_by_name[str(method_info)]
                 result = function()
                 clone = self._make_a_copy(func=result[0], error_message=result[1])
                 return clone
@@ -140,7 +140,8 @@ should_not_be = Should(negate=True)
 should_have = Should(negate=False).have
 should_not_have = Should(negate=True).have
 
-def should_case(method):
-    should_be.add_should(method)
-    should_not_be.add_should(method)
-    return method
+def matcher(matcher_function):
+    '''Create customer should_be matchers. We recommend you use it as a decorator'''
+    should_be.add_matcher(matcher_function)
+    should_not_be.add_matcher(matcher_function)
+    return matcher_function
