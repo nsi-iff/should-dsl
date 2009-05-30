@@ -68,4 +68,5 @@ Extending the DSL with custom matchers is easy:
     3 |should_be.the_square_root_of| 9    # will be true
     4 |should_be.the_square_root_of| 9    # will raise a ShouldNotSatisfiedException
 
- 
+
+*should-dsl* is unittest-compatible, so, on a unittest test case, failures on should expectations will result on unittest failures, not errors.   

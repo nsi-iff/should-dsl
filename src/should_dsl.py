@@ -121,7 +121,8 @@ class Should(object):
         return clone
     
             
-class ShouldNotSatisfied(Exception):
+class ShouldNotSatisfied(AssertionError):
+    '''Extends AssertionError for unittest compatibility'''
     pass
 
 should_be = Should(negate=False)
