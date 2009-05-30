@@ -124,8 +124,8 @@ class Should(object):
                 result = function()
                 clone = self._make_a_copy(func=result[0], error_message=result[1])
                 return clone
-            except KeyError:
-                raise AttributeError, "'%s' object has no attribute '%s'" % (self.__class__, str(method_info))
+            except KeyError, exception:
+                raise exception
         return method_missing()
     
             
