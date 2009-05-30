@@ -18,20 +18,17 @@ class Should(object):
             return 'not '
         return ''
     
-    def __rlshift__(self, lvalue):
-        result = self.__ror__(lvalue)
-        return result
-    
     def __ror__(self, lvalue):
         self._lvalue = lvalue
         return self
-    
-    def __rshift__(self, rvalue):
-        return self.__or__(rvalue)
-    
+
     def __or__(self, rvalue):
         self._rvalue = rvalue
         return self._check_assertion()
+    
+    __rshift__ = __ror__
+    __rlshift__ = __or__ 
+    
     
     def __is(self):
         '''The default behavior for a should object, called on constructor'''
