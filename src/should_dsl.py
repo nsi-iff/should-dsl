@@ -91,7 +91,6 @@ class Should(object):
         return clone
     
     def _check_expectation(self):
-        evaluation = None 
         if self._is_thrown_by and self._rvalue.__class__ in (tuple, list, dict) and len(self._rvalue) > 1:
             evaluation = self._evaluate(self._func(self._lvalue, self._rvalue[0], *self._rvalue[1:]))
         else:
