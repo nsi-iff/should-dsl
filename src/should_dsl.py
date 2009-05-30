@@ -128,9 +128,6 @@ class Should(object):
                 raise AttributeError, "'%s' object has no attribute '%s'" % (self.__class__, str(method_info))
         return method_missing()
     
-    def _message_to_lambda(self, error_message):
-        return lambda x, y: error_message % (x, self._negate_str(), y)
-
             
 class ShouldNotSatisfied(Exception):
     pass
