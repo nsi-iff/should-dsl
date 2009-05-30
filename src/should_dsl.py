@@ -5,7 +5,7 @@ class Should(object):
     def __init__(self, negate=False):
         self._negate = negate
         self._is_thrown_by = False
-        self.matchers_by_name = dict()
+        self._matchers_by_name = dict()
         self.__is()
     
     def _evaluate(self, value):
@@ -41,7 +41,7 @@ class Should(object):
     def _make_a_copy(self, func, error_message):
         clone = Should(self._negate)
         clone._is_thrown_by = self._is_thrown_by
-        clone.matchers_by_name = self.matchers_by_name
+        clone._matchers_by_name = self._matchers_by_name
         clone._func = func
         clone._error_message = error_message
         return clone
@@ -115,12 +115,12 @@ class Should(object):
         "Python is not nicer than Ruby" depending whether |should_be.function_name| or
         |should_not_be.function_name| be applied.
         '''
-        self.matchers_by_name[matcher_function.__name__] = matcher_function
+        self._matchers_by_name[matcher_function.__name__] = matcher_function
 
     def __getattr__(self, method_info):
         def method_missing(*args):
             try:
-                function = self.matchers_by_name[str(method_info)]
+                function = self._matchers_by_name[str(method_info)]
                 result = function()
                 clone = self._make_a_copy(func=result[0], error_message=result[1])
                 return clone
