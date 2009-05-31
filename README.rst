@@ -52,7 +52,7 @@ Both *should_have* and *should_be* have versions for negation:
 
 ::
 
-    2 |should_not_be.into| [1, 3, 5]]   # will be true
+    2 |should_not_be.into| [1, 3, 5]    # will be true
     'should' |should_not_have| 'oul'    # will raise a ShouldNotSatisfied exception
 
 
