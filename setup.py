@@ -9,7 +9,7 @@ readme_fd.close()
 
 setup(name='should_dsl',
       version=version,
-      description='Should assertions in Python as clear and readable as possible'
+      description='Should assertions in Python as clear and readable as possible',
       long_description=readme,
       classifiers=[
           'Development Status :: 4 - Beta',
