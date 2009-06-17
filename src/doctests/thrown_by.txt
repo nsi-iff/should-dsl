@@ -18,3 +18,7 @@ True
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: ...ZeroDivisionError... is not thrown by [<function divide_x_by_y at ...>, 2, 1]
+
+
+>>> AttributeError |should_not_be.thrown_by| (divide_x_by_y, 1, 0)
+True
