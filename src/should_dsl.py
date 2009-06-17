@@ -89,16 +89,24 @@ class Should(object):
                                  error_message='%s is %sthrown by %s')
         clone._is_thrown_by = True
         return clone
+
+    def _thrown_by_was_called_with_parameters(self):
+       return self._is_thrown_by and\
+           getattr(self._rvalue.__class__, '__contains__', None) and\
+           len(self._rvalue) > 1
     
     def _check_expectation(self):
-        if self._is_thrown_by and self._rvalue.__class__ in (tuple, list, dict) and len(self._rvalue) > 1:
-            evaluation = self._evaluate(self._func(self._lvalue, self._rvalue[0], *self._rvalue[1:]))
-        else:
-            evaluation = self._evaluate(self._func(self._lvalue, self._rvalue)) 
+        rvalue = self._rvalue
+        params = []
+        if self._thrown_by_was_called_with_parameters():
+            rvalue = self._rvalue[0]
+            params = self._rvalue[1:]
+        evaluation = self._evaluate(self._func(self._lvalue, rvalue, *params)) 
         if not evaluation:
-            raise ShouldNotSatisfied, self._error_message % (self._lvalue, self._negate_str(), self._rvalue)
-        else:
-            return True
+            raise ShouldNotSatisfied(self._error_message % (self._lvalue,
+                                                            self._negate_str(),
+                                                            self._rvalue))
+        return True
             
     def add_matcher(self, matcher_function):
         '''Adds a new matcher.
@@ -115,6 +123,9 @@ class Should(object):
     def __getattr__(self, method_name):
         '''if it can't find method_name in the instance
            it will look in _matchers_by_name'''
+        if str(method_name) not in self._matchers_by_name:
+            raise AttributeError("%s object has no matcher '%s'" % (
+                self.__class__.__name__, str(method_name)))
         function = self._matchers_by_name[str(method_name)]
         result = function()
         clone = self._make_a_copy(func=result[0], error_message=result[1])
@@ -123,7 +134,6 @@ class Should(object):
             
 class ShouldNotSatisfied(AssertionError):
     '''Extends AssertionError for unittest compatibility'''
-    pass
 
 should_be = Should(negate=False)
 should_not_be = Should(negate=True)
