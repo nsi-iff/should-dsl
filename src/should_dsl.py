@@ -83,6 +83,8 @@ class Should(object):
                 return False
             except exception:
                 return True
+            except Exception:
+                return False
         clone = self._make_a_copy(func=check_exception, 
                                  error_message='%s is %sthrown by %s')
         clone._is_thrown_by = True
