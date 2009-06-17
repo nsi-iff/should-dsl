@@ -1,5 +1,3 @@
-#coding: utf-8
-
 class Should(object):
     
     def __init__(self, negate=False):
