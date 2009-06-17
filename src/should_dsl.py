@@ -90,10 +90,13 @@ class Should(object):
         clone._is_thrown_by = True
         return clone
 
+    def _rvalue_is_container(self):
+        return getattr(self._rvalue, '__getitem__', False)
+
     def _thrown_by_was_called_with_parameters(self):
        return self._is_thrown_by and\
-           getattr(self._rvalue.__class__, '__contains__', None) and\
-           len(self._rvalue) > 1
+              self._rvalue_is_container() and\
+              len(self._rvalue) > 1
     
     def _check_expectation(self):
         rvalue = self._rvalue
