@@ -9,4 +9,7 @@ If you don't have setuptools installed or don't want to download it, you can jus
 For example:
 $ cp should_dsl.py /usr/lib/python2.5/lib/site-packages
 
+Or you can choose to install it by easy_install:
+$ easy_install should-dsl # maybe as root
+
 Enjoy it!
