@@ -1,4 +1,9 @@
 '''
+This file just give examples of should_dsl use
+with unittest module.
+You can write regular unittests but avoid using "asserts",
+you can use the should_dsl!
+
     >>> output = StringIO()
     >>> runner = unittest.TextTestRunner(stream=output)
     >>> loader = unittest.TestLoader()
