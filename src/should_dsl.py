@@ -31,11 +31,17 @@ class Should(object):
     def __set_default_matcher(self):
         '''The default behavior for a should object, called on constructor'''
         if self._have:
-            self._func = lambda container, item: item in container
-            self._error_message = '%s does %shave %s'
+            self._turn_into_should_have()
         else:
-            self._func = lambda x, y: x is y
-            self._error_message = '%s is %s%s'
+            self._turn_into_should_be()
+
+    def _turn_into_should_have(self):
+        self._func = lambda container, item: item in container
+        self._error_message = '%s does %shave %s'
+
+    def _turn_into_should_be(self):
+        self._func = lambda x, y: x is y
+        self._error_message = '%s is %s%s'
 
     def _make_a_copy(self, func, error_message):
         clone = Should(self._negate)
