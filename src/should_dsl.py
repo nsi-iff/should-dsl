@@ -96,6 +96,17 @@ class Should(object):
         clone._is_thrown_by = True
         return clone
 
+    @property
+    def in_any_order(self):
+        def contains_in_any_order(container, elements):
+            for element in elements:
+                if element not in container:
+                    return False
+            return True
+        return self._make_a_copy(func=lambda container, elements: contains_in_any_order(container, elements),
+                                 error_message="%s does %scontain in any order %s")
+
+
     def _rvalue_is_container(self):
         return getattr(self._rvalue, '__getitem__', False)
 
