@@ -13,5 +13,6 @@ if __name__ == '__main__':
         doctest.testfile(os.path.join(doctests_path, doctest_file),
                          optionflags=flags)
 
-    for module in [unittest_example,]:
-        doctest.testmod(module, optionflags=flags)
+#    for module in [unittest_example,]:
+#        doctest.testmod(module, optionflags=flags)
+

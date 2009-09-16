@@ -1,4 +1,5 @@
 >>> from should_dsl import *
+>>> from matchers import matcher
 
 >>> @matcher
 ... def the_square_root_of():
@@ -16,3 +17,4 @@ True
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: 3 is the square root of 9
+

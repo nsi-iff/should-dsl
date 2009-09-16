@@ -20,21 +20,22 @@ from should_dsl import (should_be, should_not_be,
 
 
 class UsingShouldExample(unittest.TestCase):
-    def test_showing_should_be_fail(self):
-        'hello world!' |should_be| 'Hello World!'
+#    def test_showing_should_be_fail(self):
+#        'hello world!' |should_be| 'Hello World!'
 
-    def test_showing_should_be_work(self):
-        1+1 |should_be| 2
+#    def test_showing_should_be_work(self):
+#        1+1 |should_be| 2
 
-    def test_showing_should_not_be_fail(self):
-        'bdd' |should_not_be| 'bdd'
-        # equal_to doesn't compare ids, but content
-        'hi' |should_not_be.equal_to| 'HI'.lower()
+#    def test_showing_should_not_be_fail(self):
+#        'bdd' |should_not_be| 'bdd'
+#        # equal_to doesn't compare ids, but content
+#        'hi' |should_not_be.equal_to| 'HI'.lower()
 
     def test_showing_should_not_be_work(self):
         'hello world!' |should_not_be| 'Hello World!'
         # the objects have different ids below
-        'hi' |should_not_be| 'HI'.lower()
+#        'hi' |should_not_be| 'HI'.lower()
+
 
     def test_showing_should_have_fail(self):
         [1, 2, 3] |should_have| 5
@@ -47,3 +48,4 @@ class UsingShouldExample(unittest.TestCase):
 
     def test_showing_should_not_have_work(self):
         ["that's", 'all', 'folks'] |should_not_have| "that"
+

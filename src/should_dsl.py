@@ -51,61 +51,6 @@ class Should(object):
         clone._error_message = error_message
         return clone
 
-    @property
-    def equal_to(self):
-        return self._make_a_copy(func=lambda x, y: x == y,
-                                error_message='%s is %sequal to %s')
-
-    @property
-    def into(self):
-        return self._make_a_copy(func=lambda item, container: item in container,
-                                error_message='%s is %sinto %s')
-
-    @property
-    def greater_than(self):
-        return self._make_a_copy(func=lambda x, y: x > y,
-                                error_message='%s is %sgreater than %s')
-
-    @property
-    def greater_than_or_equal_to(self):
-        return self._make_a_copy(func=lambda x, y: x >= y,
-                                error_message='%s is %sgreater than or equal to %s')
-
-    @property
-    def less_than(self):
-        return self._make_a_copy(func=lambda x, y: x < y,
-                                error_message='%s is %sless than %s')
-
-    @property
-    def less_than_or_equal_to(self):
-        return self._make_a_copy(func=lambda x, y: x <= y,
-                                error_message='%s is %sless than or equal to %s')
-
-    @property
-    def thrown_by(self):
-        def check_exception(exception, callable, *args, **kw):
-            try:
-                callable(*args, **kw)
-                return False
-            except exception:
-                return True
-            except Exception:
-                return False
-        clone = self._make_a_copy(func=check_exception,
-                                 error_message='%s is %sthrown by %s')
-        clone._is_thrown_by = True
-        return clone
-
-    @property
-    def in_any_order(self):
-        def contains_in_any_order(container, elements):
-            for element in elements:
-                if element not in container:
-                    return False
-            return True
-        return self._make_a_copy(func=lambda container, elements: contains_in_any_order(container, elements),
-                                 error_message="%s does %scontain in any order %s")
-
 
     def _rvalue_is_container(self):
         return getattr(self._rvalue, '__getitem__', False)
@@ -143,6 +88,8 @@ class Should(object):
     def __getattr__(self, method_name):
         '''if it can't find method_name in the instance
            it will look in _matchers_by_name'''
+        if str(method_name) == 'thrown_by':
+            self._is_thrown_by = True
         if str(method_name) not in self._matchers_by_name:
             raise AttributeError("%s object has no matcher '%s'" % (
                 self.__class__.__name__, str(method_name)))
@@ -165,4 +112,6 @@ def matcher(matcher_function):
     for should_object in (should_be, should_not_be, should_have, should_not_have):
         should_object.add_matcher(matcher_function)
     return matcher_function
+
+import matchers
 
