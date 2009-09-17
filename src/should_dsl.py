@@ -3,7 +3,6 @@ class Should(object):
     def __init__(self, negate=False, have=False):
         self._negate = negate
         self._have = have
-        self._is_thrown_by = False
         self._matchers_by_name = dict()
         self.__set_default_matcher()
 
@@ -45,28 +44,13 @@ class Should(object):
 
     def _make_a_copy(self, func, error_message):
         clone = Should(self._negate)
-        clone._is_thrown_by = self._is_thrown_by
         clone._matchers_by_name = self._matchers_by_name
         clone._func = func
         clone._error_message = error_message
         return clone
 
-
-    def _rvalue_is_container(self):
-        return getattr(self._rvalue, '__getitem__', False)
-
-    def _thrown_by_was_called_with_parameters(self):
-       return self._is_thrown_by and\
-              self._rvalue_is_container() and\
-              len(self._rvalue) > 1
-
     def _check_expectation(self):
-        rvalue = self._rvalue
-        params = []
-        if self._thrown_by_was_called_with_parameters():
-            rvalue = self._rvalue[0]
-            params = self._rvalue[1:]
-        evaluation = self._evaluate(self._func(self._lvalue, rvalue, *params))
+        evaluation = self._evaluate(self._func(self._lvalue, self._rvalue))
         if not evaluation:
             raise ShouldNotSatisfied(self._error_message % (self._lvalue,
                                                             self._negate_str(),
@@ -88,8 +72,6 @@ class Should(object):
     def __getattr__(self, method_name):
         '''if it can't find method_name in the instance
            it will look in _matchers_by_name'''
-        if str(method_name) == 'thrown_by':
-            self._is_thrown_by = True
         if str(method_name) not in self._matchers_by_name:
             raise AttributeError("%s object has no matcher '%s'" % (
                 self.__class__.__name__, str(method_name)))

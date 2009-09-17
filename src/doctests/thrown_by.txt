@@ -22,3 +22,4 @@ ShouldNotSatisfied: ...ZeroDivisionError... is not thrown by [<function divide_x
 
 >>> AttributeError |should_not_be.thrown_by| (divide_x_by_y, 1, 0)
 True
+
