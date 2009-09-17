@@ -50,6 +50,5 @@ def in_any_order():
             if element not in container:
                 return False
         return True
-    return (lambda container, elements: contains_in_any_order(container, elements),
-            "%s does %shave in any order %s")
+    return (contains_in_any_order, "%s does %shave in any order %s")
 
