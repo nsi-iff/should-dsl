@@ -24,9 +24,6 @@ class Should(object):
         self._rvalue = rvalue
         return self._check_expectation()
 
-    __rshift__ = __ror__
-    __rlshift__ = __or__
-
     def __set_default_matcher(self):
         '''The default behavior for a should object, called on constructor'''
         if self._have:
@@ -72,13 +69,12 @@ class Should(object):
     def __getattr__(self, method_name):
         '''if it can't find method_name in the instance
            it will look in _matchers_by_name'''
-        if str(method_name) not in self._matchers_by_name:
+        if method_name not in self._matchers_by_name:
             raise AttributeError("%s object has no matcher '%s'" % (
-                self.__class__.__name__, str(method_name)))
-        function = self._matchers_by_name[str(method_name)]
-        result = function()
-        clone = self._make_a_copy(func=result[0], error_message=result[1])
-        return clone
+                self.__class__.__name__, method_name))
+        matcher_function = self._matchers_by_name[method_name]
+        func, error_message = matcher_function()
+        return self._make_a_copy(func, error_message)
 
 
 class ShouldNotSatisfied(AssertionError):
