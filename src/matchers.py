@@ -26,18 +26,18 @@ def less_than_or_equal_to():
 
 @matcher
 def thrown_by():
-    def check_exception(exception, callable_and_eventual_params):
-        if getattr(callable_and_eventual_params, '__getitem__', False):
-            callable = callable_and_eventual_params[0]
-            params = callable_and_eventual_params[1:]
+    def check_exception(expected_exception, callable_and_possible_params):
+        if getattr(callable_and_possible_params, '__getitem__', False):
+            callable = callable_and_possible_params[0]
+            params = callable_and_possible_params[1:]
         else:
-            callable = callable_and_eventual_params
+            callable = callable_and_possible_params
             params = []
 
         try:
             callable(*params)
             return False
-        except exception:
+        except expected_exception:
             return True
         except Exception:
             return False
