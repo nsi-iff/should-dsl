@@ -1,7 +1,7 @@
-Should DSL: Improved readability for should-style assertions
-============================================================
+Should DSL: Improved readability for should-style expectations
+==============================================================
 
-The goal of *Should DSL* is to write should assertions in Python as clear and readable as possible.
+The goal of *Should DSL* is to write should expectations in Python as clear and readable as possible.
 
 It would be good to be as close as:
 
@@ -27,7 +27,7 @@ For example:
 
 
     1  |should_be.equal_to| 1     # will be true
-    'should' |should_have| 'oul'  # will also be true	
+    'should' |should_have| 'oul'  # will also be true
     3 |should_be.into| (0, 1, 2)  # will raise a ShouldNotSatisfied exception
 
 
@@ -64,9 +64,10 @@ Extending the DSL with custom matchers is easy:
     def the_square_root_of():
         import math
         return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
-        
+
     3 |should_be.the_square_root_of| 9    # will be true
     4 |should_be.the_square_root_of| 9    # will raise a ShouldNotSatisfiedException
 
 
-*should-dsl* is unittest-compatible, so, on a unittest test case, failures on should expectations will result on unittest failures, not errors.   
+*should-dsl* is unittest-compatible, so, on a unittest test case, failures on should expectations will result on unittest failures, not errors.
+
