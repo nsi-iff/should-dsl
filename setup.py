@@ -27,7 +27,7 @@ setup(name='should_dsl',
       license='MIT License',
       packages=['should_dsl'],
       package_dir={'should_dsl': 'src'},
-      package_data={'':['LICENSE', 'INSTALL', 'README.rst', '*.txt',]},
+      package_data={'':['LICENSE', 'INSTALL', 'README.rst', ]},
       install_requires=['setuptools'],
       entry_points="",
       )
