@@ -1,11 +1,9 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '1.1'
+version = '1.1.1'
 
-readme_fd = open('README.rst')
-readme = readme_fd.read()
-readme_fd.close()
+readme = open('README.rst').read()
 
 setup(name='should_dsl',
       version=version,
@@ -27,7 +25,6 @@ setup(name='should_dsl',
       license='MIT License',
       packages=['should_dsl'],
       package_dir={'should_dsl': 'src'},
-      package_data={'':['LICENSE', 'INSTALL', 'README.rst', ]},
-      install_requires=['setuptools'],
+      install_requires=[],
       entry_points="",
       )
