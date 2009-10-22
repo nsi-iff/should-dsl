@@ -52,3 +52,6 @@ def in_any_order():
         return True
     return (contains_in_any_order, "%s does %shave in any order %s")
 
+@matcher
+def all_of():
+    return (in_any_order()[0], "%s does %shave all of %s")
