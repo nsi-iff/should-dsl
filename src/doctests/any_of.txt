@@ -1,0 +1,9 @@
+>>> from should_dsl import *
+
+>>> [1, 2, 3] |should_have.any_of| [1, 2]
+True
+
+>>> [1, 2, 3] |should_have.any_of| [4, 5]
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: [1, 2, 3] does not have any of [4, 5]

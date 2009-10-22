@@ -55,3 +55,12 @@ def in_any_order():
 @matcher
 def all_of():
     return (in_any_order()[0], "%s does %shave all of %s")
+
+@matcher
+def any_of():
+    def have_any_of(container, elements):
+        for element in elements:
+            if element in container:
+                return True
+        return False
+    return (have_any_of, "%s does %shave any of %s")
