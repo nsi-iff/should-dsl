@@ -1,0 +1,16 @@
+>>> from should_dsl import *
+
+>>> class Foo(object):
+...    pass
+>>> class Bar(object):
+...    pass
+>>> foo = Foo()
+
+>>> foo |should_be.kind_of| Foo
+True
+
+>>> foo |should_be.kind_of| Bar
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: <Foo object at ...> is not a kind of <class 'Bar'>
+

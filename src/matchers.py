@@ -64,3 +64,7 @@ def any_of():
                 return True
         return False
     return (have_any_of, "%s does %shave any of %s")
+
+@matcher
+def kind_of():
+    return (lambda obj, kind: isinstance(obj, kind), "%s is %s a kind of %s")
