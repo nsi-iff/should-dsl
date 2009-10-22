@@ -68,3 +68,7 @@ def any_of():
 @matcher
 def kind_of():
     return (lambda obj, kind: isinstance(obj, kind), "%s is %s a kind of %s")
+
+@matcher
+def ended_with():
+    return (lambda x, y: x.endswith(y), "%s is %sended with %s")
