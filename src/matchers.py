@@ -1,4 +1,5 @@
 from should_dsl import matcher
+import re
 
 @matcher
 def equal_to():
@@ -72,3 +73,7 @@ def kind_of():
 @matcher
 def ended_with():
     return (lambda x, y: x.endswith(y), "%s is %sended with %s")
+
+@matcher
+def like():
+    return (lambda string, regex: re.match(regex, string) is not None, '"%s" is %slike "%s"')

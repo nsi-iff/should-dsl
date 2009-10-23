@@ -1,0 +1,8 @@
+>>> from should_dsl import *
+
+>>> 'Hello World' |should_be.like| r'Hello W.+'
+True
+>>> '123 is a number' |should_be.like| r'^[12]+ is a number'
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: "123 is a number" is not like "^[12]+ is a number"
