@@ -1,5 +1,5 @@
 >>> from should_dsl import *
->>> from matchers import matcher
+>>> from should_dsl.matchers import matcher
 
 >>> @matcher
 ... def the_square_root_of():
