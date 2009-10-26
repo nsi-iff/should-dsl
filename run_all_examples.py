@@ -12,6 +12,7 @@ if __name__ == '__main__':
     suite.addTest(doctest.DocFileSuite('README.rst'))
     for doctest_file in os.listdir(doctests_path):
         if doctest_file.endswith('.txt'):
-            suite.addTest(doctest.DocFileSuite(os.path.join(doctests_path, doctest_file),
+            suite.addTest(doctest.DocFileSuite(os.path.join(doctests_path,
+                                                            doctest_file),
                                                optionflags=flags))
     runner.run(suite)
