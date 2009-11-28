@@ -67,8 +67,6 @@ class Should(object):
         self._matchers_by_name[matcher_function.__name__] = matcher_function
 
     def __getattr__(self, method_name):
-        '''if it can't find method_name in the instance
-           it will look in _matchers_by_name'''
         if method_name not in self._matchers_by_name:
             raise AttributeError("%s object has no matcher '%s'" % (
                 self.__class__.__name__, method_name))
