@@ -77,3 +77,8 @@ def ended_with():
 @matcher
 def like():
     return (lambda string, regex: re.match(regex, string) is not None, '"%s" is %slike "%s"')
+
+@matcher
+def equal_to_ignoring_case():
+    return (lambda x, y: unicode(x, 'utf-8').lower() == unicode(y, 'utf-8').lower(), '"%s" is %sequal to "%s" ignoring case')
+
