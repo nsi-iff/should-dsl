@@ -82,6 +82,8 @@ should_be = Should(negate=False)
 should_not_be = Should(negate=True)
 should_have = Should(negate=False, have=True)
 should_not_have = Should(negate=True, have=True)
+should = should_be
+should_not = should_not_be
 
 def matcher(matcher_function):
     '''Create customer should_be matchers. We recommend you use it as a decorator'''

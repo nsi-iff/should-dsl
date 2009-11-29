@@ -25,24 +25,31 @@ def less_than():
 def less_than_or_equal_to():
     return (lambda x, y: x <= y, '%s is %sless than or equal to %s')
 
+def check_exception(expected_exception, callable_and_possible_params):
+    if getattr(callable_and_possible_params, '__getitem__', False):
+        callable = callable_and_possible_params[0]
+        params = callable_and_possible_params[1:]
+    else:
+        callable = callable_and_possible_params
+        params = []
+    try:
+        callable(*params)
+        return False
+    except expected_exception:
+        return True
+    except Exception:
+        return False
+
 @matcher
 def thrown_by():
-    def check_exception(expected_exception, callable_and_possible_params):
-        if getattr(callable_and_possible_params, '__getitem__', False):
-            callable = callable_and_possible_params[0]
-            params = callable_and_possible_params[1:]
-        else:
-            callable = callable_and_possible_params
-            params = []
-
-        try:
-            callable(*params)
-            return False
-        except expected_exception:
-            return True
-        except Exception:
-            return False
     return (check_exception, '%s is %sthrown by %s')
+
+@matcher
+def throw():
+    def local_check_exception(callable_and_possible_params, expected_exception):
+        return check_exception(expected_exception=expected_exception,
+                               callable_and_possible_params=callable_and_possible_params)
+    return (local_check_exception, "%s %sthrows %s")
 
 @matcher
 def in_any_order():
