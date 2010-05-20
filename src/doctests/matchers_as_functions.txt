@@ -21,3 +21,16 @@ Traceback (most recent call last):
     ...
 ShouldNotSatisfied: 2 is not the square root of 4.1
 
+
+
+>>> equal_to
+Traceback (most recent call last):
+    ...
+NameError: ... 'equal_to' ...
+>>> 'abc' |should_not| equal_to('cba')
+True
+>>> equal_to
+Traceback (most recent call last):
+    ...
+NameError: ... 'equal_to' ...
+
