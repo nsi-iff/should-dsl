@@ -34,3 +34,15 @@ Traceback (most recent call last):
     ...
 NameError: ... 'equal_to' ...
 
+
+>>> def equal_to():
+...     print 'hey, it works'
+...
+...
+>>> equal_to()
+hey, it works
+>>> 'abc' |should_not| equal_to('cba')
+True
+>>> equal_to()
+hey, it works
+

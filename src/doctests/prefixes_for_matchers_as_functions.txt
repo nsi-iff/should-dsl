@@ -30,3 +30,15 @@ Traceback (most recent call last):
     ...
 NameError: ... 'have_in_any_order' ...
 
+
+>>> def have_in_any_order():
+...     print 'hey, it works!'
+...
+...
+>>> have_in_any_order()
+hey, it works!
+>>> (1, 2, 3) |should| have_in_any_order([2, 1])
+True
+>>> have_in_any_order()
+hey, it works!
+

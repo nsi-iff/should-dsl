@@ -9,6 +9,7 @@ class Should(object):
         self._have = have
         self._matchers_by_name = dict()
         self.__set_default_matcher()
+        self._identifiers_named_equal_matchers = dict()
 
     def _evaluate(self, value):
         if self._negate:
@@ -94,10 +95,15 @@ class Should(object):
         f_locals = sys._getframe(2).f_locals
         for matcher_name, matcher_function in self._matchers_by_name.iteritems():
             func, error_message = matcher_function()
+            if f_locals.has_key(matcher_name):
+                self._identifiers_named_equal_matchers[matcher_name] = f_locals[matcher_name]
             f_locals[matcher_name] = _Matcher(func, error_message)
             for prefix in self._prefixes_for_matchers:
               if not matcher_name.startswith(prefix):
-                  f_locals[prefix + matcher_name] = _Matcher(func, error_message)
+                  prefixed_matcher = prefix + matcher_name
+                  if f_locals.has_key(prefixed_matcher):
+                      self._identifiers_named_equal_matchers[prefixed_matcher] = f_locals[prefixed_matcher]
+                  f_locals[prefixed_matcher] = _Matcher(func, error_message)
 
     def _destroy_local_matchers(self):
         f_locals = sys._getframe(2).f_locals
@@ -107,6 +113,9 @@ class Should(object):
                 prefixed_matcher = prefix + matcher_name
                 if f_locals.has_key(prefixed_matcher):
                     del f_locals[prefixed_matcher]
+        for attr_name, attr_ref in self._identifiers_named_equal_matchers.iteritems():
+            f_locals[attr_name] = attr_ref
+        self._identifiers_named_equal_matchers.clear()
 
 
 class _Matcher(object):
