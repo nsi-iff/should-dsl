@@ -16,3 +16,4 @@ if __name__ == '__main__':
                                                             doctest_file),
                                                optionflags=flags))
     runner.run(suite)
+

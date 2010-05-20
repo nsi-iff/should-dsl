@@ -1,3 +1,5 @@
+import sys
+
 class Should(object):
 
     def __init__(self, negate=False, have=False):
@@ -18,11 +20,18 @@ class Should(object):
 
     def __ror__(self, lvalue):
         self._lvalue = lvalue
+        self._create_local_matchers()
         return self
 
     def __or__(self, rvalue):
-        self._rvalue = rvalue
-        return self._check_expectation()
+        self._destroy_local_matchers()
+        if not isinstance(rvalue, _Matcher):
+            self._rvalue = rvalue
+            return self._check_expectation()
+        else:
+            self._rvalue = rvalue.arg
+            return self._make_a_copy(rvalue.function,
+                rvalue.error_message, copy_values=True)._check_expectation()
 
     def __set_default_matcher(self):
         '''The default behavior for a should object, called on constructor'''
@@ -39,11 +48,16 @@ class Should(object):
         self._func = lambda x, y: x is y
         self._error_message = '%s is %s%s'
 
-    def _make_a_copy(self, func, error_message):
+    def _make_a_copy(self, func, error_message, copy_values=False):
         clone = Should(self._negate)
         clone._matchers_by_name = self._matchers_by_name
         clone._func = func
         clone._error_message = error_message
+        if copy_values:
+          if hasattr(self, '_lvalue'):
+              clone._lvalue = self._lvalue
+          if hasattr(self, '_rvalue'):
+              clone._rvalue = self._rvalue
         return clone
 
     def _check_expectation(self):
@@ -73,6 +87,27 @@ class Should(object):
         matcher_function = self._matchers_by_name[method_name]
         func, error_message = matcher_function()
         return self._make_a_copy(func, error_message)
+
+    def _create_local_matchers(self):
+        f_locals = sys._getframe(2).f_locals
+        for matcher_name, matcher_function in self._matchers_by_name.iteritems():
+            func, error_message = matcher_function()
+            f_locals[matcher_name] = _Matcher(func, error_message)
+
+    def _destroy_local_matchers(self):
+        f_locals = sys._getframe(2).f_locals
+        for matcher_name in self._matchers_by_name:
+            del f_locals[matcher_name]
+
+
+class _Matcher(object):
+    def __init__(self, function, error_message):
+        self.function = function
+        self.error_message = error_message
+
+    def __call__(self, arg):
+        self.arg = arg
+        return self
 
 
 class ShouldNotSatisfied(AssertionError):
