@@ -1,0 +1,23 @@
+>>> from should_dsl import *
+
+>>> 'abc' |should_not| equal_to('cba')
+True
+
+>>> 1 |should_be| into([1, 2, 3])
+True
+
+>>> (1, 2, 3) |should_have| in_any_order([2, 1])
+True
+
+>>> import math
+>>> @matcher
+... def the_square_root_of():
+...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
+
+>>> 3 |should_be| the_square_root_of(9)
+True
+>>> 2 |should_be| the_square_root_of(4.1)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: 2 is not the square root of 4.1
+

@@ -24,28 +24,3 @@ ShouldNotSatisfied: "I" is not equal to "iw" ignoring case
 >>> "Atenção" |should_be.equal_to_ignoring_case| "ATENÇÃO"
 True
 
-
-
-
->>> "I'm specifying it" |should| equal_to_ignoring_case("I'M SPECIFYING it")
-True
->>> "I" |should| equal_to_ignoring_case("i")
-True
->>> "i" |should| equal_to_ignoring_case("I")
-True
->>> "I" |should| equal_to_ignoring_case("I")
-True
-
->>> "I" |should| equal_to_ignoring_case("wi")
-Traceback (most recent call last):
-    ...
-ShouldNotSatisfied: "I" is not equal to "wi" ignoring case
-
->>> "I" |should| equal_to_ignoring_case("iw")
-Traceback (most recent call last):
-    ...
-ShouldNotSatisfied: "I" is not equal to "iw" ignoring case
-
->>> "Atenção" |should| equal_to_ignoring_case("ATENÇÃO")
-True
-

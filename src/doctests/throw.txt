@@ -24,24 +24,3 @@ ShouldNotSatisfied: [<function divide_x_by_y at ...>, 2, 1] not throws ...ZeroDi
 >>> (divide_x_by_y, 1, 0) |should_not.throw| AttributeError
 True
 
-
-
->>> divide_one_by_zero |should| throw(ZeroDivisionError)
-True
-
->>> divide_one_by_zero |should_not| throw(ZeroDivisionError)
-Traceback (most recent call last):
-    ...
-ShouldNotSatisfied: <function divide_one_by_zero at ...> throws <type 'exceptions.ZeroDivisionError'>
-
->>> (divide_x_by_y, 5, 0) |should| throw(ZeroDivisionError)
-True
-
->>> [divide_x_by_y, 2, 1] |should| throw(ZeroDivisionError)
-Traceback (most recent call last):
-    ...
-ShouldNotSatisfied: [<function divide_x_by_y at ...>, 2, 1] not throws ...ZeroDivisionError...
-
->>> (divide_x_by_y, 1, 0) |should_not| throw(AttributeError)
-True
-

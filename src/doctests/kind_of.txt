@@ -16,16 +16,6 @@ ShouldNotSatisfied: <Foo object at ...> is not a kind of <class 'Bar'>
 
 
 
->>> foo |should_be| kind_of(Foo)
-True
-
->>> foo |should_be| kind_of(Bar)
-Traceback (most recent call last):
-    ...
-ShouldNotSatisfied: <Foo object at ...> is not a kind of <class 'Bar'>
-
-
-
 >>> foo |should| be_kind_of(Foo)
 True
 
