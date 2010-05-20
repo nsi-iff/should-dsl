@@ -8,12 +8,3 @@ Traceback (most recent call last):
     ...
 ShouldNotSatisfied: hello motto is not ended with world
 
-
->>> 'hello world' |should| be_ended_with('world')
-True
-
->>> 'hello motto' |should| be_ended_with('world')
-Traceback (most recent call last):
-    ...
-ShouldNotSatisfied: hello motto is not ended with world
-
