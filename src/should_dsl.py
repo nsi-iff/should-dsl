@@ -2,6 +2,8 @@ import sys
 
 class Should(object):
 
+    _prefixes_for_matchers = ['have_', 'be_']
+
     def __init__(self, negate=False, have=False):
         self._negate = negate
         self._have = have
@@ -93,15 +95,18 @@ class Should(object):
         for matcher_name, matcher_function in self._matchers_by_name.iteritems():
             func, error_message = matcher_function()
             f_locals[matcher_name] = _Matcher(func, error_message)
-            if not matcher_name.startswith('have_'):
-                f_locals['have_' + matcher_name] = _Matcher(func, error_message)
+            for prefix in self._prefixes_for_matchers:
+              if not matcher_name.startswith(prefix):
+                  f_locals[prefix + matcher_name] = _Matcher(func, error_message)
 
     def _destroy_local_matchers(self):
         f_locals = sys._getframe(2).f_locals
         for matcher_name in self._matchers_by_name:
             del f_locals[matcher_name]
-            if f_locals.has_key('have_'+matcher_name):
-                del f_locals['have_'+matcher_name]
+            for prefix in self._prefixes_for_matchers:
+                prefixed_matcher = prefix + matcher_name
+                if f_locals.has_key(prefixed_matcher):
+                    del f_locals[prefixed_matcher]
 
 
 class _Matcher(object):
