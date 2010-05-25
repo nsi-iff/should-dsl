@@ -2,6 +2,18 @@ from should_dsl import matcher
 import re
 
 @matcher
+def be():
+    return (lambda x, y: x is y, "%s is %s%s")
+
+@matcher
+def have():
+    return (lambda container, item: item in container, "%s does %shave %s")
+
+@matcher
+def be():
+    return (lambda x, y: x is y, "%s is %s%s")
+
+@matcher
 def equal_to():
     return (lambda x, y: x == y, '%s is %sequal to %s')
 
