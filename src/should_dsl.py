@@ -91,48 +91,48 @@ class Should(object):
         func, error_message = matcher_function()
         return self._make_a_copy(func, error_message)
 
-    def _substitute_matcher_by_defined_object(self, f_locals, matcher_name):
+    def _substitute_matcher_by_defined_object(self, f_globals, matcher_name):
         matcher_function = self._matchers_by_name[matcher_name]
         func, error_message = matcher_function()
-        if f_locals.has_key(matcher_name):
-            self._identifiers_named_equal_matchers[matcher_name] = f_locals[matcher_name]
-        f_locals[matcher_name] = _Matcher(func, error_message)
-        self._substitute_prefixed_matchers_by_defined_objects(f_locals,
+        if f_globals.has_key(matcher_name):
+            self._identifiers_named_equal_matchers[matcher_name] = f_globals[matcher_name]
+        f_globals[matcher_name] = _Matcher(func, error_message)
+        self._substitute_prefixed_matchers_by_defined_objects(f_globals,
                                                               matcher_name)
 
-    def _substitute_prefixed_matchers_by_defined_objects(self, f_locals,
+    def _substitute_prefixed_matchers_by_defined_objects(self, f_globals,
             matcher_name):
         matcher_function = self._matchers_by_name[matcher_name]
         func, error_message = matcher_function()
         for prefix in self._prefixes_for_matchers:
           if not matcher_name.startswith(prefix):
               prefixed_matcher = prefix + matcher_name
-              if f_locals.has_key(prefixed_matcher):
-                  self._identifiers_named_equal_matchers[prefixed_matcher] = f_locals[prefixed_matcher]
-              f_locals[prefixed_matcher] = _Matcher(func, error_message)
+              if f_globals.has_key(prefixed_matcher):
+                  self._identifiers_named_equal_matchers[prefixed_matcher] = f_globals[prefixed_matcher]
+              f_globals[prefixed_matcher] = _Matcher(func, error_message)
 
     def _create_local_matchers(self):
-        f_locals = sys._getframe(2).f_locals
+        f_globals = sys._getframe(2).f_globals
         for matcher_name, matcher_function in self._matchers_by_name.iteritems():
-            self._substitute_matcher_by_defined_object(f_locals, matcher_name)
+            self._substitute_matcher_by_defined_object(f_globals, matcher_name)
 
-    def _delete_added_matcher(self, f_locals, matcher_name):
-        del f_locals[matcher_name]
+    def _delete_added_matcher(self, f_globals, matcher_name):
+        del f_globals[matcher_name]
         for prefix in self._prefixes_for_matchers:
             prefixed_matcher = prefix + matcher_name
-            if f_locals.has_key(prefixed_matcher):
-                del f_locals[prefixed_matcher]
+            if f_globals.has_key(prefixed_matcher):
+                del f_globals[prefixed_matcher]
 
-    def _put_original_identifiers_back(self, f_locals):
+    def _put_original_identifiers_back(self, f_globals):
         for attr_name, attr_ref in self._identifiers_named_equal_matchers.iteritems():
-            f_locals[attr_name] = attr_ref
+            f_globals[attr_name] = attr_ref
         self._identifiers_named_equal_matchers.clear()
 
     def _destroy_local_matchers(self):
-        f_locals = sys._getframe(2).f_locals
+        f_globals = sys._getframe(2).f_globals
         for matcher_name in self._matchers_by_name:
-            self._delete_added_matcher(f_locals, matcher_name)
-        self._put_original_identifiers_back(f_locals)
+            self._delete_added_matcher(f_globals, matcher_name)
+        self._put_original_identifiers_back(f_globals)
 
 
 class _Matcher(object):

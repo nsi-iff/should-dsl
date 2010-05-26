@@ -1,0 +1,25 @@
+>>> from should_dsl import *
+>>> import unittest
+
+>>> class UsingShouldExample(unittest.TestCase):
+...     def test_showing_should_not_be_works(self):
+...         'hello world!' |should_not| be('Hello World!')
+...
+...     def test_showing_should_have_fails(self):
+...         [1, 2, 3] |should| have(5)
+...
+...     def test_showing_should_have_works(self):
+...         'hello world!' |should| have('world')
+...
+...     def test_showing_should_not_have_fails(self):
+...         {'one': 1, 'two': 2} |should_not| have('two')
+...
+...     def test_showing_should_not_have_works(self):
+...         ["that's", 'all', 'folks'] |should_not| have('that')
+
+>>> from cStringIO import StringIO
+>>> runner = unittest.TextTestRunner(stream=StringIO())
+>>> suite = unittest.TestLoader().loadTestsFromTestCase(UsingShouldExample)
+>>> runner.run(suite)
+<unittest._TextTestResult run=5 errors=0 failures=2>
+
