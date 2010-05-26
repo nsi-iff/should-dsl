@@ -9,7 +9,7 @@ For example::
 
     1  |should| be_equal(1)          # will be True
     'should' |should| have('oul')    # will also be True
-    3 |should| be_into([(]0, 1, 2])  # will raise a ShouldNotSatisfied exception
+    3 |should| be_into([0, 1, 2])  # will raise a ShouldNotSatisfied exception
 
 
 The *equal* matcher verifies object equality. If you want to ensure identity, you must use *be* as matcher::
