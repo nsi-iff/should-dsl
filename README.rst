@@ -1,47 +1,46 @@
 Should-DSL: Improved readability for should-style expectations
 ==============================================================
 
-The goal of *Should-DSL* is to write should expectations in Python as clear and readable as possible, using **"almost"** natural language (with limitations from Python language).
+The goal of *Should-DSL* is to write should expectations in Python as clear and readable as possible, using **"almost"** natural language (limited - sometimes - by the Python language constraints).
 
-For using this DSL, you need to import all the module's namespace, as::
-
-    from should_dsl import *
-
+For using this DSL, you need to import the should and should_not objects from should_dsl module, or import all from should_dsl.
 
 For example::
 
-    1  |should_be.equal_to| 1     # will be true
-    'should' |should_have| 'oul'  # will also be true
-    3 |should_be.into| (0, 1, 2)  # will raise a ShouldNotSatisfied exception
+    1  |should| be_equal(1)          # will be True
+    'should' |should| have('oul')    # will also be True
+    3 |should| be_into([(]0, 1, 2])  # will raise a ShouldNotSatisfied exception
 
 
-The *equal_to* matcher verifies object equality. If you want to ensure identity, you must use *should_be* with no matcher::
+The *equal* matcher verifies object equality. If you want to ensure identity, you must use *be* as matcher::
 
-    2 |should_be| 2
+    2 |should| be(2)
 
 
 A nice example of exceptions would be::
 
     def raise_zerodivisionerror():
         return 1/0
-    ZeroDivisionError |should_be.thrown_by| raise_zerodivisionerror
+    ZeroDivisionError |should| be_thrown_by(raise_zerodivisionerror)
 
 
-Both *should_have* and *should_be* have versions for negation::
+*should* has a negative version::
 
-    2 |should_not_be.into| [1, 3, 5]    # will be true
-    'should' |should_not_have| 'oul'    # will raise a ShouldNotSatisfied exception
+    2 |should_not| be_into([1, 3, 5])    # will be true
+    'should' |should_not| have('oul')    # will raise a ShouldNotSatisfied exception
 
 
 Extending the DSL with custom matchers is easy::
+
+    from should_dsl import matcher
 
     @matcher
     def the_square_root_of():
         import math
         return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
 
-    3 |should_be.the_square_root_of| 9    # will be true
-    4 |should_be.the_square_root_of| 9    # will raise a ShouldNotSatisfiedException
+    3 |should| be_the_square_root_of(9)    # will be true
+    4 |should| be_the_square_root_of(9)    # will raise a ShouldNotSatisfiedException
 
 
 Should-DSL with unittest
@@ -54,19 +53,19 @@ Should-DSL with unittest
 
     >>> class UsingShouldExample(unittest.TestCase):
     ...     def test_showing_should_not_be_works(self):
-    ...         'hello world!' |should_not_be| 'Hello World!'
-    ... 
+    ...         'hello world!' |should_not| be('Hello World!')
+    ...
     ...     def test_showing_should_have_fails(self):
-    ...         [1, 2, 3] |should_have| 5
-    ... 
+    ...         [1, 2, 3] |should| have(5)
+    ...
     ...     def test_showing_should_have_works(self):
-    ...         'hello world!' |should_have| 'world'
-    ... 
+    ...         'hello world!' |should| have('world')
+    ...
     ...     def test_showing_should_not_have_fails(self):
-    ...         {'one': 1, 'two': 2} |should_not_have| 'two'
-    ... 
+    ...         {'one': 1, 'two': 2} |should_not| have('two')
+    ...
     ...     def test_showing_should_not_have_works(self):
-    ...         ["that's", 'all', 'folks'] |should_not_have| 'that'
+    ...         ["that's", 'all', 'folks'] |should_not| have('that')
 
     >>> from cStringIO import StringIO
     >>> runner = unittest.TextTestRunner(stream=StringIO())
@@ -88,8 +87,10 @@ Available Matchers
 
 - all_of
 - any_of
+- be
 - ended_with
-- equal_to
+- equal
+- equal_to_ignoring_case
 - greater_than_or_equal_to
 - greater_than
 - in_any_order
@@ -98,13 +99,8 @@ Available Matchers
 - less_than_or_equal_to
 - less_than
 - like
+- throw
 - thrown_by
-
-"Native" matchers
------------------
-
-- should_be (by default it do checking on ids)
-- should_have
 
 Examples::
 
@@ -112,7 +108,7 @@ Examples::
     >>> b = "some message"
     >>> id(a) == id(b) # the strings are equal but the ids are different
     False
-    >>> a |should_be| b
+    >>> a |should| be(b)
     Traceback (most recent call last):
     ...
     ShouldNotSatisfied: some message is not some message
@@ -121,54 +117,36 @@ Examples::
     >>> d = c
     >>> id(c) == id(d)
     True
-    >>> c |should_be| d
-    True
-    
-    >>> [1,2,3] |should_have| 1
-    True
-    
-
-
-Examples of use
-===============
-
-There are some usages of Should-DSL below::
-
-    >>> [1, 2, 3] |should_have.all_of| [2, 3]
-    True
-    
-    >>> [1, 2, 3] |should_have.any_of| [1, 2]
+    >>> c |should| be(d)
     True
 
-    >>> 'hello world' |should_be.ended_with| 'world'
+    >>> [1,2,3] |should| have(1)
     True
 
-    >>> 1 |should_be.equal_to| 1
-    True
 
-    >>> 1 |should_be.greater_than_or_equal_to| 0.9
-    True
+*be_* and *have_* prefixes
+--------------------------
 
-    >>> 1 |should_be.greater_than| 0.9
-    True
+All matchers are available with **be_** and **have_** prefixes, so you can freely use them for readability purposes.
 
-    >>> [1, 2, 3] |should_have.in_any_order| [3, 1]
-    True
 
-    >>> 1 |should_be.into| [1,2,3]
-    True
+Deprecated usage
+----------------
 
-    >>> 1 |should_be.kind_of| int
-    True
+All *should-dsl* matchers also support a deprecated form, so::
 
-    >>> 0.9 |should_be.less_than_or_equal_to| 1
-    True
+    3 |should_not| equal_to(3)
 
-    >>> 0.9 |should_be.less_than| 1
-    True
+can be written as::
 
-    >>> 'Hello World' |should_be.like| r'Hello W.+'
-    True
+    3 |should_not.equal_to| 3
 
-    >>> ZeroDivisionError |should_be.thrown_by| (lambda: 1/0)
-    True
+Besides, should_dsl module offers should_be, should_have (and their negative counterparts) to be used with no matchers, as::
+
+    [1, 2] |should_have| 1
+    x |should_be| 1
+
+This syntax for writing expectations was changed because the requirement to have a single "right value" is a limitation to future improvements.
+
+We don't plan to remove the deprecated syntax in the near future, but we discourage its use from now.
+
