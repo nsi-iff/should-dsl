@@ -2,8 +2,6 @@ import sys
 
 class Should(object):
 
-    _prefixes_for_matchers = ['have_', 'be_']
-
     def __init__(self, negate=False, have=False):
         self._negate = negate
         self._have = have
@@ -23,11 +21,11 @@ class Should(object):
 
     def __ror__(self, lvalue):
         self._lvalue = lvalue
-        self._create_local_matchers()
+        self._create_function_matchers()
         return self
 
     def __or__(self, rvalue):
-        self._destroy_local_matchers()
+        self._destroy_function_matchers()
         if not isinstance(rvalue, _Matcher):
             self._rvalue = rvalue
             return self._check_expectation()
@@ -83,6 +81,37 @@ class Should(object):
         '''
         self._matchers_by_name[matcher_function.__name__] = matcher_function
 
+    def _create_function_matchers(self):
+        f_globals = sys._getframe(2).f_globals
+        self._save_clashed_identifiers(f_globals)
+        self._put_matchers_on_namespace(f_globals)
+
+    def _save_clashed_identifiers(self, f_globals):
+        for matcher_name in self._matchers_by_name.keys():
+            if f_globals.has_key(matcher_name):
+                self._identifiers_named_equal_matchers[matcher_name] = f_globals[matcher_name]
+
+    def _put_matchers_on_namespace(self, f_globals):
+        for matcher_name, matcher_function in self._matchers_by_name.iteritems():
+            matcher_function = self._matchers_by_name[matcher_name]
+            func, error_message = matcher_function()
+            f_globals[matcher_name] = _Matcher(func, error_message)
+
+    def _destroy_function_matchers(self):
+        f_globals = sys._getframe(2).f_globals
+        self._remove_matchers_from_namespace(f_globals)
+        self._put_original_identifiers_back(f_globals)
+
+    def _remove_matchers_from_namespace(self, f_globals):
+        for matcher_name in self._matchers_by_name.keys():
+            del f_globals[matcher_name]
+
+    def _put_original_identifiers_back(self, f_globals):
+        for attr_name, attr_ref in self._identifiers_named_equal_matchers.iteritems():
+            f_globals[attr_name] = attr_ref
+        self._identifiers_named_equal_matchers.clear()
+
+    # deprecated behaviour
     def __getattr__(self, method_name):
         if method_name not in self._matchers_by_name:
             raise AttributeError("%s object has no matcher '%s'" % (
@@ -90,49 +119,6 @@ class Should(object):
         matcher_function = self._matchers_by_name[method_name]
         func, error_message = matcher_function()
         return self._make_a_copy(func, error_message)
-
-    def _substitute_matcher_by_defined_object(self, f_globals, matcher_name):
-        matcher_function = self._matchers_by_name[matcher_name]
-        func, error_message = matcher_function()
-        if f_globals.has_key(matcher_name):
-            self._identifiers_named_equal_matchers[matcher_name] = f_globals[matcher_name]
-        f_globals[matcher_name] = _Matcher(func, error_message)
-        self._substitute_prefixed_matchers_by_defined_objects(f_globals,
-                                                              matcher_name)
-
-    def _substitute_prefixed_matchers_by_defined_objects(self, f_globals,
-            matcher_name):
-        matcher_function = self._matchers_by_name[matcher_name]
-        func, error_message = matcher_function()
-        for prefix in self._prefixes_for_matchers:
-          if not matcher_name.startswith(prefix):
-              prefixed_matcher = prefix + matcher_name
-              if f_globals.has_key(prefixed_matcher):
-                  self._identifiers_named_equal_matchers[prefixed_matcher] = f_globals[prefixed_matcher]
-              f_globals[prefixed_matcher] = _Matcher(func, error_message)
-
-    def _create_local_matchers(self):
-        f_globals = sys._getframe(2).f_globals
-        for matcher_name, matcher_function in self._matchers_by_name.iteritems():
-            self._substitute_matcher_by_defined_object(f_globals, matcher_name)
-
-    def _delete_added_matcher(self, f_globals, matcher_name):
-        del f_globals[matcher_name]
-        for prefix in self._prefixes_for_matchers:
-            prefixed_matcher = prefix + matcher_name
-            if f_globals.has_key(prefixed_matcher):
-                del f_globals[prefixed_matcher]
-
-    def _put_original_identifiers_back(self, f_globals):
-        for attr_name, attr_ref in self._identifiers_named_equal_matchers.iteritems():
-            f_globals[attr_name] = attr_ref
-        self._identifiers_named_equal_matchers.clear()
-
-    def _destroy_local_matchers(self):
-        f_globals = sys._getframe(2).f_globals
-        for matcher_name in self._matchers_by_name:
-            self._delete_added_matcher(f_globals, matcher_name)
-        self._put_original_identifiers_back(f_globals)
 
 
 class _Matcher(object):
@@ -148,16 +134,19 @@ class _Matcher(object):
 class ShouldNotSatisfied(AssertionError):
     '''Extends AssertionError for unittest compatibility'''
 
-should_be = Should(negate=False)
-should_not_be = Should(negate=True)
+
+should = Should(negate=False)
+should_not = Should(negate=True)
+
+# should objects for backwards compatibility
+should_be = should
+should_not_be = should_not
 should_have = Should(negate=False, have=True)
 should_not_have = Should(negate=True, have=True)
-should = should_be
-should_not = should_not_be
 
 def matcher(matcher_function):
     '''Create customer should_be matchers. We recommend you use it as a decorator'''
-    for should_object in (should_be, should_not_be, should_have, should_not_have):
+    for should_object in (should, should_not, should_have, should_not_have):
         should_object.add_matcher(matcher_function)
     return matcher_function
 

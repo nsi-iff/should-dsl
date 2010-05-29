@@ -7,9 +7,9 @@ For using this DSL, you need to import the should and should_not objects from sh
 
 For example::
 
-    1  |should| be_equal(1)          # will be True
+    1 |should| equal_to(1)           # will be True
     'should' |should| have('oul')    # will also be True
-    3 |should| be_into([0, 1, 2])  # will raise a ShouldNotSatisfied exception
+    3 |should| be_into([0, 1, 2])    # will raise a ShouldNotSatisfied exception
 
 
 The *equal* matcher verifies object equality. If you want to ensure identity, you must use *be* as matcher::
@@ -122,12 +122,6 @@ Examples::
 
     >>> [1,2,3] |should| have(1)
     True
-
-
-*be_* and *have_* prefixes
---------------------------
-
-All matchers are available with **be_** and **have_** prefixes, so you can freely use them for readability purposes.
 
 
 Deprecated usage
