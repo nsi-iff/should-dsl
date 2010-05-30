@@ -2,11 +2,12 @@ import sys
 
 class Should(object):
 
-    def __init__(self, negate=False, have=False):
+    def __init__(self, negate=False, be=False, have=False):
         self._negate = negate
         self._have = have
         self._matchers_by_name = dict()
-        self.__set_default_matcher()
+        if have or be:
+            self._set_default_matcher()
         self._identifiers_named_equal_matchers = dict()
 
     def _evaluate(self, value):
@@ -34,23 +35,8 @@ class Should(object):
             return self._make_a_copy(rvalue.function,
                 rvalue.error_message, copy_values=True)._check_expectation()
 
-    def __set_default_matcher(self):
-        '''The default behavior for a should object, called on constructor'''
-        if self._have:
-            self._turn_into_should_have()
-        else:
-            self._turn_into_should_be()
-
-    def _turn_into_should_have(self):
-        self._func = lambda container, item: item in container
-        self._error_message = '%s does %shave %s'
-
-    def _turn_into_should_be(self):
-        self._func = lambda x, y: x is y
-        self._error_message = '%s is %s%s'
-
     def _make_a_copy(self, func, error_message, copy_values=False):
-        clone = Should(self._negate)
+        clone = Should(self._negate, have=self._have, be=not self._have)
         clone._matchers_by_name = self._matchers_by_name
         clone._func = func
         clone._error_message = error_message
@@ -140,6 +126,21 @@ class Should(object):
         func, error_message = matcher_function()
         return self._make_a_copy(func, error_message)
 
+    def _set_default_matcher(self):
+        '''The default behavior for a should object, called on constructor'''
+        if self._have:
+            self._turn_into_should_have()
+        else:
+            self._turn_into_should_be()
+
+    def _turn_into_should_have(self):
+        self._func = lambda container, item: item in container
+        self._error_message = '%s does %shave %s'
+
+    def _turn_into_should_be(self):
+        self._func = lambda x, y: x is y
+        self._error_message = '%s is %s%s'
+
 
 class _Matcher(object):
     def __init__(self, function, error_message, arg=None):
@@ -160,14 +161,16 @@ should = Should(negate=False)
 should_not = Should(negate=True)
 
 # should objects for backwards compatibility
-should_be = should
-should_not_be = should_not
+should_be = Should(be=True)
+should_not_be = Should(negate=True, be=True)
 should_have = Should(negate=False, have=True)
 should_not_have = Should(negate=True, have=True)
 
 def matcher(matcher_function):
     '''Create customer should_be matchers. We recommend you use it as a decorator'''
-    for should_object in (should, should_not, should_have, should_not_have):
+    should_objects = (should, should_not, should_be, should_not_be, should_have,
+                      should_not_have)
+    for should_object in should_objects:
         should_object.add_matcher(matcher_function)
     return matcher_function
 
