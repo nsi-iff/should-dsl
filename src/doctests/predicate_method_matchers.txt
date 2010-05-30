@@ -1,0 +1,26 @@
+>>> from should_dsl import should, should_not
+
+>>> class Foo(object):
+...     def always_true(self):
+...         return True
+...     def always_false(self):
+...         return False
+...     def __str__(self):
+...         return '<foo object>'
+
+>>> Foo() |should_not| be_always_false
+True
+
+>>> Foo() |should| be_always_true
+True
+
+>>> Foo() |should| be_always_false
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected <foo object> to be always false, but it is not
+
+>>> Foo() |should_not| be_always_true
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected <foo object> not to be always true, but it is
+

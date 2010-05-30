@@ -145,7 +145,10 @@ class _PredicateMatcher(object):
         self._value = value
         self._attr_name = attr_name
     def match(self):
-        return getattr(self._value, self._attr_name)
+        attr_value = getattr(self._value, self._attr_name)
+        if hasattr(attr_value, 'im_func'):
+            attr_value = attr_value()
+        return attr_value
     def message_for_failed_should(self):
         return "expected %s to be %s, but it is not" % (self._value,
             self._attr_name.replace('_', ' '))
