@@ -9,8 +9,10 @@ True
 >>> 1 |should_be| 1
 True
 
->>> 'hello world' |should_not_be.ended_with| 'world1'
-True
+>>> 'hello world' |should_not_be.ended_with| 'world'
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: hello world is ended with world
 
 >>> 1 |should_be.equal_to| 1
 True

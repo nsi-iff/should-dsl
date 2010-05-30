@@ -86,8 +86,8 @@ def be_kind_of():
     return (lambda obj, kind: isinstance(obj, kind), "%s is %s a kind of %s")
 
 @matcher
-def be_ended_with():
-    return (lambda x, y: x.endswith(y), "%s is %sended with %s")
+def end_with():
+    return (lambda x, y: x.endswith(y), "%s do %send with %s")
 
 @matcher
 def be_like():
@@ -141,7 +141,7 @@ def kind_of():
 
 @matcher
 def ended_with():
-    return be_ended_with()
+    return (lambda x, y: x.endswith(y), "%s is %sended with %s")
 
 @matcher
 def like():

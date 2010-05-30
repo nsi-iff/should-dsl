@@ -1,0 +1,10 @@
+>>> from should_dsl import *
+
+>>> 'hello world' |should| end_with('world')
+True
+
+>>> 'hello motto' |should| end_with('world')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: hello motto do not end with world
+
