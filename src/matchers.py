@@ -70,7 +70,7 @@ def have_in_any_order():
 
 @matcher
 def have_all_of():
-    return (in_any_order()[0], "%s does %shave all of %s")
+    return (have_in_any_order()[0], "%s does %shave all of %s")
 
 @matcher
 def have_any_of():

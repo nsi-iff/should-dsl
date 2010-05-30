@@ -1,0 +1,36 @@
+>>> from should_dsl import should, should_not, matcher
+
+>>> import math
+>>> @matcher
+... class SquareRootMatcher(object):
+...     name = 'be_the_square_root_of'
+...     def __init__(self, lvalue):
+...         self._lvalue = lvalue
+...     def __call__(self, arg):
+...         self._arg = arg
+...         return self
+...     def match(self):
+...         return self._lvalue == math.sqrt(self._arg)
+...     def message_for_failed_should(self):
+...         return "expected %s be the square root of %s, but it is not" % (
+...                     self._lvalue, self._arg)
+...     def message_for_failed_should_not(self):
+...         return "expected %s not be the square root of %s, but it is" % (
+...                     self._lvalue, self._arg)
+
+>>> 3 |should| be_the_square_root_of(9)
+True
+
+>>> 1 |should| be_the_square_root_of(3)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected 1 be the square root of 3, but it is not
+
+>>> 4 |should_not| be_the_square_root_of(11)
+True
+
+>>> 4 |should_not| be_the_square_root_of(16)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected 4 not be the square root of 16, but it is
+

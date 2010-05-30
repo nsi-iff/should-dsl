@@ -18,3 +18,4 @@ if __name__ == '__main__':
                                                optionflags=flags))
     result = runner.run(suite)
     sys.exit(int(bool(result.failures or result.errors)))
+

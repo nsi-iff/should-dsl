@@ -1,4 +1,5 @@
 import sys
+import deprecated_should_dsl
 
 class Should(object):
 
@@ -15,11 +16,6 @@ class Should(object):
             return not value
         return value
 
-    def _negate_str(self):
-        if not self._negate:
-            return 'not '
-        return ''
-
     def __ror__(self, lvalue):
         self._lvalue = lvalue
         self._create_function_matchers()
@@ -27,45 +23,41 @@ class Should(object):
 
     def __or__(self, rvalue):
         self._destroy_function_matchers()
-        if not isinstance(rvalue, _Matcher):
+        if not hasattr(self, '_old_style_call'):
             self._rvalue = rvalue
-            return self._check_expectation()
+            if not hasattr(rvalue, 'match'):
+                self._convert_deprecated_style(rvalue)
         else:
-            self._rvalue = rvalue.arg
-            return self._make_a_copy(rvalue.function,
-                rvalue.error_message, copy_values=True)._check_expectation()
-
-    def _make_a_copy(self, func, error_message, copy_values=False):
-        clone = Should(self._negate, have=self._have, be=not self._have)
-        clone._matchers_by_name = self._matchers_by_name
-        clone._func = func
-        clone._error_message = error_message
-        if copy_values:
-          if hasattr(self, '_lvalue'):
-              clone._lvalue = self._lvalue
-          if hasattr(self, '_rvalue'):
-              clone._rvalue = self._rvalue
-        return clone
+            self._convert_deprecated_style(rvalue)
+        return self._check_expectation()
 
     def _check_expectation(self):
-        evaluation = self._evaluate(self._func(self._lvalue, self._rvalue))
-        if not evaluation:
-            raise ShouldNotSatisfied(self._error_message % (self._lvalue,
-                                                            self._negate_str(),
-                                                            self._rvalue))
+        if not self._evaluate(self._rvalue.match()):
+            raise ShouldNotSatisfied(self._negate and self._rvalue.message_for_failed_should_not() or self._rvalue.message_for_failed_should())
         return True
 
-    def add_matcher(self, matcher_function):
-        '''Adds a new matcher.
-        The function must return a tuple (or any other __getitem__ compatible object)
-        containing two elements:
-        [0] = a function taking one or two parameters, that will do the desired comparison
-        [1] = the error message. this message must contain three %s placeholders. By example,
-        "%s is %snicer than %s" can result in "Python is nicer than Ruby" or
-        "Python is not nicer than Ruby" depending whether |should_be.function_name| or
-        |should_not_be.function_name| be applied.
-        '''
-        self._matchers_by_name[matcher_function.__name__] = matcher_function
+    def add_matcher(self, matcher_object):
+        if hasattr(matcher_object, 'func_name'):
+            func, message = matcher_object()
+            class GeneratedMatcher(object):
+                name = matcher_object.func_name
+                def __init__(self, value):
+                    self._value = value
+                    self._func, self._message = func, message
+                def __call__(self, arg):
+                    self.arg = arg
+                    return self
+                def match(self):
+                    return self._func(self._value, self.arg)
+                def message_for_failed_should(self):
+                    return self._message % (self._value, "not ", self.arg)
+                def message_for_failed_should_not(self):
+                    return self._message % (self._value, "", self.arg)
+            matcher_object = GeneratedMatcher
+            name = GeneratedMatcher.name
+        else:
+            name = matcher_object.name
+        self._matchers_by_name[name] = matcher_object
 
     def _create_function_matchers(self):
         f_globals = sys._getframe(2).f_globals
@@ -85,13 +77,12 @@ class Should(object):
     def _put_regular_matchers_on_namespace(self, f_globals):
         for matcher_name, matcher_function in self._matchers_by_name.iteritems():
             matcher_function = self._matchers_by_name[matcher_name]
-            func, error_message = matcher_function()
-            f_globals[matcher_name] = _Matcher(func, error_message)
+            f_globals[matcher_name] = matcher_function(self._lvalue)
 
     def _put_predicate_matchers_on_namespace(self, f_globals):
         attr_names = [attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
         for attr_name in attr_names:
-            matcher = _Matcher(lambda x, y: getattr(x, y), "%s is %s%s", attr_name)
+            matcher = _PredicateMatcher(self._lvalue, attr_name)
             f_globals['be_' + attr_name] = matcher
 
     def _destroy_function_matchers(self):
@@ -122,9 +113,14 @@ class Should(object):
         if method_name not in self._matchers_by_name:
             raise AttributeError("%s object has no matcher '%s'" % (
                 self.__class__.__name__, method_name))
-        matcher_function = self._matchers_by_name[method_name]
-        func, error_message = matcher_function()
-        return self._make_a_copy(func, error_message)
+        return self._prepare_to_receive_rvalue(method_name)
+
+    def _prepare_to_receive_rvalue(self, method_name):
+        should = Should(negate=self._negate, have=self._have, be=not self._have)
+        should._matchers_by_name = self._matchers_by_name
+        should._old_style_call = True
+        should._matcher = self._matchers_by_name[method_name]
+        return should
 
     def _set_default_matcher(self):
         '''The default behavior for a should object, called on constructor'''
@@ -134,23 +130,28 @@ class Should(object):
             self._turn_into_should_be()
 
     def _turn_into_should_have(self):
-        self._func = lambda container, item: item in container
-        self._error_message = '%s does %shave %s'
+        self._matcher = deprecated_should_dsl.NativeHaveMatcher
 
     def _turn_into_should_be(self):
-        self._func = lambda x, y: x is y
-        self._error_message = '%s is %s%s'
+        self._matcher = deprecated_should_dsl.NativeBeMatcher
+
+    def _convert_deprecated_style(self, rvalue):
+        self._rvalue = self._matcher(self._lvalue)
+        self._rvalue.arg = rvalue
 
 
-class _Matcher(object):
-    def __init__(self, function, error_message, arg=None):
-        self.function = function
-        self.error_message = error_message
-        self.arg = arg
-
-    def __call__(self, arg):
-        self.arg = arg
-        return self
+class _PredicateMatcher(object):
+    def __init__(self, value, attr_name):
+        self._value = value
+        self._attr_name = attr_name
+    def match(self):
+        return getattr(self._value, self._attr_name)
+    def message_for_failed_should(self):
+        return "expected %s to be %s, but it is not" % (self._value,
+            self._attr_name.replace('_', ' '))
+    def message_for_failed_should_not(self):
+        return "expected %s not to be %s, but it is" % (self._value,
+            self._attr_name.replace('_', ' '))
 
 
 class ShouldNotSatisfied(AssertionError):
@@ -166,13 +167,13 @@ should_not_be = Should(negate=True, be=True)
 should_have = Should(negate=False, have=True)
 should_not_have = Should(negate=True, have=True)
 
-def matcher(matcher_function):
+def matcher(matcher_object):
     '''Create customer should_be matchers. We recommend you use it as a decorator'''
     should_objects = (should, should_not, should_be, should_not_be, should_have,
                       should_not_have)
     for should_object in should_objects:
-        should_object.add_matcher(matcher_function)
-    return matcher_function
+        should_object.add_matcher(matcher_object)
+    return matcher_object
 
 import matchers
 

@@ -12,4 +12,5 @@ True
 >>> 'should' |should_not_have| 'oul'
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: should does have oul
+ShouldNotSatisfied: should have oul
+
