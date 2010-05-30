@@ -1,0 +1,70 @@
+>>> from should_dsl import should, should_not
+
+>>> class Foo(object):
+...     def __init__(self, valid=True):
+...         self.valid = valid
+...         self.sleeping = True
+...         self._doing_some_private_things = False
+...     def __str__(self):
+...         return '<foo object>'
+
+>>> Foo() |should| be_valid
+True
+
+>>> Foo() |should_not| be_valid
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: <foo object> is valid
+
+>>> Foo(False) |should| be_valid
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: <foo object> is not valid
+
+>>> Foo(False) |should_not| be_valid
+True
+
+>>> Foo() |should| be_sleeping
+True
+
+>>> Foo() |should_not| be_sleeping
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: <foo object> is sleeping
+
+
+
+
+>>> be_valid
+Traceback (most recent call last):
+    ...
+NameError: name 'be_valid' is not defined
+
+>>> Foo() |should| be_valid
+True
+
+>>> be_valid
+Traceback (most recent call last):
+    ...
+NameError: name 'be_valid' is not defined
+
+
+
+>>> Foo() |should| be_doing_some_private_things
+Traceback (most recent call last):
+    ...
+NameError: name 'be_doing_some_private_things' is not defined
+
+>>> Foo() |should| be__doing_some_private_things
+Traceback (most recent call last):
+    ...
+NameError: name 'be__doing_some_private_things' is not defined
+
+
+
+>>> be_valid = 'hey, i exist!!'
+>>> Foo() |should| be_valid
+True
+>>> be_valid
+'hey, i exist!!'
+

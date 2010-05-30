@@ -87,15 +87,26 @@ class Should(object):
         self._put_matchers_on_namespace(f_globals)
 
     def _save_clashed_identifiers(self, f_globals):
-        for matcher_name in self._matchers_by_name.keys():
+        predicate_matcher_names = ['be_' + attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
+        for matcher_name in self._matchers_by_name.keys() + predicate_matcher_names:
             if f_globals.has_key(matcher_name):
                 self._identifiers_named_equal_matchers[matcher_name] = f_globals[matcher_name]
 
     def _put_matchers_on_namespace(self, f_globals):
+        self._put_regular_matchers_on_namespace(f_globals)
+        self._put_predicate_matchers_on_namespace(f_globals)
+
+    def _put_regular_matchers_on_namespace(self, f_globals):
         for matcher_name, matcher_function in self._matchers_by_name.iteritems():
             matcher_function = self._matchers_by_name[matcher_name]
             func, error_message = matcher_function()
             f_globals[matcher_name] = _Matcher(func, error_message)
+
+    def _put_predicate_matchers_on_namespace(self, f_globals):
+        attr_names = [attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
+        for attr_name in attr_names:
+            matcher = _Matcher(lambda x, y: getattr(x, y), "%s is %s%s", attr_name)
+            f_globals['be_' + attr_name] = matcher
 
     def _destroy_function_matchers(self):
         f_globals = sys._getframe(2).f_globals
@@ -103,8 +114,17 @@ class Should(object):
         self._put_original_identifiers_back(f_globals)
 
     def _remove_matchers_from_namespace(self, f_globals):
+        self._remove_regular_matchers_from_namespace(f_globals)
+        self._remove_predicate_matchers_from_namespace(f_globals)
+
+    def _remove_regular_matchers_from_namespace(self, f_globals):
         for matcher_name in self._matchers_by_name.keys():
             del f_globals[matcher_name]
+
+    def _remove_predicate_matchers_from_namespace(self, f_globals):
+        attr_names = [attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
+        for attr_name in attr_names:
+            del f_globals['be_' + attr_name]
 
     def _put_original_identifiers_back(self, f_globals):
         for attr_name, attr_ref in self._identifiers_named_equal_matchers.iteritems():
@@ -122,9 +142,10 @@ class Should(object):
 
 
 class _Matcher(object):
-    def __init__(self, function, error_message):
+    def __init__(self, function, error_message, arg=None):
         self.function = function
         self.error_message = error_message
+        self.arg = arg
 
     def __call__(self, arg):
         self.arg = arg
