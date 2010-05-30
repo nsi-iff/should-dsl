@@ -1,0 +1,34 @@
+>>> from should_dsl import *
+
+>>> [1, 2, 3] |should_have.all_of| [2, 3]
+True
+
+>>> [1, 2, 3] |should_not_have.any_of| [5, 6]
+True
+
+>>> 1 |should_be| 1
+True
+
+>>> 'hello world' |should_not_be.ended_with| 'world1'
+True
+
+>>> 1 |should_be.equal_to| 1
+True
+
+>>> "I'm specifying it" |should.equal_to_ignoring_case| "I'M SPECIFYING it"
+True
+
+>>> 1 |should_not_be.greater_than| 1
+True
+
+>>> 1 |should_be.greater_than_or_equal_to| 0.9
+True
+
+
+>>> import math
+>>> @matcher
+... def the_square_root_of():
+...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
+>>> 3 |should_be.the_square_root_of| 9
+True
+
