@@ -14,12 +14,12 @@ True
 >>> Foo() |should_not| be_valid
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected <foo object> not to be valid, but it is
+ShouldNotSatisfied: expected valid to be false, got true
 
 >>> Foo(False) |should| be_valid
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected <foo object> to be valid, but it is not
+ShouldNotSatisfied: expected valid to be true, got false
 
 >>> Foo(False) |should_not| be_valid
 True
@@ -30,7 +30,7 @@ True
 >>> Foo() |should_not| be_sleeping
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected <foo object> not to be sleeping, but it is
+ShouldNotSatisfied: expected sleeping to be false, got true
 
 
 

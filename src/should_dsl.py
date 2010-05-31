@@ -141,21 +141,54 @@ class Should(object):
 
 
 class _PredicateMatcher(object):
+
     def __init__(self, value, attr_name):
         self._value = value
         self._attr_name = attr_name
+
+    def __call__(self, *params):
+        self._params = params
+        return self
+
     def match(self):
         attr_value = getattr(self._value, self._attr_name)
-        if hasattr(attr_value, 'im_func'):
-            attr_value = attr_value()
+        if self._is_method(attr_value):
+            if self._has_param():
+                attr_value = attr_value(*self._params)
+            else:
+                attr_value = attr_value()
         return attr_value
-    def message_for_failed_should(self):
-        return "expected %s to be %s, but it is not" % (self._value,
-            self._attr_name.replace('_', ' '))
-    def message_for_failed_should_not(self):
-        return "expected %s not to be %s, but it is" % (self._value,
-            self._attr_name.replace('_', ' '))
 
+    def message_for_failed_should(self):
+        return "expected %s to %s true, got false" % (
+            self._display_attr(self._attr_name),
+            self._display_verb(self._attr_name))
+
+    def message_for_failed_should_not(self):
+        return "expected %s to %s false, got true" % (
+            self._display_attr(self._attr_name),
+            self._display_verb(self._attr_name))
+
+    def _is_method(self, objekt):
+        return hasattr(objekt, 'im_func')
+
+    def _display_attr(self, attr_name):
+        if self._is_method(getattr(self._value, attr_name)):
+            if self._has_param():
+                repr_params = [repr(param) for param in self._params]
+                param = ", ".join(repr_params)
+            else:
+                param = ""
+            return "%s(%s)" % (attr_name, param)
+        else:
+            return attr_name
+
+    def _display_verb(self, attr_name):
+        return self._is_method(getattr(self._value, attr_name)) \
+            and "return" or "be"
+
+    def _has_param(self):
+        return hasattr(self, '_params')
 
 class ShouldNotSatisfied(AssertionError):
     '''Extends AssertionError for unittest compatibility'''

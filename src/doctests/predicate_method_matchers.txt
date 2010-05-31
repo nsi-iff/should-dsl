@@ -5,6 +5,12 @@
 ...         return True
 ...     def always_false(self):
 ...         return False
+...     def face_of(self, fruit):
+...         return fruit == 'banana'
+...     def head_of(self, state, fruit):
+...         return state == 'rotten' and fruit == 'apple'
+...     def a_kind_of(self, *dead_end):
+...         return dead_end == ['nothing', 'senseless label']
 ...     def __str__(self):
 ...         return '<foo object>'
 
@@ -17,10 +23,34 @@ True
 >>> Foo() |should| be_always_false
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected <foo object> to be always false, but it is not
+ShouldNotSatisfied: expected always_false() to return true, got false
 
 >>> Foo() |should_not| be_always_true
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected <foo object> not to be always true, but it is
+ShouldNotSatisfied: expected always_true() to return false, got true
+
+>>> Foo() |should| be_face_of('banana')
+True
+
+>>> Foo() |should_not| be_face_of('pineapple')
+True
+
+>>> Foo() |should| be_face_of('pineapple')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected face_of('pineapple') to return true, got false
+
+>>> Foo() |should| be_head_of('rotten', 'apple')
+True
+
+>>> Foo() |should| be_head_of('fair', 'apple')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected head_of('fair', 'apple') to return true, got false
+
+>>> Foo() |should| be_a_kind_of('craziness', 'wasting of time', 'buzzword')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected a_kind_of('craziness', 'wasting of time', 'buzzword') to return true, got false
 
