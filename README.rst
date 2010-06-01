@@ -124,6 +124,33 @@ Examples::
     True
 
 
+Predicate matchers
+------------------
+
+Should-DSL supports predicate matchers::
+
+    >>> class Foo(object):
+    ...     def __init__(self, valid=True):
+    ...         self.valid = valid
+    >>> Foo() |should| be_valid
+    True
+
+Predicate matchers also work with methods::
+
+    >>> class House(object):
+    ...     def __init__(self, kind):
+    ...         self._kind = kind
+    ...     def made_of(self, kind):
+    ...         return self._kind.upper() == kind.upper()
+    >>> house = House('Wood')
+    >>> house |should| be_made_of('wood')
+    True
+    >>> house |should| be_made_of('stone')
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: expected made_of('stone') to return true, got false
+
+
 Deprecated usage
 ----------------
 
