@@ -98,10 +98,12 @@ Available Matchers
 - ended_with
 - equal
 - equal_to_ignoring_case
-- have_all_of
-- have_any_of
-- have_in_any_order
+- have
+- include_all_of
+- include_any_of
+- include_in_any_order
 - include
+- respond_to
 - throw
 
 

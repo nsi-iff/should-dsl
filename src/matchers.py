@@ -64,26 +64,26 @@ def throw():
     return (local_check_exception, "%s %sthrows %s")
 
 @matcher
-def have_in_any_order():
+def include_in_any_order():
     def contains_in_any_order(container, elements):
         for element in elements:
             if element not in container:
                 return False
         return True
-    return (contains_in_any_order, "%s does %shave in any order %s")
+    return (contains_in_any_order, "%s does %sinclude in any order %s")
 
 @matcher
-def have_all_of():
-    return (have_in_any_order()[0], "%s does %shave all of %s")
+def include_all_of():
+    return (include_in_any_order()[0], "%s does %sinclude all of %s")
 
 @matcher
-def have_any_of():
-    def have_any_of_func(container, elements):
+def include_any_of():
+    def include_any_of_func(container, elements):
         for element in elements:
             if element in container:
                 return True
         return False
-    return (have_any_of_func, "%s does %shave any of %s")
+    return (include_any_of_func, "%s does %sinclude any of %s")
 
 @matcher
 def be_kind_of():
@@ -225,15 +225,15 @@ def thrown_by():
 
 @matcher
 def in_any_order():
-    return have_in_any_order()
+    return include_in_any_order()
 
 @matcher
 def all_of():
-    return have_all_of()
+    return include_all_of()
 
 @matcher
 def any_of():
-    return have_any_of()
+    return include_any_of()
 
 @matcher
 def kind_of():
