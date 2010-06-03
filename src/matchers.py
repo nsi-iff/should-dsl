@@ -165,6 +165,15 @@ class HaveAtLeast(Have):
         return len(self._collection) >= self._count
 
 
+@matcher
+class HaveAtMost(Have):
+
+    name = 'have_at_most'
+
+    def _compare(self):
+        return len(self._collection) <= self._count
+
+
 # matchers for backwards compatibility
 @matcher
 def into():
