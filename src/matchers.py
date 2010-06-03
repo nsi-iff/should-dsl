@@ -114,20 +114,38 @@ class Have(object):
         self._count = count
         return self
 
-    def __getattr__(self, sugar):
-        self._sugar = sugar.replace('_', ' ')
+    def __getattr__(self, collection_name):
+        self._collection_name = collection_name
+        self._humanized_collection_name = collection_name.replace('_', ' ')
         return self
 
     def match(self):
-        return self._count == len(self._lvalue)
+        if hasattr(self._lvalue, self._collection_name):
+            self._collection = getattr(self._lvalue, self._collection_name)
+            if not self._is_iterable(self._collection):
+                if hasattr(self._collection, 'im_func'):
+                    self._collection = self._collection()
+                    if not self._is_iterable(self._collection):
+                        raise TypeError("target's %s() does not return an iterable" % self._collection_name)
+                else:
+                    raise TypeError("target's %s is not an iterable" % self._collection_name)
+        elif self._is_iterable(self._lvalue):
+            self._collection = self._lvalue
+        else:
+            raise TypeError("target does not have a %s collection, nor it is an iterable" % (
+                self._collection_name))
+        return self._count == len(self._collection)
 
     def message_for_failed_should(self):
         return "expected %s %s, got %s" % (
-            self._count, self._sugar, len(self._lvalue))
+            self._count, self._humanized_collection_name, len(self._collection))
 
     def message_for_failed_should_not(self):
         return "expected target not to have %d %s, got %d" % (
-            self._count, self._sugar, len(self._lvalue))
+            self._count, self._humanized_collection_name, len(self._collection))
+
+    def _is_iterable(self, objekt):
+        return hasattr(objekt, '__len__')
 
 
 # matchers for backwards compatibility
