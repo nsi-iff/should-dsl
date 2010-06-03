@@ -85,22 +85,23 @@ Available Matchers
 ------------------
 
 
-- all_of
-- any_of
 - be
+- be_greater_than
+- be_greater_than_or_equal_to
+- be_into
+- be_kind_of
+- be_less_than
+- be_less_than_or_equal_to
+- be_like
+- be_thrown_by
 - ended_with
 - equal
 - equal_to_ignoring_case
-- greater_than_or_equal_to
-- greater_than
-- in_any_order
-- into
-- kind_of
-- less_than_or_equal_to
-- less_than
-- like
+- have_all_of
+- have_any_of
+- have_in_any_order
 - throw
-- thrown_by
+
 
 Examples::
 
