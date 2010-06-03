@@ -1,4 +1,4 @@
->>> from should_dsl import should, should_not, matcher
+>>> from should_dsl import should, should_not
 
 >>> ['a', 'b', 'c'] |should| have(3).elements
 True
