@@ -102,6 +102,34 @@ def equal_to_ignoring_case():
     return (lambda x, y: unicode(x, 'utf-8').lower() == unicode(y, 'utf-8').lower(), '"%s" is %sequal to "%s" ignoring case')
 
 
+@matcher
+class Have(object):
+
+    name = 'have'
+
+    def __init__(self, lvalue):
+        self._lvalue = lvalue
+
+    def __call__(self, count):
+        self._count = count
+        return self
+
+    def __getattr__(self, sugar):
+        self._sugar = sugar.replace('_', ' ')
+        return self
+
+    def match(self):
+        return self._count == len(self._lvalue)
+
+    def message_for_failed_should(self):
+        return "expected %s %s, got %s" % (
+            self._count, self._sugar, len(self._lvalue))
+
+    def message_for_failed_should_not(self):
+        return "expected target not to have %d %s, got %d" % (
+            self._count, self._sugar, len(self._lvalue))
+
+
 # matchers for backwards compatibility
 @matcher
 def into():

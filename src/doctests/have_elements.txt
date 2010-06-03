@@ -1,0 +1,21 @@
+>>> from should_dsl import should, should_not, matcher
+
+>>> ['a', 'b', 'c'] |should| have(3).elements
+True
+
+>>> "abcdef" |should| have(6).characters
+True
+
+>>> ['a', 'b', 'c'] |should_not| have(3).things
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target not to have 3 things, got 3
+
+>>> "abcde" |should| have(6).alphabetical_characters
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected 6 alphabetical characters, got 5
+
+>>> (1, 2, 3) |should_not| have(2).numbers
+True
+
