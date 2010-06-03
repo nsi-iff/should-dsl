@@ -6,8 +6,12 @@ def be():
     return (lambda x, y: x is y, "%s is %s%s")
 
 @matcher
-def have():
-    return (lambda container, item: item in container, "%s does %shave %s")
+def include():
+    return (lambda container, item: item in container, "%s does %sinclude %s")
+
+@matcher
+def contain():
+    return (lambda container, item: item in container, "%s does %scontain %s")
 
 @matcher
 def equal_to():

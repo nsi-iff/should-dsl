@@ -1,0 +1,31 @@
+>>> from should_dsl import *
+
+>>> [1,2,3] |should| include(1)
+True
+>>> [1,2] |should| include(3)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: [1, 2] does not include 3
+>>> [1,2] |should_not| include(3)
+True
+
+>>> 'should' |should_not| include('oul')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: should does include oul
+
+
+>>> [1,2,3] |should| contain(1)
+True
+>>> [1,2] |should| contain(3)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: [1, 2] does not contain 3
+>>> [1,2] |should_not| contain(3)
+True
+
+>>> 'should' |should_not| contain('oul')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: should does contain oul
+

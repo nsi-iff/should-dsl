@@ -7,9 +7,9 @@ For using this DSL, you need to import the should and should_not objects from sh
 
 For example::
 
-    1 |should| equal_to(1)           # will be True
-    'should' |should| have('oul')    # will also be True
-    3 |should| be_into([0, 1, 2])    # will raise a ShouldNotSatisfied exception
+    1 |should| equal_to(1)             # will be True
+    'should' |should| include('oul')   # will also be True
+    3 |should| be_into([0, 1, 2])      # will raise a ShouldNotSatisfied exception
 
 
 The *equal* matcher verifies object equality. If you want to ensure identity, you must use *be* as matcher::
@@ -26,8 +26,8 @@ A nice example of exceptions would be::
 
 *should* has a negative version::
 
-    2 |should_not| be_into([1, 3, 5])    # will be true
-    'should' |should_not| have('oul')    # will raise a ShouldNotSatisfied exception
+    2 |should_not| be_into([1, 3, 5])     # will be true
+    'should' |should_not| include('oul')  # will raise a ShouldNotSatisfied exception
 
 
 Extending the DSL with custom matchers is easy::
@@ -55,17 +55,17 @@ Should-DSL with unittest
     ...     def test_showing_should_not_be_works(self):
     ...         'hello world!' |should_not| be('Hello World!')
     ...
-    ...     def test_showing_should_have_fails(self):
-    ...         [1, 2, 3] |should| have(5)
+    ...     def test_showing_should_include_fails(self):
+    ...         [1, 2, 3] |should| include(5)
     ...
-    ...     def test_showing_should_have_works(self):
-    ...         'hello world!' |should| have('world')
+    ...     def test_showing_should_include_works(self):
+    ...         'hello world!' |should| include('world')
     ...
-    ...     def test_showing_should_not_have_fails(self):
-    ...         {'one': 1, 'two': 2} |should_not| have('two')
+    ...     def test_showing_should_not_include_fails(self):
+    ...         {'one': 1, 'two': 2} |should_not| include('two')
     ...
-    ...     def test_showing_should_not_have_works(self):
-    ...         ["that's", 'all', 'folks'] |should_not| have('that')
+    ...     def test_showing_should_not_include_works(self):
+    ...         ["that's", 'all', 'folks'] |should_not| include('that')
 
     >>> from cStringIO import StringIO
     >>> runner = unittest.TextTestRunner(stream=StringIO())
@@ -120,7 +120,7 @@ Examples::
     >>> c |should| be(d)
     True
 
-    >>> [1,2,3] |should| have(1)
+    >>> [1,2,3] |should| include(1)
     True
 
 

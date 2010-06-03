@@ -6,16 +6,16 @@
 ...         'hello world!' |should_not| be('Hello World!')
 ...
 ...     def test_showing_should_have_fails(self):
-...         [1, 2, 3] |should| have(5)
+...         [1, 2, 3] |should| include(5)
 ...
 ...     def test_showing_should_have_works(self):
-...         'hello world!' |should| have('world')
+...         'hello world!' |should| include('world')
 ...
 ...     def test_showing_should_not_have_fails(self):
-...         {'one': 1, 'two': 2} |should_not| have('two')
+...         {'one': 1, 'two': 2} |should_not| include('two')
 ...
 ...     def test_showing_should_not_have_works(self):
-...         ["that's", 'all', 'folks'] |should_not| have('that')
+...         ["that's", 'all', 'folks'] |should_not| include('that')
 
 >>> from cStringIO import StringIO
 >>> runner = unittest.TextTestRunner(stream=StringIO())
