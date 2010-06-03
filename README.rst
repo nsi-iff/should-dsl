@@ -94,12 +94,14 @@ Available Matchers
 - be_less_than_or_equal_to
 - be_like
 - be_thrown_by
+- contain
 - ended_with
 - equal
 - equal_to_ignoring_case
 - have_all_of
 - have_any_of
 - have_in_any_order
+- include
 - throw
 
 
