@@ -174,6 +174,30 @@ class HaveAtMost(Have):
         return len(self._collection) <= self._count
 
 
+@matcher
+class RespondTo(object):
+
+    name = 'respond_to'
+
+    def __init__(self, lvalue):
+        self._lvalue = lvalue
+
+    def __call__(self, method_name):
+        self._method_name = method_name
+        return self
+
+    def match(self):
+        return hasattr(self._lvalue, self._method_name)
+
+    def message_for_failed_should(self):
+        return "expected %s to respond to %s" % (self._lvalue,
+            self._method_name)
+
+    def message_for_failed_should_not(self):
+        return "expected %s not to respond to %s" % (self._lvalue,
+            self._method_name)
+
+
 # matchers for backwards compatibility
 @matcher
 def into():
