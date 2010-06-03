@@ -1,3 +1,7 @@
+"""
+This module implements support for deprecated features.
+"""
+
 class NativeMatcher(object):
     def __init__(self, value):
         self._value = value

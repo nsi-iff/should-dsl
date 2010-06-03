@@ -1,5 +1,5 @@
 import sys
-import deprecated_should_dsl
+import native_matchers
 
 class Should(object):
 
@@ -130,10 +130,10 @@ class Should(object):
             self._turn_into_should_be()
 
     def _turn_into_should_have(self):
-        self._matcher = deprecated_should_dsl.NativeHaveMatcher
+        self._matcher = native_matchers.NativeHaveMatcher
 
     def _turn_into_should_be(self):
-        self._matcher = deprecated_should_dsl.NativeBeMatcher
+        self._matcher = native_matchers.NativeBeMatcher
 
     def _convert_deprecated_style(self, rvalue):
         self._rvalue = self._matcher(self._lvalue)
