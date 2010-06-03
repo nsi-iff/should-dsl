@@ -198,6 +198,29 @@ class RespondTo(object):
             self._method_name)
 
 
+@matcher
+class CloseTo(object):
+
+    name = 'close_to'
+
+    def __init__(self, actual):
+        self._actual = actual
+
+    def __call__(self, expected, delta):
+        self._expected, self._delta = expected, delta
+        return self
+
+    def match(self):
+        return abs(self._actual - self._expected) <= self._delta
+
+    def message_for_failed_should(self):
+        return "expected to be close to %s (within +/- %s), got %s" % (
+            self._expected, self._delta, self._actual)
+
+    def message_for_failed_should_not(self):
+        return "expected not to be close to %s (within +/- %s), got %s" % (
+            self._expected, self._delta, self._actual)
+
 # matchers for backwards compatibility
 @matcher
 def into():
