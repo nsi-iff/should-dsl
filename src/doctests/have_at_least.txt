@@ -1,0 +1,47 @@
+>>> from should_dsl import should, should_not, matcher
+
+>>> ['a', 'b', 'c'] |should| have_at_least(3).elements
+True
+
+>>> "abcdef" |should| have_at_least(5).characters
+True
+
+>>> ['a', 'b', 'c'] |should_not| have_at_least(3).things
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target not to have at least 3 things, got 3
+
+>>> "abcde" |should| have_at_least(6).alphabetical_characters
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected at least 6 alphabetical characters, got 5
+
+>>> (1, 2, 3) |should_not| have_at_least(4).numbers
+True
+
+>>> class Car(object):
+...     def __init__(self, *wheels):
+...         self.wheels = wheels
+...     def wild_wheels(self):
+...         return self.wheels
+
+>>> my_car = Car(1, 2, 3, 4)
+>>> my_car |should| have_at_least(3).wheels
+True
+
+>>> my_car |should| have_at_least(4).wheels
+True
+
+>>> my_car |should| have_at_least(5).wheels
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected at least 5 wheels, got 4
+
+>>> my_car |should_not| have_at_least(5).wheels
+True
+
+>>> my_car |should_not| have_at_least(4).wheels
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target not to have at least 4 wheels, got 4
+

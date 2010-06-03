@@ -134,18 +134,35 @@ class Have(object):
         else:
             raise TypeError("target does not have a %s collection, nor it is an iterable" % (
                 self._collection_name))
+        return self._compare()
+
+    def _compare(self):
         return self._count == len(self._collection)
 
     def message_for_failed_should(self):
-        return "expected %s %s, got %s" % (
-            self._count, self._humanized_collection_name, len(self._collection))
+        if self.name == 'have':
+            description = ''
+        else:
+            description = "%s " % self.name[5:].replace('_', ' ')
+        return "expected %s%s %s, got %s" % (description, self._count,
+            self._humanized_collection_name, len(self._collection))
 
     def message_for_failed_should_not(self):
-        return "expected target not to have %d %s, got %d" % (
-            self._count, self._humanized_collection_name, len(self._collection))
+        return "expected target not to %s %d %s, got %d" % (
+            self.name.replace('_', ' '), self._count,
+            self._humanized_collection_name, len(self._collection))
 
     def _is_iterable(self, objekt):
         return hasattr(objekt, '__len__')
+
+
+@matcher
+class HaveAtLeast(Have):
+
+    name = 'have_at_least'
+
+    def _compare(self):
+        return len(self._collection) >= self._count
 
 
 # matchers for backwards compatibility
