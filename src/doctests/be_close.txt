@@ -1,0 +1,21 @@
+>>> from should_dsl import should, should_not
+
+>>> 1 |should| close_to(0.9, delta=0.1)
+True
+
+>>> 0.8 |should| close_to(0.9, delta=0.1)
+True
+
+>>> 1 |should| close_to(0.89, delta=0.1)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected to be close to 0.89 (within +/- 0.1), got 1
+
+>>> 1 |should_not| close_to(0.89, delta=0.1)
+True
+
+>>> 0.91 |should_not| close_to(0.9, delta=0.011)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected not to be close to 0.9 (within +/- 0.011), got 0.91
+
