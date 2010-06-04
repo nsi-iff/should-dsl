@@ -1,5 +1,6 @@
 from should_dsl import matcher
 import re
+from decimal import Decimal
 
 @matcher
 def be():
@@ -211,7 +212,7 @@ class CloseTo(object):
         return self
 
     def match(self):
-        return abs(self._actual - self._expected) <= self._delta
+        return abs(Decimal(str(self._actual)) - Decimal(str(self._expected))) <= Decimal(str(self._delta))
 
     def message_for_failed_should(self):
         return "expected to be close to %s (within +/- %s), got %s" % (
