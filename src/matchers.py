@@ -45,6 +45,7 @@ def check_exception(expected_exception, callable_and_possible_params):
     else:
         callable = callable_and_possible_params
         params = []
+
     try:
         callable(*params)
         return False
@@ -58,11 +59,54 @@ def be_thrown_by():
     return (check_exception, '%s is %sthrown by %s')
 
 @matcher
-def throw():
-    def local_check_exception(callable_and_possible_params, expected_exception):
-        return check_exception(expected_exception=expected_exception,
-                               callable_and_possible_params=callable_and_possible_params)
-    return (local_check_exception, "%s %sthrows %s")
+class Throw:
+
+    name = 'throw'
+
+    def __call__(self, exception, message=None):
+        self._expected_exception = exception
+        self._expected_message = message
+        return self
+
+    def match(self, lvalue):
+        self._lvalue = lvalue
+        if getattr(lvalue, '__getitem__', False):
+            args = lvalue[1:]
+            lvalue = lvalue[0]
+        else:
+            args = []
+        try:
+            lvalue(*args)
+            self._actual_exception = None
+            return False
+        except self._expected_exception, e:
+            self._actual_exception = self._expected_exception
+            if self._expected_message is None:
+                return True
+            self._actual_message = str(e)
+            return self._actual_message == self._expected_message
+        except Exception, e:
+            self._actual_exception = e.__class__
+            return False
+
+    def message_for_failed_should(self):
+        message = "expected to throw %s" % self._expected_exception.__name__
+        if self._expected_message is not None:
+            message += " with the message %r" % self._expected_message
+        if self._actual_exception is None:
+            message += ', got no exception'
+        else:
+            message += ', got %s' % self._actual_exception.__name__
+        if hasattr(self, '_actual_message'):
+            message += ' with %r' % self._actual_message
+        return message
+
+    def message_for_failed_should_not(self):
+        message = "expected not to throw %s" % self._expected_exception.__name__
+        if self._expected_message is not None:
+            message += " with the message %r" % self._expected_message
+        return "%s, but got it" % message
+
 
 @matcher
 def include_in_any_order():

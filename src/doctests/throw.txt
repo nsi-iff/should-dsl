@@ -11,7 +11,8 @@ True
 >>> divide_one_by_zero |should_not| throw(ZeroDivisionError)
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: <function divide_one_by_zero at ...> throws <type 'exceptions.ZeroDivisionError'>
+ShouldNotSatisfied: expected not to throw ZeroDivisionError, but got it
+
 
 >>> (divide_x_by_y, 5, 0) |should| throw(ZeroDivisionError)
 True
@@ -19,8 +20,31 @@ True
 >>> [divide_x_by_y, 2, 1] |should| throw(ZeroDivisionError)
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: [<function divide_x_by_y at ...>, 2, 1] not throws ...ZeroDivisionError...
+ShouldNotSatisfied: expected to throw ZeroDivisionError, got no exception
 
 >>> (divide_x_by_y, 1, 0) |should_not| throw(AttributeError)
+True
+
+
+
+
+>>> class Foo(Exception): pass
+>>> def raise_foo(message):
+...     raise Foo(message)
+
+>>> (raise_foo, 'cool! it works!') |should| throw(Foo, message='cool! it works!')
+True
+
+>>> (lambda: raise_foo('what a pro!')) |should| throw(Foo, message='cool! it works!')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected to throw Foo with the message 'cool! it works!', got Foo with 'what a pro!'
+
+>>> (lambda: raise_foo('who?')) |should_not| throw(Foo, message='who?')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected not to throw Foo with the message 'who?', but got it
+
+>>> (lambda: raise_foo('who?')) |should_not| throw(Foo, message='what?')
 True
 
