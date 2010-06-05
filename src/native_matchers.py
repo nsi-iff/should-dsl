@@ -3,9 +3,6 @@ This module implements support for deprecated features.
 """
 
 class NativeMatcher(object):
-    def __init__(self, value):
-        self._value = value
-
     def message_for_failed_should(self):
         return self._should_message % (self._value, self.arg)
 
@@ -14,21 +11,21 @@ class NativeMatcher(object):
 
 
 class NativeHaveMatcher(NativeMatcher):
-    def __init__(self, value):
-        NativeMatcher.__init__(self, value)
+    def __init__(self):
         self._should_message = "%s does not have %s"
         self._should_not_message = "%s have %s"
 
-    def match(self):
+    def match(self, value):
+        self._value = value
         return self.arg in self._value
 
 
 class NativeBeMatcher(NativeMatcher):
-    def __init__(self, value):
-        NativeMatcher.__init__(self, value)
+    def __init__(self):
         self._should_message = "%s is not %s"
         self._should_not_message = "%s is %s"
 
-    def match(self):
+    def match(self, value):
+        self._value = value
         return self._value is self.arg
 

@@ -4,13 +4,12 @@
 >>> @matcher
 ... class SquareRootMatcher(object):
 ...     name = 'be_the_square_root_of'
-...     def __init__(self, lvalue):
-...         self._lvalue = lvalue
 ...     def __call__(self, arg):
 ...         self._arg = arg
 ...         return self
-...     def match(self):
-...         return self._lvalue == math.sqrt(self._arg)
+...     def match(self, lvalue):
+...         self._lvalue = lvalue
+...         return lvalue == math.sqrt(self._arg)
 ...     def message_for_failed_should(self):
 ...         return "expected %s be the square root of %s, but it is not" % (
 ...                     self._lvalue, self._arg)
@@ -33,4 +32,28 @@ True
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: expected 4 not be the square root of 16, but it is
+
+
+If a matcher class has a constructor, it must have no other parameters than self
+>>> @matcher
+... class ParemeterizedInit(object):
+...     name = 'anything'
+...     def __init__(self, lvalue): pass
+...     def __call__(self): return self
+...     def match(self): return True
+...     def message_for_failed_should(self): return ""
+...     def message_for_failed_should_not(self): return ""
+Traceback (most recent call last):
+    ...
+TypeError: matcher class constructor cannot have arguments
+
+Other TypeError exceptions on constructors behave normally:
+>>> @matcher
+... class AnotherOne(object):
+...     name = 'another one'
+...     def __init__(self):
+...         1 + 'a'
+Traceback (most recent call last):
+    ...
+TypeError: unsupported operand type(s) for ...
 

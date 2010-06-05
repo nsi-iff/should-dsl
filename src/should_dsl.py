@@ -32,7 +32,7 @@ class Should(object):
         return self._check_expectation()
 
     def _check_expectation(self):
-        if not self._evaluate(self._rvalue.match()):
+        if not self._evaluate(self._rvalue.match(self._lvalue)):
             raise ShouldNotSatisfied(self._negate and self._rvalue.message_for_failed_should_not() or self._rvalue.message_for_failed_should())
         return True
 
@@ -41,13 +41,13 @@ class Should(object):
             func, message = matcher_object()
             class GeneratedMatcher(object):
                 name = matcher_object.func_name
-                def __init__(self, value):
-                    self._value = value
+                def __init__(self):
                     self._func, self._message = func, message
                 def __call__(self, arg):
                     self.arg = arg
                     return self
-                def match(self):
+                def match(self, value):
+                    self._value = value
                     return self._func(self._value, self.arg)
                 def message_for_failed_should(self):
                     return self._message % (self._value, "not ", self.arg)
@@ -57,7 +57,17 @@ class Should(object):
             name = GeneratedMatcher.name
         else:
             name = matcher_object.name
+        self._validate_matcher(matcher_object)
         self._matchers_by_name[name] = matcher_object
+
+    def _validate_matcher(self, matcher_object):
+        try:
+            matcher_object()
+        except TypeError, e:
+            if str(e).startswith('__init__() takes exactly'):
+                raise TypeError('matcher class constructor cannot have arguments')
+            else:
+                raise
 
     def _create_function_matchers(self):
         f_globals = sys._getframe(2).f_globals
@@ -77,12 +87,12 @@ class Should(object):
     def _put_regular_matchers_on_namespace(self, f_globals):
         for matcher_name, matcher_function in self._matchers_by_name.iteritems():
             matcher_function = self._matchers_by_name[matcher_name]
-            f_globals[matcher_name] = matcher_function(self._lvalue)
+            f_globals[matcher_name] = matcher_function()
 
     def _put_predicate_matchers_on_namespace(self, f_globals):
         attr_names = [attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
         for attr_name in attr_names:
-            matcher = _PredicateMatcher(self._lvalue, attr_name)
+            matcher = _PredicateMatcher(attr_name)
             f_globals['be_' + attr_name] = matcher
 
     def _destroy_function_matchers(self):
@@ -136,21 +146,21 @@ class Should(object):
         self._matcher = native_matchers.NativeBeMatcher
 
     def _convert_deprecated_style(self, rvalue):
-        self._rvalue = self._matcher(self._lvalue)
+        self._rvalue = self._matcher()
         self._rvalue.arg = rvalue
 
 
 class _PredicateMatcher(object):
 
-    def __init__(self, value, attr_name):
-        self._value = value
+    def __init__(self, attr_name):
         self._attr_name = attr_name
 
     def __call__(self, *params):
         self._params = params
         return self
 
-    def match(self):
+    def match(self, value):
+        self._value = value
         attr_value = getattr(self._value, self._attr_name)
         if self._is_method(attr_value):
             if self._has_param():

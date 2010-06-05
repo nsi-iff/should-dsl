@@ -108,9 +108,6 @@ class Have(object):
 
     name = 'have'
 
-    def __init__(self, lvalue):
-        self._lvalue = lvalue
-
     def __call__(self, count):
         self._count = count
         return self
@@ -120,7 +117,8 @@ class Have(object):
         self._humanized_collection_name = collection_name.replace('_', ' ')
         return self
 
-    def match(self):
+    def match(self, lvalue):
+        self._lvalue = lvalue
         if hasattr(self._lvalue, self._collection_name):
             self._collection = getattr(self._lvalue, self._collection_name)
             if not self._is_iterable(self._collection):
@@ -180,14 +178,12 @@ class RespondTo(object):
 
     name = 'respond_to'
 
-    def __init__(self, lvalue):
-        self._lvalue = lvalue
-
     def __call__(self, method_name):
         self._method_name = method_name
         return self
 
-    def match(self):
+    def match(self, lvalue):
+        self._lvalue = lvalue
         return hasattr(self._lvalue, self._method_name)
 
     def message_for_failed_should(self):
@@ -204,14 +200,12 @@ class CloseTo(object):
 
     name = 'close_to'
 
-    def __init__(self, actual):
-        self._actual = actual
-
     def __call__(self, expected, delta):
         self._expected, self._delta = expected, delta
         return self
 
-    def match(self):
+    def match(self, actual):
+        self._actual = actual
         return abs(Decimal(str(self._actual)) - Decimal(str(self._expected))) <= Decimal(str(self._delta))
 
     def message_for_failed_should(self):
