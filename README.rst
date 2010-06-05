@@ -110,8 +110,11 @@ Checks object identity (*is*).::
 
 
 **be_greater_than**
+
 **be_greater_than_or_equal_to**
+
 **be_less_than**
+
 **be_less_than_or_equal_to**
 
 Simply checks the given comparisons.::
@@ -127,7 +130,9 @@ Simply checks the given comparisons.::
 
 
 **be_into**
+
 **contain**
+
 **include**
 
 Verifies if an object is contained (*be_into*) or contains (*contain*) another. The *contain* and *include* matchers do exactly the same job.::
@@ -170,6 +175,7 @@ Checks matching against a regular expression.::
 
 
 **be_thrown_by**
+
 **throw**
 
 Checks if a given piece of code raises an arbitrary exception.::
@@ -297,6 +303,7 @@ Same to *have*, but checking if the element count is less than or equal to the g
 
 
 **include_all_of**
+
 **include_in_any_order**
 
 Check if a iterable includes all elements of another. Both matchers do the same job.::
