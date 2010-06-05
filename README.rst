@@ -12,7 +12,7 @@ For example::
     3 |should| be_into([0, 1, 2])      # will raise a ShouldNotSatisfied exception
 
 
-The *equal* matcher verifies object equality. If you want to ensure identity, you must use *be* as matcher::
+The *equal_to* matcher verifies object equality. If you want to ensure identity, you must use *be* as matcher::
 
     2 |should| be(2)
 
@@ -21,7 +21,7 @@ A nice example of exceptions would be::
 
     def raise_zerodivisionerror():
         return 1/0
-    ZeroDivisionError |should| be_thrown_by(raise_zerodivisionerror)
+    raise_zerodivisionerror |should| throw(ZeroDivisionError)
 
 
 *should* has a negative version::
@@ -35,7 +35,7 @@ Extending the DSL with custom matchers is easy::
     from should_dsl import matcher
 
     @matcher
-    def the_square_root_of():
+    def be_the_square_root_of():
         import math
         return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
 
