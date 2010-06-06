@@ -267,7 +267,7 @@ class Change(object):
     name = 'change'
 
     def __init__(self):
-        self._expected_difference = None
+        self._by = None
 
     def __call__(self, verifier):
         self._verifier = self._to_callable(verifier)
@@ -278,27 +278,35 @@ class Change(object):
         self._before_result = self._verifier()
         self._action()
         self._after_result = self._verifier()
-        if self._expected_difference is None:
+        if self._by is None:
             return self._after_result != self._before_result
         else:
             self._actual_difference = abs(self._before_result - self._after_result)
-            return self._actual_difference == self._expected_difference
+            return self._by[1](self._expected_difference, self._actual_difference)
 
     def message_for_failed_should(self):
-        if self._expected_difference is None:
+        if self._by is None:
             return 'result should have changed, but is still %s' % (
                 self._before_result)
         else:
-            return 'result should have changed by %s, but was changed by %s' %(
-                self._expected_difference, self._actual_difference)
+            return 'result should have changed %s %s, but was changed by %s' %(
+                self._by[0], self._expected_difference, self._actual_difference)
 
     def message_for_failed_should_not(self):
         return 'should not have changed, but did change from %s to %s' % (
             self._before_result, self._after_result)
 
     def by(self, difference):
-        self._expected_difference = difference
+        self._handle_by(difference, 'by', lambda exp_dif, act_dif: act_dif == exp_dif)
         return self
+
+    def  by_at_least(self, difference):
+        self._handle_by(difference, 'by at least', lambda exp_dif, act_dif: act_dif >= exp_dif)
+        return self
+
+    def _handle_by(self, difference, method, comparison):
+        self._expected_difference = difference
+        self._by = (method, comparison)
 
     def _to_callable(self, objekt):
         if callable(objekt):
