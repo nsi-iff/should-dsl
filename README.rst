@@ -7,27 +7,42 @@ For using this DSL, you need to import the should and should_not objects from sh
 
 For example::
 
-    1 |should| equal_to(1)             # will be True
-    'should' |should| include('oul')   # will also be True
-    3 |should| be_into([0, 1, 2])      # will raise a ShouldNotSatisfied exception
+    >>> from should_dsl import should
+
+    >>> 1 |should| equal_to(1)
+    True
+    >>> 'should' |should| include('oul')
+    True
+    >>> 3 |should| be_into([0, 1, 2])
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: 3 is not into [0, 1, 2]
 
 
 The *equal_to* matcher verifies object equality. If you want to ensure identity, you must use *be* as matcher::
 
-    2 |should| be(2)
+    >>> 2 |should| be(2)
+    True
 
 
 A nice example of exceptions would be::
 
-    def raise_zerodivisionerror():
-        return 1/0
-    raise_zerodivisionerror |should| throw(ZeroDivisionError)
+    >>> def raise_zerodivisionerror():
+    ...     return 1/0
+    >>> raise_zerodivisionerror |should| throw(ZeroDivisionError)
+    True
 
 
 *should* has a negative version::
 
-    2 |should_not| be_into([1, 3, 5])     # will be true
-    'should' |should_not| include('oul')  # will raise a ShouldNotSatisfied exception
+    >>> from should_dsl import should_not
+
+    >>> 2 |should_not| be_into([1, 3, 5])
+    True
+    >>> 'should' |should_not| include('oul')
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: should does include oul
 
 
 
@@ -447,16 +462,20 @@ Deprecated usage
 
 All *should-dsl* matchers also support a deprecated form, so::
 
-    3 |should_not| equal_to(3)
+    >>> 3 |should_not| equal_to(2.99)
+    True
 
 can be written as::
 
-    3 |should_not.equal_to| 3
+    >>> 3 |should_not.equal_to| 2.99
+    True
 
 Besides, should_dsl module offers should_be, should_have (and their negative counterparts) to be used with no matchers, as::
 
-    [1, 2] |should_have| 1
-    x |should_be| 1
+    >>> [1, 2] |should_have| 1
+    True
+    >>> 1 |should_be| 1
+    True
 
 This syntax for writing expectations was changed because the requirement to have a single "right value" is a limitation to future improvements.
 
