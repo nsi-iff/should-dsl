@@ -267,13 +267,13 @@ class Change(object):
     name = 'change'
 
     def __call__(self, verifier):
-        self._verifier = verifier
+        self._verifier = self._to_callable(verifier)
         return self
 
     def match(self, action):
-        self._action = action
+        self._action = self._to_callable(action)
         self._before_result = self._verifier()
-        action()
+        self._action()
         self._after_result = self._verifier()
         return self._before_result != self._after_result
 
@@ -284,6 +284,14 @@ class Change(object):
     def message_for_failed_should_not(self):
         return 'should not have changed, but did change from %s to %s' % (
             self._before_result, self._after_result)
+
+    def _to_callable(self, objekt):
+        if callable(objekt):
+            return objekt
+        type_error_message = 'parameter passed to change must be a callable or a iterable having a callable as its first element'
+        if not getattr(objekt, '__getitem__', False) or not callable(objekt[0]):
+            raise TypeError(type_error_message)
+        return lambda *params: objekt[0](*objekt[1:])
 
 
 # matchers for backwards compatibility
