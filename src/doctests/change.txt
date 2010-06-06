@@ -1,0 +1,23 @@
+>>> from should_dsl import should, should_not
+
+>>> class Box(object):
+...     def __init__(self):
+...         self.items = []
+...     def add_items(self, *items):
+...         for item in items:
+...             self.items.append(item)
+...     def item_count(self):
+...         return len(self.items)
+
+>>> box = Box()
+>>> (lambda: box.add_items(1)) |should| change(lambda: box.item_count())
+True
+>>> (lambda: box.add_items(1)) |should_not| change(lambda: box.item_count())
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: should not have changed, but did change from 1 to 2
+>>> (lambda: 0) |should| change(lambda: box.item_count())
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: result should have changed, but is still 2
+

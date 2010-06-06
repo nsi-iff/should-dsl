@@ -260,6 +260,32 @@ class CloseTo(object):
         return "expected not to be close to %s (within +/- %s), got %s" % (
             self._expected, self._delta, self._actual)
 
+
+@matcher
+class Change(object):
+
+    name = 'change'
+
+    def __call__(self, verifier):
+        self._verifier = verifier
+        return self
+
+    def match(self, action):
+        self._action = action
+        self._before_result = self._verifier()
+        action()
+        self._after_result = self._verifier()
+        return self._before_result != self._after_result
+
+    def message_for_failed_should(self):
+        return 'result should have changed, but is still %s' % (
+            self._before_result)
+
+    def message_for_failed_should_not(self):
+        return 'should not have changed, but did change from %s to %s' % (
+            self._before_result, self._after_result)
+
+
 # matchers for backwards compatibility
 @matcher
 def into():
