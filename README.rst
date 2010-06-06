@@ -440,6 +440,8 @@ can be written as::
 
 Besides, should_dsl module offers should_be, should_have (and their negative counterparts) to be used with no matchers, as::
 
+    >>> from should_dsl import *
+
     >>> [1, 2] |should_have| 1
     True
     >>> 1 |should_be| 1
