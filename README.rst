@@ -46,38 +46,6 @@ A nice example of exceptions would be::
 
 
 
-Should-DSL with unittest
-------------------------
-
-*should-dsl* is unittest-compatible, so, on a unittest test case, failures on should expectations will result on unittest failures, not errors::
-
-    >>> from should_dsl import *
-    >>> import unittest
-
-    >>> class UsingShouldExample(unittest.TestCase):
-    ...     def test_showing_should_not_be_works(self):
-    ...         'hello world!' |should_not| be('Hello World!')
-    ...
-    ...     def test_showing_should_include_fails(self):
-    ...         [1, 2, 3] |should| include(5)
-    ...
-    ...     def test_showing_should_include_works(self):
-    ...         'hello world!' |should| include('world')
-    ...
-    ...     def test_showing_should_not_include_fails(self):
-    ...         {'one': 1, 'two': 2} |should_not| include('two')
-    ...
-    ...     def test_showing_should_not_include_works(self):
-    ...         ["that's", 'all', 'folks'] |should_not| include('that')
-
-    >>> from cStringIO import StringIO
-    >>> runner = unittest.TextTestRunner(stream=StringIO())
-    >>> suite = unittest.TestLoader().loadTestsFromTestCase(UsingShouldExample)
-    >>> runner.run(suite)
-    <unittest._TextTestResult run=5 errors=0 failures=2>
-
-
-
 Should-DSL Matchers
 ===================
 
@@ -480,4 +448,36 @@ Besides, should_dsl module offers should_be, should_have (and their negative cou
 This syntax for writing expectations was changed because the requirement to have a single "right value" is a limitation to future improvements.
 
 We don't plan to remove the deprecated syntax in the near future, but we discourage its use from now.
+
+
+
+Should-DSL with unittest
+========================
+
+*should-dsl* is unittest-compatible, so, on a unittest test case, failures on should expectations will result on unittest failures, not errors::
+
+    >>> from should_dsl import *
+    >>> import unittest
+
+    >>> class UsingShouldExample(unittest.TestCase):
+    ...     def test_showing_should_not_be_works(self):
+    ...         'hello world!' |should_not| be('Hello World!')
+    ...
+    ...     def test_showing_should_include_fails(self):
+    ...         [1, 2, 3] |should| include(5)
+    ...
+    ...     def test_showing_should_include_works(self):
+    ...         'hello world!' |should| include('world')
+    ...
+    ...     def test_showing_should_not_include_fails(self):
+    ...         {'one': 1, 'two': 2} |should_not| include('two')
+    ...
+    ...     def test_showing_should_not_include_works(self):
+    ...         ["that's", 'all', 'folks'] |should_not| include('that')
+
+    >>> from cStringIO import StringIO
+    >>> runner = unittest.TextTestRunner(stream=StringIO())
+    >>> suite = unittest.TestLoader().loadTestsFromTestCase(UsingShouldExample)
+    >>> runner.run(suite)
+    <unittest._TextTestResult run=5 errors=0 failures=2>
 
