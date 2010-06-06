@@ -30,18 +30,6 @@ A nice example of exceptions would be::
     'should' |should_not| include('oul')  # will raise a ShouldNotSatisfied exception
 
 
-Extending the DSL with custom matchers is easy::
-
-    from should_dsl import matcher
-
-    @matcher
-    def be_the_square_root_of():
-        import math
-        return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
-
-    3 |should| be_the_square_root_of(9)    # will be true
-    4 |should| be_the_square_root_of(9)    # will raise a ShouldNotSatisfiedException
-
 
 Should-DSL with unittest
 ------------------------
@@ -375,6 +363,83 @@ Predicate matchers also work with methods::
     Traceback (most recent call last):
     ...
     ShouldNotSatisfied: expected made_of('stone') to return true, got false
+
+
+Custom matchers
+---------------
+
+Extending the DSL with custom matchers is very easy. For simple matchers, a decorated function is enough. The function name must be the name of the matcher. The function must have no parameters and it must return a tuple containing two elements. The first one is the function (or lambda), receiving two parameters, to be run for the comparison, and the second is the failure message. The failure message must have three %s placeholders. The first and the third for, respectively, the actual and expected values. Second %s is a placeholder for a 'not ' string for a failed should_not, or an empty string for a failed should. In the example, when should fails, a message can be "4 is not the square root of 9"; in another way, if the fail is in a should_not, the message could be "3 is the square root of 9", if the expectation was *3 \|should_not\| be_the_square_root_of(9)*. The example is below::
+
+    >>> from should_dsl import matcher
+
+    >>> @matcher
+    ... def be_the_square_root_of():
+    ...     import math
+    ...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
+
+    >>> 3 |should| be_the_square_root_of(9)
+    True
+    >>> 4 |should| be_the_square_root_of(9)
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: 4 is not the square root of 9
+
+
+If your custom matcher has a more complex behaviour, or if both should and should_not messages differ, you can create custom matchers as classes. In fact, classes as matchers are the preferred way to create matchers, being function matchers only a convenience for simple cases.
+
+Below is an example of the square root matcher defined as a class::
+
+    >>> import math
+    >>> @matcher
+    ... class SquareRoot(object):
+    ...
+    ...     name = 'be_the_square_root_of'
+    ...
+    ...     def __call__(self, radicand):
+    ...         self._radicand = radicand
+    ...         return self
+    ...
+    ...     def match(self, actual):
+    ...         self._actual = actual
+    ...         self._expected = math.sqrt(self._radicand)
+    ...         return self._actual == self._expected
+    ...
+    ...     def message_for_failed_should(self):
+    ...         return 'expected %s to be the square root of %s, got %s' % (
+    ...             self._actual, self._radicand, self._expected)
+    ...
+    ...     def message_for_failed_should_not(self):
+    ...         return 'expected %s not to be the square root of %s' % (
+    ...             self._actual, self._radicand)
+    ...
+    >>> 3 |should| be_the_square_root_of(9)
+    True
+    >>> 4 |should| be_the_square_root_of(9)
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: expected 4 to be the square root of 9, got 3.0
+    >>> 2 |should_not| be_the_square_root_of(4.1)
+    True
+    >>> 2 |should_not| be_the_square_root_of(4)
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: expected 2 not to be the square root of 4
+
+
+A matcher class must fill the following requirements:
+
+- a class attribute called *name* containing the desired name for the matcher;
+- a *match(actual)* method receiving the actual value of the expectation as a parameter (e.g., in
+  *2 \|should\| equal_to(3)* the actual is 2 and the expected is 3). This method should return
+  the boolean result of the desired comparison;
+- two methods, called *message_for_failed_should* and *message_for_failed_should_not* for returning
+  the failure messages for, respectively, should and should_not.
+
+The most common way the expected value is inject to the matcher is through making the matcher
+callable. Thus, the matcher call can get the expected value and any other necessary or optional
+information. By example, the *close_to* matcher's *__call__()* method receives 2 parameters:
+the expected value and a delta. Once a matcher is a regular Python object, any Python can be used.
+In *close_to*, delta can be used as a named parameter for readability purposes.
 
 
 Deprecated usage
