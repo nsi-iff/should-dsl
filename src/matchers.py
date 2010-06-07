@@ -278,19 +278,20 @@ class Change(object):
         self._before_result = self._verifier()
         self._action()
         self._after_result = self._verifier()
-        if self._by is None:
-            return self._after_result != self._before_result
-        else:
+        if self._by is not None:
             self._actual_difference = abs(self._before_result - self._after_result)
             return self._by[1](self._expected_difference, self._actual_difference)
+        else:
+            return self._after_result != self._before_result
+
 
     def message_for_failed_should(self):
-        if self._by is None:
-            return 'result should have changed, but is still %s' % (
-                self._before_result)
-        else:
+        if self._by is not None:
             return 'result should have changed %s %s, but was changed by %s' %(
                 self._by[0], self._expected_difference, self._actual_difference)
+        else:
+            return 'result should have changed, but is still %s' % (
+                self._before_result)
 
     def message_for_failed_should_not(self):
         return 'should not have changed, but did change from %s to %s' % (
@@ -302,6 +303,10 @@ class Change(object):
 
     def  by_at_least(self, difference):
         self._handle_by(difference, 'by at least', lambda exp_dif, act_dif: act_dif >= exp_dif)
+        return self
+
+    def by_at_most(self, difference):
+        self._handle_by(difference, 'by at most', lambda exp_dif, act_dif: act_dif <= exp_dif)
         return self
 
     def _handle_by(self, difference, method, comparison):

@@ -50,10 +50,18 @@ True
 True
 >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_least(2)
 True
->>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_least(1)
-True
 >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_least(4)
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: result should have changed by at least 4, but was changed by 3
+
+
+>>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_most(3)
+True
+>>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_most(4)
+True
+>>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_most(2)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: result should have changed by at most 2, but was changed by 3
 
