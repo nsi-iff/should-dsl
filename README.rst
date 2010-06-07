@@ -167,6 +167,79 @@ Checks if a given piece of code raises an arbitrary exception.::
     ShouldNotSatisfied: expected to throw TypeError with the message "This won't work...", got TypeError with "Hey, it's cool!"
 
 
+**change**
+
+Checks for changes on the result of a given function, method or lambda.
+
+::
+
+    >>> class Box(object):
+    ...     def __init__(self):
+    ...         self.items = []
+    ...     def add_items(self, *items):
+    ...         for item in items:
+    ...             self.items.append(item)
+    ...     def item_count(self):
+    ...         return len(self.items)
+    ...     def clear(self):
+    ...         self.items = []
+    >>> box = Box()
+    >>> box.add_items(5, 4, 3)
+    >>> box.clear |should| change(box.item_count)
+    True
+    >>> box.clear |should_not| change(box.item_count)
+    True
+
+If the function or method has parameters, it must be called within a lambda or using a tuple. The following ways are both equivalent::
+
+    >>> (lambda: box.add_items(1, 2, 3)) |should| change(box.item_count)
+    True
+    >>> (box.add_items, 1, 2, 3) |should| change(box.item_count)
+    True
+
+*change* also works given an arbitrary change count::
+
+    >>> box.clear()
+    >>> box.add_items(1, 2, 3)
+    >>> box.clear |should| change(box.item_count).by(-3)
+    True
+    >>> box.add_items(1, 2, 3)
+    >>> box.clear |should| change(box.item_count).by(-2)
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: result should have changed by -2, but was changed by -3
+
+*change* has support for maximum and minumum with *by_at_most* and *by_at_least*::
+
+    >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_most(3)
+    True
+    >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_most(2)
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: result should have changed by at most 2, but was changed by 3
+
+    >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_least(3)
+    True
+    >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_least(4)
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: result should have changed by at least 4, but was changed by 3
+
+
+And, finally, *change* supports specifying the initial and final values or only the final one::
+
+    >>> box.clear()
+    >>> (box.add_items, 1, 2, 3) |should| change(box.item_count)._from(0).to(3)
+    True
+    >>> box.clear |should| change(box.item_count).to(0)
+    True
+    >>> box.clear |should| change(box.item_count).to(0)
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: result should have been changed to 0, but is now 0
+
+
+
 **close_to**
 
 Checks if a number is close to another, given a delta.::
