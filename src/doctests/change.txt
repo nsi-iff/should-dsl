@@ -65,3 +65,18 @@ Traceback (most recent call last):
     ...
 ShouldNotSatisfied: result should have changed by at most 2, but was changed by 3
 
+
+>>> box.clear()
+>>> (box.add_items, 3, 5, 7) |should| change(box.item_count)._from(0).to(3)
+True
+>>> box.clear |should| change(box.item_count)._from(3).to(0)
+True
+>>> (box.add_items, 3, 5, 7) |should| change(box.item_count)._from(0).to(2)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: result should have changed from 0 to 2, but was changed from 0 to 3
+>>> box.clear |should_not| change(box.item_count)._from(3).to(0)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: result should not have changed from 3 to 0
+

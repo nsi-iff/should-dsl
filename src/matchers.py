@@ -268,6 +268,7 @@ class Change(object):
 
     def __init__(self):
         self._by = None
+        self._using_from_to = False
 
     def __call__(self, verifier):
         self._verifier = self._to_callable(verifier)
@@ -281,6 +282,8 @@ class Change(object):
         if self._by is not None:
             self._actual_difference = abs(self._before_result - self._after_result)
             return self._by[1](self._expected_difference, self._actual_difference)
+        elif self._using_from_to:
+            return self._before_result == self._from_value and self._after_result == self._to_value
         else:
             return self._after_result != self._before_result
 
@@ -289,13 +292,20 @@ class Change(object):
         if self._by is not None:
             return 'result should have changed %s %s, but was changed by %s' %(
                 self._by[0], self._expected_difference, self._actual_difference)
+        elif self._using_from_to:
+            return 'result should have changed from %s to %s, but was changed from %s to %s' % (
+                self._from_value, self._to_value, self._before_result, self._after_result)
         else:
             return 'result should have changed, but is still %s' % (
                 self._before_result)
 
     def message_for_failed_should_not(self):
-        return 'should not have changed, but did change from %s to %s' % (
-            self._before_result, self._after_result)
+        if self._using_from_to:
+            return 'result should not have changed from %s to %s' % (
+                self._from_value, self._to_value)
+        else:
+            return 'should not have changed, but did change from %s to %s' % (
+                self._before_result, self._after_result)
 
     def by(self, difference):
         self._handle_by(difference, 'by', lambda exp_dif, act_dif: act_dif == exp_dif)
@@ -312,6 +322,15 @@ class Change(object):
     def _handle_by(self, difference, method, comparison):
         self._expected_difference = difference
         self._by = (method, comparison)
+
+    def _from(self, from_value):
+        self._from_value = from_value
+        self._using_from_to = True
+        return self
+
+    def to(self, to_value):
+        self._to_value = to_value
+        return self
 
     def _to_callable(self, objekt):
         if callable(objekt):
