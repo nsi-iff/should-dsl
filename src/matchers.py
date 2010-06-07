@@ -283,7 +283,12 @@ class Change(object):
             self._actual_difference = abs(self._before_result - self._after_result)
             return self._by[1](self._expected_difference, self._actual_difference)
         elif self._using_from_to:
-            return self._before_result == self._from_value and self._after_result == self._to_value
+            if self._from_value is None and self._before_result == self._to_value:
+                return False
+            result = self._after_result == self._to_value
+            if self._from_value is not None:
+                result = result and self._before_result == self._from_value
+            return result
         else:
             return self._after_result != self._before_result
 
@@ -293,16 +298,25 @@ class Change(object):
             return 'result should have changed %s %s, but was changed by %s' %(
                 self._by[0], self._expected_difference, self._actual_difference)
         elif self._using_from_to:
-            return 'result should have changed from %s to %s, but was changed from %s to %s' % (
-                self._from_value, self._to_value, self._before_result, self._after_result)
+            if self._from_value is not None:
+                return 'result should have changed from %s to %s, but was changed from %s to %s' % (
+                    self._from_value, self._to_value, self._before_result, self._after_result)
+            else:
+                if self._from_value is None and self._before_result == self._to_value:
+                    return 'result should have been changed to %s, but is now %s' % (
+                        self._to_value, self._before_result)
+                else:
+                    return 'result should have changed to %s, but was changed to %s' % (
+                        self._to_value, self._after_result)
         else:
             return 'result should have changed, but is still %s' % (
                 self._before_result)
 
     def message_for_failed_should_not(self):
         if self._using_from_to:
-            return 'result should not have changed from %s to %s' % (
-                self._from_value, self._to_value)
+            from_clause = "" if self._from_value is None else (" from %s" % self._from_value)
+            return 'result should not have changed%s to %s' % (
+                from_clause, self._to_value)
         else:
             return 'should not have changed, but did change from %s to %s' % (
                 self._before_result, self._after_result)
@@ -329,6 +343,9 @@ class Change(object):
         return self
 
     def to(self, to_value):
+        if not self._using_from_to:
+            self._using_from_to = True
+            self._from_value = None
         self._to_value = to_value
         return self
 

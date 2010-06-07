@@ -80,3 +80,33 @@ Traceback (most recent call last):
     ...
 ShouldNotSatisfied: result should not have changed from 3 to 0
 
+>>> box.add_items(1)
+>>> box.clear |should| change(box.item_count).to(0)
+True
+>>> (box.add_items, 3, 4) |should_not| change(box.item_count).to(3)
+True
+>>> box.clear |should_not| change(box.item_count).to(0)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: result should not have changed to 0
+>>> box.clear |should| change(box.item_count).to(1)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: result should have changed to 1, but was changed to 0
+>>> box.clear()
+>>> box.clear |should| change(box.item_count).to(0)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: result should have been changed to 0, but is now 0
+>>> box.clear |should_not| change(box.item_count).to(0)
+True
+
+>>> box.clear()
+>>> box.add_items('a', 'b')
+>>> box.item_count()
+2
+>>> box.clear |should| change(box.item_count)._from(1).to(0)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: result should have changed from 1 to 0, but was changed from 2 to 0
+
