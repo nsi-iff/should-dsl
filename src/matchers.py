@@ -283,7 +283,7 @@ class Change(object):
         self._after_result = self._verifier()
 
         if self._by is not None:
-            self._actual_difference = abs(self._before_result - self._after_result)
+            self._actual_difference = self._after_result - self._before_result
             return self._by.comparison(self._expected_difference, self._actual_difference)
         elif self._from_to:
             return self._before_result == self._from_value and self._after_result == self._to_value

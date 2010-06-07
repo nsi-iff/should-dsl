@@ -45,6 +45,11 @@ Traceback (most recent call last):
 ShouldNotSatisfied: result should have changed by 2, but was changed by 1
 >>> (lambda: 1) |should| change(box.item_count).by(0)
 True
+>>> box.clear()
+>>> box.add_items('a')
+>>> box.clear |should| change(box.item_count).by(-1)
+True
+
 
 >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_least(3)
 True
