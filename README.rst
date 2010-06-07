@@ -167,6 +167,17 @@ Checks if a given piece of code raises an arbitrary exception.::
     ShouldNotSatisfied: expected to throw TypeError with the message "This won't work...", got TypeError with "Hey, it's cool!"
 
 
+If the function or method has parameters, it must be called within a lambda or using a tuple. The following ways are both equivalent::
+
+    >>> def divide(x, y): return x / y
+    >>> (lambda: divide(1, 0)) |should| throw(ZeroDivisionError)
+    True
+    >>> (divide, 1, 0) |should| throw(ZeroDivisionError)
+    True
+
+The same works for *be_thrown_by* matcher.
+
+
 **change**
 
 Checks for changes on the result of a given function, method or lambda.
