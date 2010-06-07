@@ -268,7 +268,8 @@ class Change(object):
 
     def __init__(self):
         self._by = None
-        self._using_from_to = False
+        self._from_to = False
+        self._only_to = False
 
     def __call__(self, verifier):
         self._verifier = self._to_callable(verifier)
@@ -276,76 +277,76 @@ class Change(object):
 
     def match(self, action):
         self._action = self._to_callable(action)
+
         self._before_result = self._verifier()
         self._action()
         self._after_result = self._verifier()
+
         if self._by is not None:
             self._actual_difference = abs(self._before_result - self._after_result)
-            return self._by[1](self._expected_difference, self._actual_difference)
-        elif self._using_from_to:
-            if self._from_value is None and self._before_result == self._to_value:
+            return self._by.comparison(self._expected_difference, self._actual_difference)
+        elif self._from_to:
+            return self._before_result == self._from_value and self._after_result == self._to_value
+        elif self._only_to:
+            self._failure_on_to_initial_value = False
+            if self._before_result == self._to_value:
+                self._failure_on_to_initial_value = True
                 return False
-            result = self._after_result == self._to_value
-            if self._from_value is not None:
-                result = result and self._before_result == self._from_value
-            return result
+            else:
+                return self._after_result == self._to_value
         else:
             return self._after_result != self._before_result
-
 
     def message_for_failed_should(self):
         if self._by is not None:
             return 'result should have changed %s %s, but was changed by %s' %(
-                self._by[0], self._expected_difference, self._actual_difference)
-        elif self._using_from_to:
-            if self._from_value is not None:
-                return 'result should have changed from %s to %s, but was changed from %s to %s' % (
-                    self._from_value, self._to_value, self._before_result, self._after_result)
+                self._by.name, self._expected_difference, self._actual_difference)
+        elif self._from_to:
+            return 'result should have changed from %s to %s, but was changed from %s to %s' % (
+                self._from_value, self._to_value, self._before_result, self._after_result)
+        elif self._only_to:
+            if self._failure_on_to_initial_value:
+                return 'result should have been changed to %s, but is now %s' % (
+                    self._to_value, self._before_result)
             else:
-                if self._from_value is None and self._before_result == self._to_value:
-                    return 'result should have been changed to %s, but is now %s' % (
-                        self._to_value, self._before_result)
-                else:
-                    return 'result should have changed to %s, but was changed to %s' % (
-                        self._to_value, self._after_result)
+                return 'result should have changed to %s, but was changed to %s' % (
+                    self._to_value, self._after_result)
         else:
             return 'result should have changed, but is still %s' % (
                 self._before_result)
 
     def message_for_failed_should_not(self):
-        if self._using_from_to:
-            from_clause = "" if self._from_value is None else (" from %s" % self._from_value)
-            return 'result should not have changed%s to %s' % (
-                from_clause, self._to_value)
+        if self._from_to:
+            return 'result should not have changed from %s to %s' % (
+                  self._from_value, self._to_value)
+        elif self._only_to:
+            return 'result should not have changed to %s' % self._to_value
         else:
             return 'should not have changed, but did change from %s to %s' % (
                 self._before_result, self._after_result)
 
     def by(self, difference):
-        self._handle_by(difference, 'by', lambda exp_dif, act_dif: act_dif == exp_dif)
+        self._expected_difference = difference
+        self._by = Change._By(lambda exp_dif, act_dif: act_dif == exp_dif)
         return self
 
     def  by_at_least(self, difference):
-        self._handle_by(difference, 'by at least', lambda exp_dif, act_dif: act_dif >= exp_dif)
+        self._expected_difference = difference
+        self._by = Change._By(lambda exp_dif, act_dif: act_dif >= exp_dif, 'at least')
         return self
 
     def by_at_most(self, difference):
-        self._handle_by(difference, 'by at most', lambda exp_dif, act_dif: act_dif <= exp_dif)
-        return self
-
-    def _handle_by(self, difference, method, comparison):
         self._expected_difference = difference
-        self._by = (method, comparison)
+        self._by = Change._By(lambda exp_dif, act_dif: act_dif <= exp_dif, 'at most')
+        return self
 
     def _from(self, from_value):
         self._from_value = from_value
-        self._using_from_to = True
+        self._from_to = True
         return self
 
     def to(self, to_value):
-        if not self._using_from_to:
-            self._using_from_to = True
-            self._from_value = None
+        self._only_to = not self._from_to
         self._to_value = to_value
         return self
 
@@ -356,6 +357,14 @@ class Change(object):
         if not getattr(objekt, '__getitem__', False) or not callable(objekt[0]):
             raise TypeError(type_error_message)
         return lambda *params: objekt[0](*objekt[1:])
+
+    class _By(object):
+        def __init__(self, comparison, name=''):
+            self.name = ('by ' + name).strip()
+            self.comparison = comparison
+
+
+
 
 
 # matchers for backwards compatibility
