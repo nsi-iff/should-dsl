@@ -269,7 +269,7 @@ Checks if a number is close to another, given a delta.::
 
 Verifies if a string ends with a given suffix.::
 
-    >>> "brazil champion of 2010 FIFA world cup" |should| end_with('world cup')
+    >>> "Brazil champion of 2010 FIFA world cup" |should| end_with('world cup')
     True
     >>> "hello world" |should_not| end_with('worlds')
     True
@@ -277,7 +277,7 @@ Verifies if a string ends with a given suffix.::
 
 **equal_to**
 
-Checks object equality (not identity).>::
+Checks object equality (not identity).::
 
     >>> 1 |should| equal_to(1)
     True
@@ -403,6 +403,15 @@ Checks if an object has a given attribute or method.::
     >>> Foo() |should| respond_to('bar')
     True
 
+
+**start_with**
+
+Verifies if a string starts with a given prefix.::
+
+    >>> "Brazil champion of 2010 FIFA world cup" |should| start_with('Brazil champion')
+    True
+    >>> "hello world" |should_not| start_with('Hello')
+    True
 
 
 Predicate matchers
