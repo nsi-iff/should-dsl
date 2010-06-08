@@ -135,6 +135,10 @@ def be_kind_of():
     return (lambda obj, kind: isinstance(obj, kind), "%s is %s a kind of %s")
 
 @matcher
+def start_with():
+    return (lambda x, y: x.startswith(y), "%s do %sstart with %s")
+
+@matcher
 def end_with():
     return (lambda x, y: x.endswith(y), "%s do %send with %s")
 
