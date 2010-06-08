@@ -58,7 +58,9 @@ Available Matchers
 
 **be**
 
-Checks object identity (*is*).::
+Checks object identity (*is*).
+
+::
 
     >>> 1 |should| be(1)
     True
@@ -88,7 +90,9 @@ Checks object identity (*is*).::
 
 **be_less_than_or_equal_to**
 
-Simply checks the given comparisons.::
+Simply checks the given comparisons.
+
+::
 
     >>> 1 |should_not| be_greater_than(1)
     True
@@ -106,7 +110,9 @@ Simply checks the given comparisons.::
 
 **include**
 
-Verifies if an object is contained (*be_into*) or contains (*contain*) another. The *contain* and *include* matchers do exactly the same job.::
+Verifies if an object is contained (*be_into*) or contains (*contain*) another. The *contain* and *include* matchers do exactly the same job.
+
+::
 
     >>> 1 |should| be_into(range(2))
     True
@@ -122,7 +128,9 @@ Verifies if an object is contained (*be_into*) or contains (*contain*) another. 
 
 **be_kind_of**
 
-Verifies if an object is of a given type.::
+Verifies if an object is of a given type.
+
+::
 
     >>> 1 |should| be_kind_of(int)
     True
@@ -137,7 +145,9 @@ Verifies if an object is of a given type.::
 
 **be_like**
 
-Checks matching against a regular expression.::
+Checks matching against a regular expression.
+
+::
 
     >>> 'Hello World' |should| be_like(r'Hello W.+')
     True
@@ -149,14 +159,18 @@ Checks matching against a regular expression.::
 
 **throw**
 
-Checks if a given piece of code raises an arbitrary exception.::
+Checks if a given piece of code raises an arbitrary exception.
+
+::
 
     >>> ZeroDivisionError |should| be_thrown_by(lambda: 1/0)
     True
     >>> (lambda: 1/0.000001) |should_not| throw(ZeroDivisionError)
     True
 
-*throw* matcher also supports message checking.::
+*throw* matcher also supports message checking.
+
+::
 
     >>> def foo(): raise TypeError("Hey, it's cool!")
     >>> foo |should| throw(TypeError, message="Hey, it's cool!")
@@ -253,7 +267,9 @@ And, finally, *change* supports specifying the initial and final values or only 
 
 **close_to**
 
-Checks if a number is close to another, given a delta.::
+Checks if a number is close to another, given a delta.
+
+::
 
     >>> 1 |should| close_to(0.9, delta=0.1)
     True
@@ -267,7 +283,9 @@ Checks if a number is close to another, given a delta.::
 
 **end_with**
 
-Verifies if a string ends with a given suffix.::
+Verifies if a string ends with a given suffix.
+
+::
 
     >>> "Brazil champion of 2010 FIFA world cup" |should| end_with('world cup')
     True
@@ -277,7 +295,9 @@ Verifies if a string ends with a given suffix.::
 
 **equal_to**
 
-Checks object equality (not identity).::
+Checks object equality (not identity).
+
+::
 
     >>> 1 |should| equal_to(1)
     True
@@ -295,7 +315,9 @@ Checks object equality (not identity).::
 
 **equal_to_ignoring_case**
 
-Checks equality of strings ignoring case.::
+Checks equality of strings ignoring case.
+
+::
 
     >>> 'abc' |should| equal_to_ignoring_case('AbC')
     True
@@ -306,7 +328,9 @@ Checks equality of strings ignoring case.::
 
 **have**
 
-Checks the element count of a given collection. It can work with iterables, requiring a qualifier expression for readability purposes that is only a syntax sugar.::
+Checks the element count of a given collection. It can work with iterables, requiring a qualifier expression for readability purposes that is only a syntax sugar.
+
+::
 
     >>> ['b', 'c', 'd'] |should| have(3).elements
     True
@@ -320,7 +344,9 @@ Checks the element count of a given collection. It can work with iterables, requ
     >>> "left" |should| have(4).characters
     True
 
-*have* also works with non-iterable objects, in which the qualifier is a name of attribute or method that contains the collection to be count.::
+*have* also works with non-iterable objects, in which the qualifier is a name of attribute or method that contains the collection to be count.
+
+::
 
     >>> class Foo:
     ...     def __init__(self):
@@ -335,7 +361,9 @@ Checks the element count of a given collection. It can work with iterables, requ
 
 **have_at_least**
 
-Same to *have*, but checking if the element count is greater than or equal to the given value. Works for collections with syntax sugar, object attributes or methods.::
+Same to *have*, but checking if the element count is greater than or equal to the given value. Works for collections with syntax sugar, object attributes or methods.
+
+::
 
     >>> range(20) |should| have_at_least(19).items
     True
@@ -347,7 +375,9 @@ Same to *have*, but checking if the element count is greater than or equal to th
 
 **have_at_most**
 
-Same to *have*, but checking if the element count is less than or equal to the given value. Works for collections with syntax sugar, object attributes or methods.::
+Same to *have*, but checking if the element count is less than or equal to the given value. Works for collections with syntax sugar, object attributes or methods.
+
+::
 
     >>> range(20) |should_not| have_at_most(19).items
     True
@@ -361,7 +391,9 @@ Same to *have*, but checking if the element count is less than or equal to the g
 
 **include_in_any_order**
 
-Check if a iterable includes all elements of another. Both matchers do the same job.::
+Check if a iterable includes all elements of another. Both matchers do the same job.
+
+::
 
    >>> [4, 5, 6, 7] |should| include_all_of([5, 6])
    True
@@ -379,7 +411,9 @@ Check if a iterable includes all elements of another. Both matchers do the same 
 
 **include_any_of**
 
-Checks if an iterable includes any element of another.::
+Checks if an iterable includes any element of another.
+
+::
 
     >>> [1, 2, 3] |should| include_any_of([3, 4, 5])
     True
@@ -389,7 +423,9 @@ Checks if an iterable includes any element of another.::
 
 **respond_to**
 
-Checks if an object has a given attribute or method.::
+Checks if an object has a given attribute or method.
+
+::
 
     >>> 1.1 |should| respond_to('real')
     True
@@ -406,7 +442,9 @@ Checks if an object has a given attribute or method.::
 
 **start_with**
 
-Verifies if a string starts with a given prefix.::
+Verifies if a string starts with a given prefix.
+
+::
 
     >>> "Brazil champion of 2010 FIFA world cup" |should| start_with('Brazil champion')
     True
