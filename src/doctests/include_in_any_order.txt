@@ -22,5 +22,5 @@ True
 >>> 'should' |should| include_in_any_order(('h', 'a'))
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: should does not include in any order ('h', 'a')
+ShouldNotSatisfied: 'should' does not include in any order ('h', 'a')
 

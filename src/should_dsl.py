@@ -170,12 +170,12 @@ class _PredicateMatcher(object):
         return attr_value
 
     def message_for_failed_should(self):
-        return "expected %s to %s true, got false" % (
+        return "expected %s to %s True, got False" % (
             self._display_attr(self._attr_name),
             self._display_verb(self._attr_name))
 
     def message_for_failed_should_not(self):
-        return "expected %s to %s false, got true" % (
+        return "expected %s to %s False, got True" % (
             self._display_attr(self._attr_name),
             self._display_verb(self._attr_name))
 

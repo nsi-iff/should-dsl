@@ -14,7 +14,7 @@ True
 >>> Car ([1, 2, 3]) |should| have(4).wheels
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected 4 wheels, got 3
+ShouldNotSatisfied: expected 4 'wheels', got 3
 
 >>> Car([1, 2, 3, 4]) |should_not| have(5).wheels
 True
@@ -22,25 +22,25 @@ True
 >>> Car ([1, 2]) |should_not| have(2).wheels
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected target not to have 2 wheels, got 2
+ShouldNotSatisfied: expected target not to have 2 'wheels', got 2
 
 
 >>> Car([1, 2, 3, 4]) |should| have(4).legs
 Traceback (most recent call last):
     ...
-TypeError: target does not have a legs collection, nor it is an iterable
+TypeError: target does not have a 'legs' collection, nor it is an iterable
 
 
 >>> 2 |should| have(1).things
 Traceback (most recent call last):
     ...
-TypeError: target does not have a things collection, nor it is an iterable
+TypeError: target does not have a 'things' collection, nor it is an iterable
 
 
 >>> Car(42) |should| have(42).wheels
 Traceback (most recent call last):
     ...
-TypeError: target's wheels is not an iterable
+TypeError: target's 'wheels' is not an iterable
 
 >>> Car([1, 2, 3, 4]) |should| have(4).wild_wheels
 True
@@ -48,5 +48,5 @@ True
 >>> Car([1, 2, 3, 4]) |should| have(4).broken_wheels
 Traceback (most recent call last):
     ...
-TypeError: target's broken_wheels() does not return an iterable
+TypeError: target's 'broken_wheels()' does not return an iterable
 

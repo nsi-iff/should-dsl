@@ -6,10 +6,10 @@ True
 >>> 1 |should_not| be(1.1)
 True
 
->>> 1 |should| be(2)
+>>> 'a' |should| be('b')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 1 is not 2
+ShouldNotSatisfied: 'a' is not 'b'
 
 >>> 1 |should_not| be(1)
 Traceback (most recent call last):

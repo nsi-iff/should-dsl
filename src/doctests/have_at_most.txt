@@ -9,12 +9,12 @@ True
 >>> ['a', 'b', 'c'] |should_not| have_at_most(3).things
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected target not to have at most 3 things, got 3
+ShouldNotSatisfied: expected target not to have at most 3 'things', got 3
 
 >>> "abcde" |should| have_at_most(4).alphabetical_characters
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected at most 4 alphabetical characters, got 5
+ShouldNotSatisfied: expected at most 4 'alphabetical characters', got 5
 
 >>> (1, 2, 3) |should_not| have_at_most(2).numbers
 True
@@ -35,7 +35,7 @@ True
 >>> my_car |should| have_at_most(3).wheels
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected at most 3 wheels, got 4
+ShouldNotSatisfied: expected at most 3 'wheels', got 4
 
 >>> my_car |should_not| have_at_most(3).wheels
 True
@@ -43,5 +43,5 @@ True
 >>> my_car |should_not| have_at_most(4).wheels
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected target not to have at most 4 wheels, got 4
+ShouldNotSatisfied: expected target not to have at most 4 'wheels', got 4
 

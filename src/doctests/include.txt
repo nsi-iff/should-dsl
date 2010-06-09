@@ -12,7 +12,7 @@ True
 >>> 'should' |should_not| include('oul')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: should does include oul
+ShouldNotSatisfied: 'should' does include 'oul'
 
 
 >>> [1,2,3] |should| contain(1)
@@ -27,5 +27,5 @@ True
 >>> 'should' |should_not| contain('oul')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: should does contain oul
+ShouldNotSatisfied: 'should' does contain 'oul'
 

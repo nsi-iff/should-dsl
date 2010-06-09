@@ -14,5 +14,5 @@ True
 >>> name |should_not| equal_to('dsl')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: dsl is equal to dsl
+ShouldNotSatisfied: 'dsl' is equal to 'dsl'
 

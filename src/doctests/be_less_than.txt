@@ -18,5 +18,5 @@ True
 >>> name |should_not| be_less_than('b')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: a is less than b
+ShouldNotSatisfied: 'a' is less than 'b'
 

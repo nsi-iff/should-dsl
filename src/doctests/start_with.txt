@@ -6,5 +6,5 @@ True
 >>> 'Hello world' |should| start_with('Hola')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: Hello world do not start with Hola
+ShouldNotSatisfied: 'Hello world' does not start with 'Hola'
 

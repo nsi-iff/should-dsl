@@ -12,8 +12,8 @@ class NativeMatcher(object):
 
 class NativeHaveMatcher(NativeMatcher):
     def __init__(self):
-        self._should_message = "%s does not have %s"
-        self._should_not_message = "%s have %s"
+        self._should_message = "%r does not have %r"
+        self._should_not_message = "%r have %r"
 
     def match(self, value):
         self._value = value
@@ -22,8 +22,8 @@ class NativeHaveMatcher(NativeMatcher):
 
 class NativeBeMatcher(NativeMatcher):
     def __init__(self):
-        self._should_message = "%s is not %s"
-        self._should_not_message = "%s is %s"
+        self._should_message = "%r is not %r"
+        self._should_not_message = "%r is %r"
 
     def match(self, value):
         self._value = value

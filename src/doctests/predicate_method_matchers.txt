@@ -23,12 +23,12 @@ True
 >>> Foo() |should| be_always_false
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected always_false() to return true, got false
+ShouldNotSatisfied: expected always_false() to return True, got False
 
 >>> Foo() |should_not| be_always_true
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected always_true() to return false, got true
+ShouldNotSatisfied: expected always_true() to return False, got True
 
 >>> Foo() |should| be_face_of('banana')
 True
@@ -39,7 +39,7 @@ True
 >>> Foo() |should| be_face_of('pineapple')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected face_of('pineapple') to return true, got false
+ShouldNotSatisfied: expected face_of('pineapple') to return True, got False
 
 >>> Foo() |should| be_head_of('rotten', 'apple')
 True
@@ -47,10 +47,10 @@ True
 >>> Foo() |should| be_head_of('fair', 'apple')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected head_of('fair', 'apple') to return true, got false
+ShouldNotSatisfied: expected head_of('fair', 'apple') to return True, got False
 
 >>> Foo() |should| be_a_kind_of('craziness', 'wasting of time', 'buzzword')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected a_kind_of('craziness', 'wasting of time', 'buzzword') to return true, got false
+ShouldNotSatisfied: expected a_kind_of('craziness', 'wasting of time', 'buzzword') to return True, got False
 

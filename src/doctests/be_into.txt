@@ -10,8 +10,8 @@ ShouldNotSatisfied: 1 is into [1, 2, 3]
 >>> 5 |should_not| be_into([1,2,3])
 True
 
->>> 1 |should| be_into([2])
+>>> 'a' |should| be_into(['b', 'c'])
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 1 is not into [2]
+ShouldNotSatisfied: 'a' is not into ['b', 'c']
 

@@ -1,0 +1,16 @@
+>>> from should_dsl import *
+
+>>> class Foo(object):
+...    pass
+>>> class Bar(object):
+...    pass
+>>> foo = Foo()
+
+>>> foo |should| be_instance_of(Foo)
+True
+
+>>> foo |should| be_instance_of(Bar)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: <Foo object at ...> is not an instance of <class 'Bar'>
+

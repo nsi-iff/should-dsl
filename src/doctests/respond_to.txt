@@ -16,12 +16,12 @@ True
 >>> f |should_not| respond_to('bar')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected <...Foo ... at ...> not to respond to bar
+ShouldNotSatisfied: expected <...Foo ... at ...> not to respond to 'bar'
 
 >>> f |should| respond_to('unexisting_bar')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected <...Foo ... at ...> to respond to unexisting_bar
+ShouldNotSatisfied: expected <...Foo ... at ...> to respond to 'unexisting_bar'
 
 >>> f |should| respond_to('_internal_bar')
 True

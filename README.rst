@@ -42,7 +42,7 @@ A nice example of exceptions would be::
     >>> 'should' |should_not| include('oul')
     Traceback (most recent call last):
     ...
-    ShouldNotSatisfied: should does include oul
+    ShouldNotSatisfied: 'should' does include 'oul'
 
 
 
@@ -72,7 +72,7 @@ Checks object identity (*is*).
     >>> a |should| be(b)
     Traceback (most recent call last):
     ...
-    ShouldNotSatisfied: some message is not some message
+    ShouldNotSatisfied: 'some message' is not 'some message'
 
     >>> c = "another message"
     >>> d = c
@@ -178,7 +178,7 @@ Checks if a given piece of code raises an arbitrary exception.
     >>> foo |should| throw(TypeError, message="This won't work...")
     Traceback (most recent call last):
     ...
-    ShouldNotSatisfied: expected to throw TypeError with the message "This won't work...", got TypeError with "Hey, it's cool!"
+    ShouldNotSatisfied: expected to throw 'TypeError' with the message "This won't work...", got 'TypeError' with "Hey, it's cool!"
 
 
 If the function or method has parameters, it must be called within a lambda or using a tuple. The following ways are both equivalent::
@@ -476,7 +476,7 @@ Predicate matchers also work with methods::
     >>> house |should| be_made_of('stone')
     Traceback (most recent call last):
     ...
-    ShouldNotSatisfied: expected made_of('stone') to return true, got false
+    ShouldNotSatisfied: expected made_of('stone') to return True, got False
 
 
 Custom matchers

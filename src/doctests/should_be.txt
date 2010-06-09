@@ -11,8 +11,8 @@ Traceback (most recent call last):
     ...
 ShouldNotSatisfied: 1 is not 2
 
->>> 1 |should_not_be| 1
+>>> 'b' |should_not_be| 'b'
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 1 is 1
+ShouldNotSatisfied: 'b' is 'b'
 

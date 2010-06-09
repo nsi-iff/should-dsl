@@ -18,5 +18,5 @@ True
 >>> name |should_not| be_greater_than('a')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: b is greater than a
+ShouldNotSatisfied: 'b' is greater than 'a'
 

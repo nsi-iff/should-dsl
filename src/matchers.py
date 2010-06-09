@@ -4,39 +4,39 @@ from decimal import Decimal
 
 @matcher
 def be():
-    return (lambda x, y: x is y, "%s is %s%s")
+    return (lambda x, y: x is y, "%r is %s%r")
 
 @matcher
 def include():
-    return (lambda container, item: item in container, "%s does %sinclude %s")
+    return (lambda container, item: item in container, "%r does %sinclude %r")
 
 @matcher
 def contain():
-    return (lambda container, item: item in container, "%s does %scontain %s")
+    return (lambda container, item: item in container, "%r does %scontain %r")
 
 @matcher
 def equal_to():
-    return (lambda x, y: x == y, '%s is %sequal to %s')
+    return (lambda x, y: x == y, '%r is %sequal to %r')
 
 @matcher
 def be_into():
-    return (lambda item, container: item in container, '%s is %sinto %s')
+    return (lambda item, container: item in container, '%r is %sinto %r')
 
 @matcher
 def be_greater_than():
-    return (lambda x, y: x > y, '%s is %sgreater than %s')
+    return (lambda x, y: x > y, '%r is %sgreater than %r')
 
 @matcher
 def be_greater_than_or_equal_to():
-    return (lambda x, y: x >= y, '%s is %sgreater than or equal to %s')
+    return (lambda x, y: x >= y, '%r is %sgreater than or equal to %r')
 
 @matcher
 def be_less_than():
-    return (lambda x, y: x < y, '%s is %sless than %s')
+    return (lambda x, y: x < y, '%r is %sless than %r')
 
 @matcher
 def be_less_than_or_equal_to():
-    return (lambda x, y: x <= y, '%s is %sless than or equal to %s')
+    return (lambda x, y: x <= y, '%r is %sless than or equal to %r')
 
 def check_exception(expected_exception, callable_and_possible_params):
     if getattr(callable_and_possible_params, '__getitem__', False):
@@ -56,7 +56,7 @@ def check_exception(expected_exception, callable_and_possible_params):
 
 @matcher
 def be_thrown_by():
-    return (check_exception, '%s is %sthrown by %s')
+    return (check_exception, '%r is %sthrown by %r')
 
 @matcher
 class Throw:
@@ -90,19 +90,19 @@ class Throw:
             return False
 
     def message_for_failed_should(self):
-        message = "expected to throw %s" % self._expected_exception.__name__
+        message = "expected to throw %r" % self._expected_exception.__name__
         if self._expected_message is not None:
             message += " with the message %r" % self._expected_message
         if self._actual_exception is None:
             message += ', got no exception'
         else:
-            message += ', got %s' % self._actual_exception.__name__
+            message += ', got %r' % self._actual_exception.__name__
         if hasattr(self, '_actual_message'):
             message += ' with %r' % self._actual_message
         return message
 
     def message_for_failed_should_not(self):
-        message = "expected not to throw %s" % self._expected_exception.__name__
+        message = "expected not to throw %r" % self._expected_exception.__name__
         if self._expected_message is not None:
             message += " with the message %r" % self._expected_message
         return "%s, but got it" % message
@@ -115,11 +115,11 @@ def include_in_any_order():
             if element not in container:
                 return False
         return True
-    return (contains_in_any_order, "%s does %sinclude in any order %s")
+    return (contains_in_any_order, "%r does %sinclude in any order %r")
 
 @matcher
 def include_all_of():
-    return (include_in_any_order()[0], "%s does %sinclude all of %s")
+    return (include_in_any_order()[0], "%r does %sinclude all of %r")
 
 @matcher
 def include_any_of():
@@ -128,27 +128,31 @@ def include_any_of():
             if element in container:
                 return True
         return False
-    return (include_any_of_func, "%s does %sinclude any of %s")
+    return (include_any_of_func, "%r does %sinclude any of %r")
 
 @matcher
 def be_kind_of():
-    return (lambda obj, kind: isinstance(obj, kind), "%s is %s a kind of %s")
+    return (lambda obj, kind: isinstance(obj, kind), "%r is %s a kind of %r")
+
+@matcher
+def be_instance_of():
+    return (lambda obj, kind: isinstance(obj, kind), "%r is %s an instance of %r")
 
 @matcher
 def start_with():
-    return (lambda x, y: x.startswith(y), "%s do %sstart with %s")
+    return (lambda x, y: x.startswith(y), "%r does %sstart with %r")
 
 @matcher
 def end_with():
-    return (lambda x, y: x.endswith(y), "%s do %send with %s")
+    return (lambda x, y: x.endswith(y), "%r does %send with %r")
 
 @matcher
 def be_like():
-    return (lambda string, regex: re.match(regex, string) is not None, '"%s" is %slike "%s"')
+    return (lambda string, regex: re.match(regex, string) is not None, '%r is %slike %r')
 
 @matcher
 def equal_to_ignoring_case():
-    return (lambda x, y: unicode(x, 'utf-8').lower() == unicode(y, 'utf-8').lower(), '"%s" is %sequal to "%s" ignoring case')
+    return (lambda x, y: unicode(x, 'utf-8').lower() == unicode(y, 'utf-8').lower(), '%r is %sequal to %r ignoring case')
 
 
 @matcher
@@ -173,13 +177,13 @@ class Have(object):
                 if hasattr(self._collection, 'im_func'):
                     self._collection = self._collection()
                     if not self._is_iterable(self._collection):
-                        raise TypeError("target's %s() does not return an iterable" % self._collection_name)
+                        raise TypeError("target's '%s()' does not return an iterable" % self._collection_name)
                 else:
-                    raise TypeError("target's %s is not an iterable" % self._collection_name)
+                    raise TypeError("target's %r is not an iterable" % self._collection_name)
         elif self._is_iterable(self._lvalue):
             self._collection = self._lvalue
         else:
-            raise TypeError("target does not have a %s collection, nor it is an iterable" % (
+            raise TypeError("target does not have a %r collection, nor it is an iterable" % (
                 self._collection_name))
         return self._compare()
 
@@ -191,11 +195,11 @@ class Have(object):
             description = ''
         else:
             description = "%s " % self.name[5:].replace('_', ' ')
-        return "expected %s%s %s, got %s" % (description, self._count,
+        return "expected %s%r %r, got %r" % (description, self._count,
             self._humanized_collection_name, len(self._collection))
 
     def message_for_failed_should_not(self):
-        return "expected target not to %s %d %s, got %d" % (
+        return "expected target not to %s %d %r, got %r" % (
             self.name.replace('_', ' '), self._count,
             self._humanized_collection_name, len(self._collection))
 
@@ -235,11 +239,11 @@ class RespondTo(object):
         return hasattr(self._lvalue, self._method_name)
 
     def message_for_failed_should(self):
-        return "expected %s to respond to %s" % (self._lvalue,
+        return "expected %r to respond to %r" % (self._lvalue,
             self._method_name)
 
     def message_for_failed_should_not(self):
-        return "expected %s not to respond to %s" % (self._lvalue,
+        return "expected %r not to respond to %r" % (self._lvalue,
             self._method_name)
 
 
@@ -303,30 +307,30 @@ class Change(object):
 
     def message_for_failed_should(self):
         if self._by is not None:
-            return 'result should have changed %s %s, but was changed by %s' %(
+            return 'result should have changed %s %r, but was changed by %r' %(
                 self._by.name, self._expected_difference, self._actual_difference)
         elif self._from_to:
-            return 'result should have changed from %s to %s, but was changed from %s to %s' % (
+            return 'result should have changed from %r to %r, but was changed from %r to %r' % (
                 self._from_value, self._to_value, self._before_result, self._after_result)
         elif self._only_to:
             if self._failure_on_to_initial_value:
-                return 'result should have been changed to %s, but is now %s' % (
+                return 'result should have been changed to %r, but is now %r' % (
                     self._to_value, self._before_result)
             else:
-                return 'result should have changed to %s, but was changed to %s' % (
+                return 'result should have changed to %r, but was changed to %r' % (
                     self._to_value, self._after_result)
         else:
-            return 'result should have changed, but is still %s' % (
+            return 'result should have changed, but is still %r' % (
                 self._before_result)
 
     def message_for_failed_should_not(self):
         if self._from_to:
-            return 'result should not have changed from %s to %s' % (
+            return 'result should not have changed from %r to %r' % (
                   self._from_value, self._to_value)
         elif self._only_to:
-            return 'result should not have changed to %s' % self._to_value
+            return 'result should not have changed to %r' % self._to_value
         else:
-            return 'should not have changed, but did change from %s to %s' % (
+            return 'should not have changed, but did change from %r to %r' % (
                 self._before_result, self._after_result)
 
     def by(self, difference):
@@ -414,7 +418,7 @@ def kind_of():
 
 @matcher
 def ended_with():
-    return (lambda x, y: x.endswith(y), "%s is %sended with %s")
+    return (lambda x, y: x.endswith(y), "%r is %sended with %r")
 
 @matcher
 def like():
