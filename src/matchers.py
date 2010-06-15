@@ -58,7 +58,7 @@ def check_exception(expected_exception, callable_and_possible_params):
 def be_thrown_by():
     return (check_exception, '%r is %sthrown by %r')
 
-@matcher
+
 class Throw:
 
     name = 'throw'
@@ -106,6 +106,8 @@ class Throw:
         if self._expected_message is not None:
             message += " with the message %r" % self._expected_message
         return "%s, but got it" % message
+
+Throw = matcher(Throw)
 
 
 @matcher
@@ -155,7 +157,6 @@ def equal_to_ignoring_case():
     return (lambda x, y: unicode(x, 'utf-8').lower() == unicode(y, 'utf-8').lower(), '%r is %sequal to %r ignoring case')
 
 
-@matcher
 class Have(object):
 
     name = 'have'
@@ -206,8 +207,9 @@ class Have(object):
     def _is_iterable(self, objekt):
         return hasattr(objekt, '__len__')
 
+Have = matcher(Have)
 
-@matcher
+
 class HaveAtLeast(Have):
 
     name = 'have_at_least'
@@ -215,8 +217,9 @@ class HaveAtLeast(Have):
     def _compare(self):
         return len(self._collection) >= self._count
 
+HaveAtLeast = matcher(HaveAtLeast)
 
-@matcher
+
 class HaveAtMost(Have):
 
     name = 'have_at_most'
@@ -224,8 +227,9 @@ class HaveAtMost(Have):
     def _compare(self):
         return len(self._collection) <= self._count
 
+HaveAtMost = matcher(HaveAtMost)
 
-@matcher
+
 class RespondTo(object):
 
     name = 'respond_to'
@@ -246,8 +250,9 @@ class RespondTo(object):
         return "expected %r not to respond to %r" % (self._lvalue,
             self._method_name)
 
+RespondTo = matcher(RespondTo)
 
-@matcher
+
 class CloseTo(object):
 
     name = 'close_to'
@@ -268,8 +273,9 @@ class CloseTo(object):
         return "expected not to be close to %s (within +/- %s), got %s" % (
             self._expected, self._delta, self._actual)
 
+CloseTo = matcher(CloseTo)
 
-@matcher
+
 class Change(object):
 
     name = 'change'
@@ -371,6 +377,7 @@ class Change(object):
             self.name = ('by ' + name).strip()
             self.comparison = comparison
 
+Change = matcher(Change)
 
 
 

@@ -431,7 +431,7 @@ Checks if an object has a given attribute or method.
 
 ::
 
-    >>> 1.1 |should| respond_to('real')
+    >>> 'some string' |should| respond_to('startswith')
     True
 
     >>> class Foo:
@@ -508,8 +508,7 @@ If your custom matcher has a more complex behaviour, or if both should and shoul
 Below is an example of the square root matcher defined as a class::
 
     >>> import math
-    >>> @matcher
-    ... class SquareRoot(object):
+    >>> class SquareRoot(object):
     ...
     ...     name = 'be_the_square_root_of'
     ...
@@ -530,6 +529,8 @@ Below is an example of the square root matcher defined as a class::
     ...         return 'expected %s not to be the square root of %s' % (
     ...             self._actual, self._radicand)
     ...
+    >>> matcher(SquareRoot)
+    <class ...SquareRoot...>
     >>> 3 |should| be_the_square_root_of(9)
     True
     >>> 4 |should| be_the_square_root_of(9)
@@ -542,6 +543,19 @@ Below is an example of the square root matcher defined as a class::
     Traceback (most recent call last):
     ...
     ShouldNotSatisfied: expected 2 not to be the square root of 4
+
+
+PS.: If you use Python2.6 you can use the class decorator (just a syntax sugar)::
+    
+    @matcher
+    class SquareRoot(object):
+        # the same body here
+
+    instead of 
+    
+    class SquareRoot(object):
+        # body
+    matcher(SquareRoot)
 
 
 A matcher class must fill the following requirements:

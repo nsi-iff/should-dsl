@@ -1,8 +1,7 @@
 >>> from should_dsl import should, should_not, matcher
 
 >>> import math
->>> @matcher
-... class SquareRootMatcher(object):
+>>> class SquareRootMatcher(object):
 ...     name = 'be_the_square_root_of'
 ...     def __call__(self, arg):
 ...         self._arg = arg
@@ -16,6 +15,8 @@
 ...     def message_for_failed_should_not(self):
 ...         return "expected %s not be the square root of %s, but it is" % (
 ...                     self._lvalue, self._arg)
+...
+>>> SquareRootMatcher = matcher(SquareRootMatcher)
 
 >>> 3 |should| be_the_square_root_of(9)
 True
@@ -35,24 +36,26 @@ ShouldNotSatisfied: expected 4 not be the square root of 16, but it is
 
 
 If a matcher class has a constructor, it must have no other parameters than self
->>> @matcher
-... class ParemeterizedInit(object):
+>>> class ParameterizedInit(object):
 ...     name = 'anything'
 ...     def __init__(self, lvalue): pass
 ...     def __call__(self): return self
 ...     def match(self): return True
 ...     def message_for_failed_should(self): return ""
 ...     def message_for_failed_should_not(self): return ""
+...
+>>> ParameterizedInit = matcher(ParameterizedInit)
 Traceback (most recent call last):
     ...
 TypeError: matcher class constructor cannot have arguments
 
 Other TypeError exceptions on constructors behave normally:
->>> @matcher
-... class AnotherOne(object):
+>>> class AnotherOne(object):
 ...     name = 'another one'
 ...     def __init__(self):
 ...         1 + 'a'
+...
+>>> AnotherOne = matcher(AnotherOne)
 Traceback (most recent call last):
     ...
 TypeError: unsupported operand type(s) for ...
