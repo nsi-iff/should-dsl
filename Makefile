@@ -1,8 +1,10 @@
+PYTHON=python
+
 all: install test
 
 install:
-	python setup.py install
+	$(PYTHON) setup.py install
 
 
 test:
-	python run_all_examples.py
+	$(PYTHON) run_all_examples.py
