@@ -1,7 +1,11 @@
+try:
+    import setuptools
+except ImportError:
+    from ez_setup import use_setuptools
+    use_setuptools()
 from setuptools import setup, find_packages
-import sys, os
 
-version = '2.0a1'
+version = '2.0a2'
 
 readme = open('README.rst').read()
 
