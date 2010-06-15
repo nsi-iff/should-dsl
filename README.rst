@@ -142,6 +142,10 @@ Verifies if an object is of a given type.
     >>> Bar() |should| be_kind_of(Foo)
     True
 
+**be_instance_of**
+
+Like be_kind_of, but it uses *instance* word.
+
 
 **be_like**
 
