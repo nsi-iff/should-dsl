@@ -258,7 +258,7 @@ If the function or method has parameters, it must be called within a lambda or u
 And, finally, *change* supports specifying the initial and final values or only the final one::
 
     >>> box.clear()
-    >>> (box.add_items, 1, 2, 3) |should| change(box.item_count)._from(0).to(3)
+    >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).from_(0).to(3)
     True
     >>> box.clear |should| change(box.item_count).to(0)
     True
@@ -546,13 +546,13 @@ Below is an example of the square root matcher defined as a class::
 
 
 PS.: If you use Python2.6 you can use the class decorator (just a syntax sugar)::
-    
+
     @matcher
     class SquareRoot(object):
         # the same body here
 
-    instead of 
-    
+    instead of
+
     class SquareRoot(object):
         # body
     matcher(SquareRoot)

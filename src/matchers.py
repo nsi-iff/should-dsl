@@ -354,7 +354,7 @@ class Change(object):
         self._by = Change._By(lambda exp_dif, act_dif: act_dif <= exp_dif, 'at most')
         return self
 
-    def _from(self, from_value):
+    def from_(self, from_value):
         self._from_value = from_value
         self._from_to = True
         return self
