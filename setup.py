@@ -5,7 +5,7 @@ except ImportError:
     use_setuptools()
 from setuptools import setup, find_packages
 
-version = '2.0a2'
+version = '2.0a3'
 
 readme = open('README.rst').read()
 
