@@ -183,7 +183,7 @@ class _PredicateMatcher(object):
             self._display_verb(self._attr_name))
 
     def _is_method(self, objekt):
-        return hasattr(objekt, 'im_func')
+        return (hasattr(objekt, 'im_func') or hasattr(objekt, '__func__'))
 
     def _display_attr(self, attr_name):
         if self._is_method(getattr(self._value, attr_name)):
