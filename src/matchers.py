@@ -1,42 +1,53 @@
-from should_dsl import matcher
 import re
+import sys
+from should_dsl import matcher
 from decimal import Decimal
+
 
 @matcher
 def be():
     return (lambda x, y: x is y, "%r is %s%r")
 
+
 @matcher
 def include():
     return (lambda container, item: item in container, "%r does %sinclude %r")
+
 
 @matcher
 def contain():
     return (lambda container, item: item in container, "%r does %scontain %r")
 
+
 @matcher
 def equal_to():
     return (lambda x, y: x == y, '%r is %sequal to %r')
+
 
 @matcher
 def be_into():
     return (lambda item, container: item in container, '%r is %sinto %r')
 
+
 @matcher
 def be_greater_than():
     return (lambda x, y: x > y, '%r is %sgreater than %r')
+
 
 @matcher
 def be_greater_than_or_equal_to():
     return (lambda x, y: x >= y, '%r is %sgreater than or equal to %r')
 
+
 @matcher
 def be_less_than():
     return (lambda x, y: x < y, '%r is %sless than %r')
 
+
 @matcher
 def be_less_than_or_equal_to():
     return (lambda x, y: x <= y, '%r is %sless than or equal to %r')
+
 
 def check_exception(expected_exception, callable_and_possible_params):
     if getattr(callable_and_possible_params, '__getitem__', False):
@@ -53,6 +64,7 @@ def check_exception(expected_exception, callable_and_possible_params):
         return True
     except Exception:
         return False
+
 
 @matcher
 def be_thrown_by():
@@ -107,7 +119,7 @@ class Throw:
             message += " with the message %r" % self._expected_message
         return "%s, but got it" % message
 
-Throw = matcher(Throw)
+matcher(Throw)
 
 
 @matcher
@@ -119,9 +131,11 @@ def include_in_any_order():
         return True
     return (contains_in_any_order, "%r does %sinclude in any order %r")
 
+
 @matcher
 def include_all_of():
     return (include_in_any_order()[0], "%r does %sinclude all of %r")
+
 
 @matcher
 def include_any_of():
@@ -132,25 +146,31 @@ def include_any_of():
         return False
     return (include_any_of_func, "%r does %sinclude any of %r")
 
+
 @matcher
 def be_kind_of():
     return (lambda obj, kind: isinstance(obj, kind), "%r is %s a kind of %r")
+
 
 @matcher
 def be_instance_of():
     return (lambda obj, kind: isinstance(obj, kind), "%r is %s an instance of %r")
 
+
 @matcher
 def start_with():
     return (lambda x, y: x.startswith(y), "%r does %sstart with %r")
+
 
 @matcher
 def end_with():
     return (lambda x, y: x.endswith(y), "%r does %send with %r")
 
+
 @matcher
 def be_like():
     return (lambda string, regex: re.match(regex, string) is not None, '%r is %slike %r')
+
 
 @matcher
 def equal_to_ignoring_case():
@@ -207,7 +227,7 @@ class Have(object):
     def _is_iterable(self, objekt):
         return hasattr(objekt, '__len__')
 
-Have = matcher(Have)
+matcher(Have)
 
 
 class HaveAtLeast(Have):
@@ -217,7 +237,8 @@ class HaveAtLeast(Have):
     def _compare(self):
         return len(self._collection) >= self._count
 
-HaveAtLeast = matcher(HaveAtLeast)
+
+matcher(HaveAtLeast)
 
 
 class HaveAtMost(Have):
@@ -227,7 +248,7 @@ class HaveAtMost(Have):
     def _compare(self):
         return len(self._collection) <= self._count
 
-HaveAtMost = matcher(HaveAtMost)
+matcher(HaveAtMost)
 
 
 class RespondTo(object):
@@ -250,7 +271,7 @@ class RespondTo(object):
         return "expected %r not to respond to %r" % (self._lvalue,
             self._method_name)
 
-RespondTo = matcher(RespondTo)
+matcher(RespondTo)
 
 
 class CloseTo(object):
@@ -273,7 +294,7 @@ class CloseTo(object):
         return "expected not to be close to %s (within +/- %s), got %s" % (
             self._expected, self._delta, self._actual)
 
-CloseTo = matcher(CloseTo)
+matcher(CloseTo)
 
 
 class Change(object):
@@ -313,7 +334,7 @@ class Change(object):
 
     def message_for_failed_should(self):
         if self._by is not None:
-            return 'result should have changed %s %r, but was changed by %r' %(
+            return 'result should have changed %s %r, but was changed by %r' % (
                 self._by.name, self._expected_difference, self._actual_difference)
         elif self._from_to:
             return 'result should have changed from %r to %r, but was changed from %r to %r' % (
@@ -377,9 +398,7 @@ class Change(object):
             self.name = ('by ' + name).strip()
             self.comparison = comparison
 
-Change = matcher(Change)
-
-
+matcher(Change)
 
 
 # matchers for backwards compatibility
@@ -387,47 +406,57 @@ Change = matcher(Change)
 def into():
     return be_into()
 
+
 @matcher
 def greater_than():
     return be_greater_than()
+
 
 @matcher
 def greater_than_or_equal_to():
     return be_greater_than_or_equal_to()
 
+
 @matcher
 def less_than():
     return be_less_than()
+
 
 @matcher
 def less_than_or_equal_to():
     return be_less_than_or_equal_to()
 
+
 @matcher
 def thrown_by():
     return be_thrown_by()
+
 
 @matcher
 def in_any_order():
     return include_in_any_order()
 
+
 @matcher
 def all_of():
     return include_all_of()
+
 
 @matcher
 def any_of():
     return include_any_of()
 
+
 @matcher
 def kind_of():
     return be_kind_of()
+
 
 @matcher
 def ended_with():
     return (lambda x, y: x.endswith(y), "%r is %sended with %r")
 
+
 @matcher
 def like():
     return be_like()
-
