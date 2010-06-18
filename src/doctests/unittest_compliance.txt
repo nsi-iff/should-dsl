@@ -22,5 +22,5 @@
 >>> runner = unittest.TextTestRunner(stream=devnull)
 >>> suite = unittest.TestLoader().loadTestsFromTestCase(UsingShouldExample)
 >>> runner.run(suite)
-<unittest._TextTestResult run=5 errors=0 failures=2>
+<unittest...TextTestResult run=5 errors=0 failures=2>
 >>> devnull.close()
