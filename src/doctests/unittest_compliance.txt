@@ -1,5 +1,6 @@
 >>> from should_dsl import *
 >>> import unittest
+>>> import os
 
 >>> class UsingShouldExample(unittest.TestCase):
 ...     def test_showing_should_not_be_works(self):
@@ -17,9 +18,9 @@
 ...     def test_showing_should_not_have_works(self):
 ...         ["that's", 'all', 'folks'] |should_not| include('that')
 
->>> from cStringIO import StringIO
->>> runner = unittest.TextTestRunner(stream=StringIO())
+>>> devnull = open(os.devnull, 'w')
+>>> runner = unittest.TextTestRunner(stream=devnull)
 >>> suite = unittest.TestLoader().loadTestsFromTestCase(UsingShouldExample)
 >>> runner.run(suite)
 <unittest._TextTestResult run=5 errors=0 failures=2>
-
+>>> devnull.close()
