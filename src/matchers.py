@@ -177,11 +177,12 @@ def be_like():
 @matcher
 def equal_to_ignoring_case():
     try:
-        import __builtin__
-    except ImportError:
-        import builtins
-        builtins.unicode = builtins.bytes
-    return (lambda x, y: unicode(x, 'utf-8').lower() == unicode(y, 'utf-8').lower(), '%r is %sequal to %r ignoring case')
+        unicode
+        lower = lambda x: unicode(x, 'utf-8').lower()
+    except NameError:
+        # py3k is unicode by default
+        lower = lambda x: x.lower()
+    return (lambda x, y: lower(x) == lower(y), '%r is %sequal to %r ignoring case')
 
 
 class Have(object):
