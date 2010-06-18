@@ -1,6 +1,6 @@
 import re
 import sys
-from should_dsl import matcher
+from .should_dsl import matcher
 from decimal import Decimal
 
 
@@ -91,13 +91,15 @@ class Throw:
             lvalue(*args)
             self._actual_exception = None
             return False
-        except self._expected_exception, e:
+        except self._expected_exception:
+            e = sys.exc_info()[1]
             self._actual_exception = self._expected_exception
             if self._expected_message is None:
                 return True
             self._actual_message = str(e)
             return self._actual_message == self._expected_message
-        except Exception, e:
+        except Exception:
+            e = sys.exc_info()[1]
             self._actual_exception = e.__class__
             return False
 
@@ -174,6 +176,11 @@ def be_like():
 
 @matcher
 def equal_to_ignoring_case():
+    try:
+        import __builtin__
+    except ImportError:
+        import builtins
+        builtins.unicode = builtins.bytes
     return (lambda x, y: unicode(x, 'utf-8').lower() == unicode(y, 'utf-8').lower(), '%r is %sequal to %r ignoring case')
 
 
@@ -386,10 +393,10 @@ class Change(object):
         return self
 
     def _to_callable(self, objekt):
-        if callable(objekt):
+        if hasattr(objekt, '__call__'):
             return objekt
         type_error_message = 'parameter passed to change must be a callable or a iterable having a callable as its first element'
-        if not getattr(objekt, '__getitem__', False) or not callable(objekt[0]):
+        if not getattr(objekt, '__getitem__', False) or not hasattr(objekt[0], '__call__'):
             raise TypeError(type_error_message)
         return lambda *params: objekt[0](*objekt[1:])
 
