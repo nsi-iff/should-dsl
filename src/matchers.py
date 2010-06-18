@@ -1,7 +1,7 @@
 import re
 import sys
-from .should_dsl import matcher
 from decimal import Decimal
+from .should_dsl import matcher
 
 
 @matcher
@@ -202,7 +202,8 @@ class Have(object):
         if hasattr(self._lvalue, self._collection_name):
             self._collection = getattr(self._lvalue, self._collection_name)
             if not self._is_iterable(self._collection):
-                if hasattr(self._collection, 'im_func'):
+                if (hasattr(self._collection, 'im_func') or
+                    hasattr(self._collection, '__func__')): # py3k
                     self._collection = self._collection()
                     if not self._is_iterable(self._collection):
                         raise TypeError("target's '%s()' does not return an iterable" % self._collection_name)
