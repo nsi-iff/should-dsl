@@ -76,8 +76,12 @@ class Throw:
     name = 'throw'
 
     def __call__(self, exception, message=None):
-        self._expected_exception = exception
-        self._expected_message = message
+        if message is None and isinstance(exception, Exception):
+            self._expected_message = str(exception)
+            self._expected_exception = exception.__class__
+        else:
+            self._expected_exception = exception
+            self._expected_message = message
         return self
 
     def match(self, lvalue):

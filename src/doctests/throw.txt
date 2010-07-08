@@ -35,7 +35,15 @@ True
 >>> (raise_foo, 'cool! it works!') |should| throw(Foo, message='cool! it works!')
 True
 
+>>> (raise_foo, 'cool! it works! blé') |should| throw(Foo('cool! it works! blé'))
+True
+
 >>> (lambda: raise_foo('what a pro!')) |should| throw(Foo, message='cool! it works!')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected to throw 'Foo' with the message 'cool! it works!', got 'Foo' with 'what a pro!'
+
+>>> (lambda: raise_foo('what a pro!')) |should| throw(Foo('cool! it works! blé'))
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: expected to throw 'Foo' with the message 'cool! it works!', got 'Foo' with 'what a pro!'

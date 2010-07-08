@@ -176,13 +176,19 @@ Checks if a given piece of code raises an arbitrary exception.
 
 ::
 
-    >>> def foo(): raise TypeError("Hey, it's cool!")
-    >>> foo |should| throw(TypeError, message="Hey, it's cool!")
+    >>> def foo():
+    ...     raise TypeError("Hey, it's cool!")
+    >>> foo |should| throw(TypeError("Hey, it's cool!"))
     True
-    >>> foo |should| throw(TypeError, message="This won't work...")
+    >>> foo |should| throw(TypeError("This won't work..."))
     Traceback (most recent call last):
     ...
     ShouldNotSatisfied: expected to throw 'TypeError' with the message "This won't work...", got 'TypeError' with "Hey, it's cool!"
+    >>>
+
+    Or you can use ``message`` parameter to throw, like
+    >>> foo |should| throw(TypeError, message= "Hey, it's cool!")
+    True
 
 
 If the function or method has parameters, it must be called within a lambda or using a tuple. The following ways are both equivalent::
