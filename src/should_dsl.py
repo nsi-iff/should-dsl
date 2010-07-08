@@ -1,6 +1,11 @@
 import sys
+import re
 from types import FunctionType
 from . import native_matchers
+
+
+_predicate_regexes = set()
+
 
 class Should(object):
 
@@ -93,10 +98,17 @@ class Should(object):
             f_globals[matcher_name] = matcher_function()
 
     def _put_predicate_matchers_on_namespace(self, f_globals):
-        attr_names = [attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
-        for attr_name in attr_names:
-            matcher = _PredicateMatcher(attr_name)
-            f_globals['be_' + attr_name] = matcher
+        attr_and_matcher_names = []
+        for attr_name in dir(self._lvalue):
+            if not attr_name.startswith('_'):
+                attr_and_matcher_names.append((attr_name, attr_name))
+            for regex in _predicate_regexes:
+                r = re.match(regex, attr_name)
+                if r:
+                    attr_and_matcher_names.append((r.group(1), attr_name))
+        for attr_name, matcher_name in attr_and_matcher_names:
+            f_globals['be_' + attr_name] = _PredicateMatcher(matcher_name)
+
 
     def _destroy_function_matchers(self):
         f_globals = sys._getframe(2).f_globals
@@ -223,6 +235,11 @@ def matcher(matcher_object):
     for should_object in should_objects:
         should_object.add_matcher(matcher_object)
     return matcher_object
+
+
+def add_predicate_regex(regex):
+    _predicate_regexes.update([regex])
+
 
 from . import matchers
 
