@@ -4,7 +4,7 @@ Should-DSL: Improve readability for should-style expectations
 
 The goal of *Should-DSL* is to write should expectations in Python as clear and readable as possible, using **"almost"** natural language (limited - sometimes - by the Python language constraints).
 
-For using this DSL, you need to import ``should`` and ``should_not`` objects from ``should_dsl`` module, or import everything from ``should_dsl``.
+In order to use this DSL, you need to import ``should`` and ``should_not`` objects from ``should_dsl`` module.
 
 For example::
 
@@ -50,7 +50,7 @@ A nice example of exceptions would be::
 Deprecated usage
 ================
 
-All Should-DSL releases before 2.0 are now deprecated, but we still support the old style, but it will be removed soon and we discourage you to use the old style. Old style usage like::
+All Should-DSL releases **before 2.0** uses a deprecated style, although we still support this old style, it will be dropped soon and we discourage you to use that style. Old style usage like::
 
     >>> 3 |should_not.equal_to| 2.99
     True
@@ -61,13 +61,14 @@ should be written as::
     True
 
 
-Besides, ``should_dsl`` module offers ``should_be``, ``should_have`` (and their negative counterparts) to be used with no matchers - all old styles -, as::
+``should_dsl`` module offers ``should_be``, ``should_have`` and their negative counterparts to be used with no matchers - but all old style::
 
-    >>> from should_dsl import *
+    >>> from should_dsl import should_be, should_have
 
     >>> [1, 2] |should_have| 1
     True
     >>> 1 |should_be| 1
     True
 
-This syntax for writing expectations was changed because the requirement to have a single "right value" had been a limition to right new matchers and add new enhancements to Should-DSL and you should update the code you use the old style, because we plan to remove them soon.
+
+This new syntax for writing expectations has been changed because the requirement to have a single "right value" had been a limition to write new matchers and add other enhancements to Should-DSL and you should update the code that uses old style, because we plan to remove them soon.
