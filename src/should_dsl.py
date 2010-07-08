@@ -98,16 +98,16 @@ class Should(object):
             f_globals[matcher_name] = matcher_function()
 
     def _put_predicate_matchers_on_namespace(self, f_globals):
-        attr_and_matcher_names = []
+        predicate_and_matcher_names = []
         for attr_name in dir(self._lvalue):
             if not attr_name.startswith('_'):
-                attr_and_matcher_names.append((attr_name, attr_name))
+                predicate_and_matcher_names.append((attr_name, attr_name))
             for regex in _predicate_regexes:
                 r = re.match(regex, attr_name)
                 if r:
-                    attr_and_matcher_names.append((r.group(1), attr_name))
-        for attr_name, matcher_name in attr_and_matcher_names:
-            f_globals['be_' + attr_name] = _PredicateMatcher(matcher_name)
+                    predicate_and_matcher_names.append((r.group(1), attr_name))
+        for predicate_name, matcher_name in predicate_and_matcher_names:
+            f_globals['be_' + predicate_name] = _PredicateMatcher(matcher_name)
 
 
     def _destroy_function_matchers(self):
