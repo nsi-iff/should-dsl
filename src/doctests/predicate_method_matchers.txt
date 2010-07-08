@@ -1,4 +1,4 @@
->>> from should_dsl import should, should_not
+>>> from should_dsl import should, should_not, add_predicate_regex
 
 >>> class Foo(object):
 ...     def always_true(self):
@@ -54,3 +54,11 @@ Traceback (most recent call last):
     ...
 ShouldNotSatisfied: expected a_kind_of('craziness', 'wasting of time', 'buzzword') to return True, got False
 
+
+
+>>> add_predicate_regex(r'is_really_(.+)')
+>>> class Integer(int):
+...     def is_really_positive(self):
+...         return self >= 0
+>>> Integer(10) |should| be_positive
+True

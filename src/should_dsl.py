@@ -99,15 +99,18 @@ class Should(object):
 
     def _put_predicate_matchers_on_namespace(self, f_globals):
         predicate_and_matcher_names = []
+        public_names = self._get_all_public_attr_names(self._lvalue)
         for attr_name in dir(self._lvalue):
-            if not attr_name.startswith('_'):
-                predicate_and_matcher_names.append((attr_name, attr_name))
             for regex in _predicate_regexes:
                 r = re.match(regex, attr_name)
                 if r:
                     predicate_and_matcher_names.append((r.group(1), attr_name))
+        predicate_and_matcher_names += [(attr_name, attr_name) for attr_name in public_names]
         for predicate_name, matcher_name in predicate_and_matcher_names:
             f_globals['be_' + predicate_name] = _PredicateMatcher(matcher_name)
+
+    def _get_all_public_attr_names(self, obj):
+        return [attr_name for attr_name in dir(obj) if not attr_name.startswith('_')]
 
 
     def _destroy_function_matchers(self):

@@ -69,9 +69,10 @@ True
 'hey, i exist!!'
 
 
+
 >>> add_predicate_regex(r'is_really_(.+)')
 >>> class Integer(int):
-...     def is_really_positive(self):
-...         return self >= 0
+...     def __init__(self, value):
+...         self.is_really_positive = value >= 0
 >>> Integer(10) |should| be_positive
 True
