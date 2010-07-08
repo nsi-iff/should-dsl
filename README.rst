@@ -489,6 +489,22 @@ Predicate matchers also work with methods::
     ShouldNotSatisfied: expected made_of('stone') to return True, got False
 
 
+And it is possible to customize how Should-DSL find matchers, using ``add_predicate_regex``::
+
+    >>> from should_dsl import add_predicate_regex
+    >>>
+    >>> add_predicate_regex(r'is_really_(.+)')
+    >>>
+    >>> class Integer(object):
+    ...     def __init__(self, value):
+    ...         self.is_really_positive = value >= 0
+    >>>
+    >>> Integer(10) |should| be_positive
+    True
+
+This last example tells Should-DSL when someone uses ``be_SOMENAME``,
+it should look for attribute or method named ``is_really_SOMENAME``.
+
 Custom matchers
 ---------------
 
