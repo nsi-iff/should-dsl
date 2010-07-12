@@ -9,10 +9,8 @@
 ...         self.field = Field(number_of_players)
 
 >>> Game(10) |should| have(10).players_on_field
-True
 
 >>> Game(10) |should_not| have(11).players_on_field
-True
 
 >>> Game(10) |should| have(11).players_on_field
 Traceback (most recent call last):
@@ -23,7 +21,6 @@ ShouldNotSatisfied: expected 11 'players on field', got 10
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: expected target not to have 10 'players on field', got 10
-
 
 
 
@@ -44,10 +41,8 @@ ShouldNotSatisfied: expected target not to have 10 'players on field', got 10
 
 
 >>> Game(10) |should| have(10).players_on_field
-True
 
 >>> Game(10) |should_not| have(11).players_on_field
-True
 
 >>> Game(10) |should| have(11).players_on_field
 Traceback (most recent call last):

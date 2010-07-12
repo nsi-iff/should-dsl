@@ -3,13 +3,13 @@
 >>> from should_dsl import *
 
 >>> "I'm specifying it" |should| equal_to_ignoring_case("I'M SPECIFYING it")
-True
+
 >>> "I" |should| equal_to_ignoring_case("i")
-True
+
 >>> "i" |should| equal_to_ignoring_case("I")
-True
+
 >>> "I" |should| equal_to_ignoring_case("I")
-True
+
 
 >>> "I" |should| equal_to_ignoring_case("wi")
 Traceback (most recent call last):
@@ -22,5 +22,4 @@ Traceback (most recent call last):
 ShouldNotSatisfied: 'I' is not equal to 'iw' ignoring case
 
 >>> "Atenção" |should| equal_to_ignoring_case("ATENÇÃO")
-True
 

@@ -40,10 +40,9 @@ class Should(object):
     def _check_expectation(self):
         if not self._evaluate(self._rvalue.match(self._lvalue)):
             raise ShouldNotSatisfied(self._negate and self._rvalue.message_for_failed_should_not() or self._rvalue.message_for_failed_should())
-        return True
 
     def add_matcher(self, matcher_object):
-        if (hasattr(matcher_object, 'func_name') or 
+        if (hasattr(matcher_object, 'func_name') or
             isinstance(matcher_object, FunctionType)):
             func, message = matcher_object()
             class GeneratedMatcher(object):
@@ -111,7 +110,6 @@ class Should(object):
 
     def _get_all_public_attr_names(self, obj):
         return [attr_name for attr_name in dir(obj) if not attr_name.startswith('_')]
-
 
     def _destroy_function_matchers(self):
         f_globals = sys._getframe(2).f_globals
@@ -217,6 +215,7 @@ class _PredicateMatcher(object):
 
     def _has_param(self):
         return hasattr(self, '_params')
+
 
 class ShouldNotSatisfied(AssertionError):
     '''Extends AssertionError for unittest compatibility'''

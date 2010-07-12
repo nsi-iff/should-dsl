@@ -1,14 +1,13 @@
 >>> from should_dsl import *
 
 >>> 1 |should| be_into([1,2,3])
-True
+
 >>> 1 |should_not| be_into([1,2,3])
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: 1 is into [1, 2, 3]
 
 >>> 5 |should_not| be_into([1,2,3])
-True
 
 >>> 'a' |should| be_into(['b', 'c'])
 Traceback (most recent call last):

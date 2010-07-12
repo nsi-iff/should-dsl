@@ -1,7 +1,7 @@
 >>> from should_dsl import *
 
 >>> 'Hello World' |should| be_like(r'Hello W.+')
-True
+
 >>> '123 is a number' |should| be_like(r'^[12]+ is a number')
 Traceback (most recent call last):
     ...

@@ -9,7 +9,6 @@
 ...         return len(self.wheels)
 
 >>> Car([1, 2, 3, 4]) |should| have(4).wheels
-True
 
 >>> Car ([1, 2, 3]) |should| have(4).wheels
 Traceback (most recent call last):
@@ -17,7 +16,6 @@ Traceback (most recent call last):
 ShouldNotSatisfied: expected 4 'wheels', got 3
 
 >>> Car([1, 2, 3, 4]) |should_not| have(5).wheels
-True
 
 >>> Car ([1, 2]) |should_not| have(2).wheels
 Traceback (most recent call last):
@@ -43,7 +41,6 @@ Traceback (most recent call last):
 TypeError: target's 'wheels' is not an iterable
 
 >>> Car([1, 2, 3, 4]) |should| have(4).wild_wheels
-True
 
 >>> Car([1, 2, 3, 4]) |should| have(4).broken_wheels
 Traceback (most recent call last):

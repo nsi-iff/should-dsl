@@ -1,16 +1,17 @@
 >>> from should_dsl import *
 
 >>> 1 |should| equal_to(1)
-True
+
 >>> 2 |should| equal_to(3)
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: 2 is not equal to 3
+
 >>> 1 |should_not| equal_to(2)
-True
+
 >>> name = 'dsl'
 >>> name |should| equal_to('dsl')
-True
+
 >>> name |should_not| equal_to('dsl')
 Traceback (most recent call last):
     ...

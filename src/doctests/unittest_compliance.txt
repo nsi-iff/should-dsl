@@ -24,3 +24,4 @@
 >>> runner.run(suite)
 <unittest...TextTestResult run=5 errors=0 failures=2>
 >>> devnull.close()
+

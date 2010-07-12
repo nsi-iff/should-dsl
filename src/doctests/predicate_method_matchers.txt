@@ -15,10 +15,8 @@
 ...         return '<foo object>'
 
 >>> Foo() |should_not| be_always_false
-True
 
 >>> Foo() |should| be_always_true
-True
 
 >>> Foo() |should| be_always_false
 Traceback (most recent call last):
@@ -31,10 +29,8 @@ Traceback (most recent call last):
 ShouldNotSatisfied: expected always_true() to return False, got True
 
 >>> Foo() |should| be_face_of('banana')
-True
 
 >>> Foo() |should_not| be_face_of('pineapple')
-True
 
 >>> Foo() |should| be_face_of('pineapple')
 Traceback (most recent call last):
@@ -42,7 +38,6 @@ Traceback (most recent call last):
 ShouldNotSatisfied: expected face_of('pineapple') to return True, got False
 
 >>> Foo() |should| be_head_of('rotten', 'apple')
-True
 
 >>> Foo() |should| be_head_of('fair', 'apple')
 Traceback (most recent call last):
@@ -61,4 +56,4 @@ ShouldNotSatisfied: expected a_kind_of('craziness', 'wasting of time', 'buzzword
 ...     def is_really_positive(self):
 ...         return self >= 0
 >>> Integer(10) |should| be_positive
-True
+
