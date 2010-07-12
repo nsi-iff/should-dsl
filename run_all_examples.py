@@ -3,7 +3,7 @@ import unittest
 import os
 import sys
 
-flags = doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS|doctest.IGNORE_EXCEPTION_DETAIL
+flags = doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
 
 if __name__ == '__main__':
     doctests_path = os.path.join(os.path.dirname(__file__),  'src', 'doctests')
