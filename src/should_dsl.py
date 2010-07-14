@@ -1,6 +1,11 @@
 import sys
+import re
 from types import FunctionType
 from . import native_matchers
+
+
+_predicate_regexes = set()
+
 
 class Should(object):
 
@@ -35,10 +40,9 @@ class Should(object):
     def _check_expectation(self):
         if not self._evaluate(self._rvalue.match(self._lvalue)):
             raise ShouldNotSatisfied(self._negate and self._rvalue.message_for_failed_should_not() or self._rvalue.message_for_failed_should())
-        return True
 
     def add_matcher(self, matcher_object):
-        if (hasattr(matcher_object, 'func_name') or 
+        if (hasattr(matcher_object, 'func_name') or
             isinstance(matcher_object, FunctionType)):
             func, message = matcher_object()
             class GeneratedMatcher(object):
@@ -93,10 +97,19 @@ class Should(object):
             f_globals[matcher_name] = matcher_function()
 
     def _put_predicate_matchers_on_namespace(self, f_globals):
-        attr_names = [attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
-        for attr_name in attr_names:
-            matcher = _PredicateMatcher(attr_name)
-            f_globals['be_' + attr_name] = matcher
+        predicate_and_matcher_names = []
+        public_names = self._get_all_public_attr_names(self._lvalue)
+        for attr_name in dir(self._lvalue):
+            for regex in _predicate_regexes:
+                r = re.match(regex, attr_name)
+                if r:
+                    predicate_and_matcher_names.append((r.group(1), attr_name))
+        predicate_and_matcher_names += [(attr_name, attr_name) for attr_name in public_names]
+        for predicate_name, matcher_name in predicate_and_matcher_names:
+            f_globals['be_' + predicate_name] = _PredicateMatcher(matcher_name)
+
+    def _get_all_public_attr_names(self, obj):
+        return [attr_name for attr_name in dir(obj) if not attr_name.startswith('_')]
 
     def _destroy_function_matchers(self):
         f_globals = sys._getframe(2).f_globals
@@ -203,6 +216,7 @@ class _PredicateMatcher(object):
     def _has_param(self):
         return hasattr(self, '_params')
 
+
 class ShouldNotSatisfied(AssertionError):
     '''Extends AssertionError for unittest compatibility'''
 
@@ -223,6 +237,11 @@ def matcher(matcher_object):
     for should_object in should_objects:
         should_object.add_matcher(matcher_object)
     return matcher_object
+
+
+def add_predicate_regex(regex):
+    _predicate_regexes.update([regex])
+
 
 from . import matchers
 

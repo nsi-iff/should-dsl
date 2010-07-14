@@ -19,7 +19,6 @@
 >>> SquareRootMatcher = matcher(SquareRootMatcher)
 
 >>> 3 |should| be_the_square_root_of(9)
-True
 
 >>> 1 |should| be_the_square_root_of(3)
 Traceback (most recent call last):
@@ -27,7 +26,6 @@ Traceback (most recent call last):
 ShouldNotSatisfied: expected 1 be the square root of 3, but it is not
 
 >>> 4 |should_not| be_the_square_root_of(11)
-True
 
 >>> 4 |should_not| be_the_square_root_of(16)
 Traceback (most recent call last):

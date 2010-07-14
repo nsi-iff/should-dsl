@@ -7,7 +7,6 @@
 >>> foo = Foo()
 
 >>> foo |should| be_kind_of(Foo)
-True
 
 >>> foo |should| be_kind_of(Bar)
 Traceback (most recent call last):

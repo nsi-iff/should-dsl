@@ -1,7 +1,6 @@
 >>> from should_dsl import *
 
 >>> [1, 2, 3] |should| include_any_of([1, 2])
-True
 
 >>> [1, 2, 3] |should| include_any_of([4, 5])
 Traceback (most recent call last):

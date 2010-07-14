@@ -1,4 +1,4 @@
->>> from should_dsl import should, should_not
+>>> from should_dsl import should, should_not, add_predicate_regex
 
 >>> class Foo(object):
 ...     def __init__(self, valid=True):
@@ -9,7 +9,6 @@
 ...         return '<foo object>'
 
 >>> Foo() |should| be_valid
-True
 
 >>> Foo() |should_not| be_valid
 Traceback (most recent call last):
@@ -22,10 +21,8 @@ Traceback (most recent call last):
 ShouldNotSatisfied: expected valid to be True, got False
 
 >>> Foo(False) |should_not| be_valid
-True
 
 >>> Foo() |should| be_sleeping
-True
 
 >>> Foo() |should_not| be_sleeping
 Traceback (most recent call last):
@@ -41,7 +38,6 @@ Traceback (most recent call last):
 NameError: name 'be_valid' is not defined
 
 >>> Foo() |should| be_valid
-True
 
 >>> be_valid
 Traceback (most recent call last):
@@ -64,7 +60,15 @@ NameError: name 'be__doing_some_private_things' is not defined
 
 >>> be_valid = 'hey, i exist!!'
 >>> Foo() |should| be_valid
-True
+
 >>> be_valid
 'hey, i exist!!'
+
+
+
+>>> add_predicate_regex(r'is_really_(.+)')
+>>> class Integer(int):
+...     def __init__(self, value):
+...         self.is_really_positive = value >= 0
+>>> Integer(10) |should| be_positive
 

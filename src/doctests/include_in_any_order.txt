@@ -1,7 +1,6 @@
 >>> from should_dsl import *
 
 >>> [1, 2, 3] |should| include_in_any_order([3, 1])
-True
 
 >>> [1, 2, 3] |should| include_in_any_order([3, 4])
 Traceback (most recent call last):
@@ -9,7 +8,6 @@ Traceback (most recent call last):
 ShouldNotSatisfied: [1, 2, 3] does not include in any order [3, 4]
 
 >>> [1, 2, 3] |should| include_in_any_order((3, 1))
-True
 
 >>> [1, 2, 3] |should| include_in_any_order((3, 4))
 Traceback (most recent call last):
@@ -17,7 +15,6 @@ Traceback (most recent call last):
 ShouldNotSatisfied: [1, 2, 3] does not include in any order (3, 4)
 
 >>> 'should' |should| include_in_any_order(('s', 'd', 'l'))
-True
 
 >>> 'should' |should| include_in_any_order(('h', 'a'))
 Traceback (most recent call last):

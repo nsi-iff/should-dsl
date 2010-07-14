@@ -1,10 +1,8 @@
 >>> from should_dsl import *
 
 >>> 1 |should| be(1)
-True
 
 >>> 1 |should_not| be(1.1)
-True
 
 >>> 'a' |should| be('b')
 Traceback (most recent call last):

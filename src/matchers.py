@@ -76,8 +76,12 @@ class Throw:
     name = 'throw'
 
     def __call__(self, exception, message=None):
-        self._expected_exception = exception
-        self._expected_message = message
+        if message is None and isinstance(exception, Exception):
+            self._expected_message = str(exception)
+            self._expected_exception = exception.__class__
+        else:
+            self._expected_exception = exception
+            self._expected_message = message
         return self
 
     def match(self, lvalue):
@@ -203,8 +207,7 @@ class Have(object):
         if hasattr(self._lvalue, self._collection_name):
             self._collection = getattr(self._lvalue, self._collection_name)
             if not self._is_iterable(self._collection):
-                if (hasattr(self._collection, 'im_func') or
-                    hasattr(self._collection, '__func__')): # py3k
+                if self._is_function(self._collection):
                     self._collection = self._collection()
                     if not self._is_iterable(self._collection):
                         raise TypeError("target's '%s()' does not return an iterable" % self._collection_name)
@@ -212,10 +215,40 @@ class Have(object):
                     raise TypeError("target's %r is not an iterable" % self._collection_name)
         elif self._is_iterable(self._lvalue):
             self._collection = self._lvalue
+        elif self._is_collection_through():
+            owned_by_owned, owned = self._collection_name.split('_on_')
+            owned_object = self._retrieve_owned_object(self._lvalue, owned)
+            owned_by_owned_object = self._retrieve_owned_object(owned_object, owned_by_owned)
+            if not self._is_iterable(owned_by_owned_object):
+                if self._is_function(getattr(owned_object, owned_by_owned)):
+                    raise TypeError("target's '%s()' does not return an iterable" % owned_by_owned)
+                else:
+                    raise TypeError("target's %r is not an iterable" % owned_by_owned)
+            self._collection = owned_by_owned_object
         else:
             raise TypeError("target does not have a %r collection, nor it is an iterable" % (
                 self._collection_name))
         return self._compare()
+
+    def _retrieve_owned_object(self, object_, owned):
+        owned_object = getattr(object_, owned)
+        if self._is_function(owned_object):
+            owned_object = owned_object()
+        return owned_object
+
+    def _is_function(self, object_):
+        return (hasattr(object_, 'im_func') or hasattr(object_, '__func__'))
+
+    def _is_collection_through(self):
+        splitted = self._collection_name.split('_on_')
+        if len(splitted) == 1:
+            return False
+        owned_by_owned, owned = splitted
+
+        if not hasattr(self._lvalue, owned):
+            return False
+        owned_object = self._retrieve_owned_object(self._lvalue, owned)
+        return hasattr(owned_object, owned_by_owned)
 
     def _compare(self):
         return self._count == len(self._collection)
@@ -469,3 +502,4 @@ def ended_with():
 @matcher
 def like():
     return be_like()
+

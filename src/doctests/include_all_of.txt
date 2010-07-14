@@ -1,7 +1,7 @@
 >>> from should_dsl import *
 
 >>> [1, 2, 3] |should| include_all_of([2, 3])
-True
+
 >>> [1, 2, 3] |should| include_all_of([3, 4])
 Traceback (most recent call last):
     ...

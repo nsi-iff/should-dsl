@@ -11,7 +11,6 @@
 >>> f = Foo()
 
 >>> f |should| respond_to('bar')
-True
 
 >>> f |should_not| respond_to('bar')
 Traceback (most recent call last):
@@ -24,8 +23,6 @@ Traceback (most recent call last):
 ShouldNotSatisfied: expected <...Foo ... at ...> to respond to 'unexisting_bar'
 
 >>> f |should| respond_to('_internal_bar')
-True
 
 >>> f |should| respond_to('_Foo__name_clashing_bar')
-True
 

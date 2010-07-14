@@ -13,24 +13,26 @@
 
 >>> box = Box()
 >>> (lambda: box.add_items(1)) |should| change(box.item_count)
-True
+
 >>> (lambda: box.add_items(1)) |should_not| change(box.item_count)
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: should not have changed, but did change from 1 to 2
+
 >>> (lambda: 0) |should| change(box.item_count)
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: result should have changed, but is still 2
+
 >>> (lambda: 0) |should_not| change(box.item_count)
-True
 
 >>> (box.add_items, 1) |should| change(box.item_count)
-True
+
 >>> (box.add_items, 1) |should| change(box.items)
 Traceback (most recent call last):
     ...
 TypeError: parameter passed to change must be a callable or a iterable having a callable as its first element
+
 >>> (1, box.add_items) |should| change(box.item_count)
 Traceback (most recent call last):
     ...
@@ -38,23 +40,24 @@ TypeError: parameter passed to change must be a callable or a iterable having a 
 
 
 >>> (lambda: box.add_items(1)) |should| change(box.item_count).by(1)
-True
+
 >>> (lambda: box.add_items(1)) |should| change(box.item_count).by(2)
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: result should have changed by 2, but was changed by 1
+
 >>> (lambda: 1) |should| change(box.item_count).by(0)
-True
+
 >>> box.clear()
 >>> box.add_items('a')
 >>> box.clear |should| change(box.item_count).by(-1)
-True
+
 
 
 >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_least(3)
-True
+
 >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_least(2)
-True
+
 >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_least(4)
 Traceback (most recent call last):
     ...
@@ -62,9 +65,9 @@ ShouldNotSatisfied: result should have changed by at least 4, but was changed by
 
 
 >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_most(3)
-True
+
 >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_most(4)
-True
+
 >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_most(2)
 Traceback (most recent call last):
     ...
@@ -73,13 +76,14 @@ ShouldNotSatisfied: result should have changed by at most 2, but was changed by 
 
 >>> box.clear()
 >>> (box.add_items, 3, 5, 7) |should| change(box.item_count).from_(0).to(3)
-True
+
 >>> box.clear |should| change(box.item_count).from_(3).to(0)
-True
+
 >>> (box.add_items, 3, 5, 7) |should| change(box.item_count).from_(0).to(2)
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: result should have changed from 0 to 2, but was changed from 0 to 3
+
 >>> box.clear |should_not| change(box.item_count).from_(3).to(0)
 Traceback (most recent call last):
     ...
@@ -87,24 +91,27 @@ ShouldNotSatisfied: result should not have changed from 3 to 0
 
 >>> box.add_items(1)
 >>> box.clear |should| change(box.item_count).to(0)
-True
+
 >>> (box.add_items, 3, 4) |should_not| change(box.item_count).to(3)
-True
+
 >>> box.clear |should_not| change(box.item_count).to(0)
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: result should not have changed to 0
+
 >>> box.clear |should| change(box.item_count).to(1)
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: result should have changed to 1, but was changed to 0
+
 >>> box.clear()
 >>> box.clear |should| change(box.item_count).to(0)
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: result should have been changed to 0, but is now 0
+
 >>> box.clear |should_not| change(box.item_count).to(0)
-True
+
 
 >>> box.clear()
 >>> box.add_items('a', 'b')

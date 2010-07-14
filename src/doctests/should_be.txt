@@ -1,10 +1,8 @@
 >>> from should_dsl import *
 
 >>> 1 |should_be| 1
-True
 
 >>> 1 |should_not_be| 1.1
-True
 
 >>> 1 |should_be| 2
 Traceback (most recent call last):
