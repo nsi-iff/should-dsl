@@ -342,6 +342,35 @@ Checks the element count of a given collection. It can work with iterables, requ
     >>> Foo() |should| have(10).pieces
 
 
+*have* supports the checking of element count of an iterable within an attribute of an object. This feature works for both attributes and functions.
+
+::
+
+    >>> class Team:
+    ...     def __init__(self, total_player_count, starting_count):
+    ...         self.players = range(total_player_count)
+    ...         self._starting_count = starting_count
+    ...     def starting_players(self):
+    ...         return self.players[0:self._starting_count]
+
+    >>> class Club:
+    ...     def __init__(self, team):
+    ...         self.team = team
+    ...     def winner_team(self):
+    ...         return self.team
+
+    >>> football_team = Team(22, 11)
+    >>> handball_team = Team(14, 7)
+    >>> flamengo = Club(football_team)
+    >>> metodista = Club(handball_team)
+
+    >>> flamengo |should| have(22).players_on_team
+    >>> flamengo |should| have(11).starting_players_on_winner_team
+
+    >>> metodista |should| have(14).players_on_winner_team
+    >>> metodista |should| have(7).starting_players_on_team
+
+
 **have_at_least**
 
 Same to *have*, but checking if the element count is greater than or equal to the given value. Works for collections with syntax sugar, object attributes or methods.
