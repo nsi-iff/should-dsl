@@ -29,6 +29,7 @@ setup(name='should_dsl',
       license='MIT License',
       packages=['should_dsl'],
       package_dir={'should_dsl': 'src'},
+      test_suite='run_all_examples.test_suite',
       install_requires=[],
       entry_points="",
       )

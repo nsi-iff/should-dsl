@@ -6,6 +6,6 @@ install:
 	$(PYTHON) setup.py install
 
 test:
-	$(PYTHON) run_all_examples.py
+	$(PYTHON) setup.py test
 
 .PHONY: install test
