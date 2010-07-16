@@ -475,8 +475,18 @@ Should-DSL supports predicate matchers::
 
     >>> Foo() |should| be_valid
 
-Besides ``SOMENAME``, Should-DSL also supports ``is_SOMENAME``
-and ``isSOMENAME`` as standard.
+By default predicate matchers look for the exact attribute/metod name.
+In the previous example, it looks for ``valid`` attribute or method.
+Should-DSL looks for ``is_valid`` and ``isvalid`` if ``valid`` was not found.
+
+::
+
+    >>> class Integer(int):
+    ...     def __init__(self, value):
+    ...         self.is_negative = value < 0
+    ...         self.isodd = (value % 2 == 1) 
+    >>> Integer(-1) |should| be_negative
+    >>> Integer(1) |should| be_odd
 
 
 Predicate matchers also work with methods::
