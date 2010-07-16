@@ -498,16 +498,17 @@ And it is possible to customize how Should-DSL find matchers, using ``add_predic
     >>> from should_dsl import add_predicate_regex
     >>>
     >>> add_predicate_regex(r'is_really_(.+)')
-    >>>
-    >>> class Integer(object):
+    >>> class Integer(int):
     ...     def __init__(self, value):
     ...         self.is_really_positive = value >= 0
-    >>>
+    ...         self.isodd = (value % 2 == 1) 
     >>> Integer(10) |should| be_positive
+    >>> Integer(1) |should| be_odd
 
 
 This last example tells Should-DSL when someone uses ``be_SOMENAME``,
 it should look for attribute or method named ``is_really_SOMENAME``.
+Can be used ``is_really_SOMENAME`` and also ``isSOMENAME``.
 
 Custom matchers
 ---------------
