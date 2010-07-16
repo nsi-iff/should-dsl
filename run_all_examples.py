@@ -7,7 +7,7 @@ import sys
 
 def test_suite():
     flags = doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
-    doctests_path = os.path.join('src', 'doctests')
+    doctests_path = os.path.join('should_dsl', 'doctests')
     suite = unittest.TestSuite()
     suite.addTest(doctest.DocFileSuite('README.rst', optionflags=flags))
     for doctest_file in os.listdir(doctests_path):
