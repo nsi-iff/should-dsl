@@ -475,6 +475,9 @@ Should-DSL supports predicate matchers::
 
     >>> Foo() |should| be_valid
 
+Besides ``SOMENAME``, Should-DSL also supports ``is_SOMENAME``
+and ``isSOMENAME`` as standard.
+
 
 Predicate matchers also work with methods::
 
@@ -501,14 +504,10 @@ And it is possible to customize how Should-DSL find matchers, using ``add_predic
     >>> class Integer(int):
     ...     def __init__(self, value):
     ...         self.is_really_positive = value >= 0
-    ...         self.isodd = (value % 2 == 1) 
     >>> Integer(10) |should| be_positive
-    >>> Integer(1) |should| be_odd
-
 
 This last example tells Should-DSL when someone uses ``be_SOMENAME``,
 it should look for attribute or method named ``is_really_SOMENAME``.
-Can be used ``is_really_SOMENAME`` and also ``isSOMENAME``.
 
 Custom matchers
 ---------------
