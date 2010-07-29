@@ -7,6 +7,8 @@ import sys
 
 def test_suite():
     flags = doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
+    if sys.version_info >= (3,):
+        flags |= doctest.IGNORE_EXCEPTION_DETAIL
     doctests_path = os.path.join('should_dsl', 'doctests')
     suite = unittest.TestSuite()
     suite.addTest(doctest.DocFileSuite('README.rst', optionflags=flags))

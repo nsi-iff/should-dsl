@@ -348,10 +348,10 @@ Checks the element count of a given collection. It can work with iterables, requ
 
     >>> class Team:
     ...     def __init__(self, total_player_count, starting_count):
-    ...         self.players = range(total_player_count)
+    ...         self.players = list(range(total_player_count))
     ...         self._starting_count = starting_count
     ...     def starting_players(self):
-    ...         return self.players[0:self._starting_count]
+    ...         return self.players[:self._starting_count]
 
     >>> class Club:
     ...     def __init__(self, team):

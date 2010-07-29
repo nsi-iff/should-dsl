@@ -1,7 +1,7 @@
 import sys
 import re
 from types import FunctionType
-import native_matchers
+from should_dsl import native_matchers
 
 
 _predicate_regexes = set(['is_(.+)', 'is(.+)'])
@@ -241,7 +241,3 @@ def matcher(matcher_object):
 
 def add_predicate_regex(regex):
     _predicate_regexes.update([regex])
-
-
-import matchers
-
