@@ -1,0 +1,114 @@
+#hide {
+    display:none;
+}
+
+pre {
+    display: block;
+    min-width:300px;
+    width:90%;
+    background-color: #222222;
+    border-radius:10px;
+    -moz-border-radius:10px;
+    color: #ffffff !important;
+    border: 0 solid transparent;
+    
+}
+
+h1, h2 {
+    padding-left:20px;
+    text-shadow:2px 2px 1px #ffffff; 
+    font-family: "lane humouresque";
+}
+h1 {
+    padding-left: 50px;
+    border-bottom:1px solid black;
+    font-size:2em;
+    width:80%;
+}
+
+h2 {
+    font-size:1.5em;
+    border-bottom:1px solid black;
+    width:50%;
+
+}
+
+
+h1.documentation{
+    background: url(file:///home/gustavo/should-dsl/docs/_static/img/documentacao.png) bottom left no-repeat transparent;
+}
+h1.development{
+    background: url(file:///home/gustavo/should-dsl/docs/_static/img/programando.png)  0 2px  no-repeat transparent;
+}
+h1.install {
+    background: url(file:///home/gustavo/should-dsl/docs/_static/img/install.png) bottom left no-repeat transparent;
+}
+
+
+body {
+    background: url(file:///home/gustavo/should-dsl/docs/_static/img/bg_main.jpg) 0 0 repeat-x transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.document {
+    padding-top: 170px;
+    background: url(file:///home/gustavo/should-dsl/docs/_static/img/bgexpectationsmaleeasy.png) top center no-repeat transparent;
+    margin-left:1em;
+}
+
+.coluna {
+    display:inline-block;
+    width:48%;
+    vertical-align: top;
+}
+
+@font-face {
+    font-family: "lane humouresque";
+    src: url(file:///home/gustavo/should-dsl/docs/_static/css/css/Lanehum.ttf);
+}
+
+.menu {
+    position:absolute;
+    left:5px;
+    top:1px;
+    
+}
+
+.menu img{
+    border: 0;
+}
+
+#search {
+    position:absolute;
+    right: 10px;
+    top: 10px;
+}
+
+
+.menu a {
+    text-decoration: none;
+    color: black;
+    font-weight:bold;
+    text-shadow:2px 2px 1px #ffffff;
+}
+
+#search .submitsearch {
+    width: 68px;
+    height: 23px;
+    margin: 0;
+    border: 0;
+    background: transparent url(file:///home/gustavo/should-dsl/docs/_static/img/search.png) no-repeat center top;
+    color:transparent;
+    vertical-align: top;
+}
+
+#search .searchinput {
+    width: 213px;
+    height: 23px;
+    margin: 0;
+    border: 0;
+    background: transparent url(file:///home/gustavo/should-dsl/docs/_static/img/searchinput.png) no-repeat center top;
+    vertical-align: top;
+}
+
