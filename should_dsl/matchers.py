@@ -1,7 +1,7 @@
 import re
 import sys
 from decimal import Decimal
-from .should_dsl import matcher
+from should_dsl import matcher
 
 
 @matcher

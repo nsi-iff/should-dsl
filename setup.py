@@ -5,8 +5,7 @@ except ImportError:
     use_setuptools()
 from setuptools import setup, find_packages
 
-version = '2.0a3'
-
+version = '2.0a4'
 readme = open('README.rst').read()
 
 setup(name='should_dsl',
@@ -18,6 +17,12 @@ setup(name='should_dsl',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: MIT License',
           'Programming Language :: Python',
+          'Programming Language :: Python :: 2',
+          'Programming Language :: Python :: 2.4',
+          'Programming Language :: Python :: 2.5',
+          'Programming Language :: Python :: 2.6',
+          'Programming Language :: Python :: 3',
+          'Programming Language :: Python :: 3.2',
           'Topic :: Software Development :: Documentation',
           'Topic :: Software Development :: Libraries',
           'Topic :: Software Development :: Testing',
@@ -28,7 +33,7 @@ setup(name='should_dsl',
       url='http://github.com/hugobr/should-dsl',
       license='MIT License',
       packages=['should_dsl'],
-      package_dir={'should_dsl': 'src'},
-      install_requires=[],
-      entry_points="",
+      package_dir={'should_dsl': 'should_dsl'},
+      test_suite='run_all_examples.test_suite',
+      install_requires=['setuptools'],
       )

@@ -70,5 +70,12 @@ NameError: name 'be__doing_some_private_things' is not defined
 >>> class Integer(int):
 ...     def __init__(self, value):
 ...         self.is_really_positive = value >= 0
+...         self.isodd = (value % 2 == 1) 
 >>> Integer(10) |should| be_positive
+>>> Integer(1) |should| be_odd
+
+>>> class Float(float):
+...     def __init__(self, value):
+...         self.is_negative = value < 0
+>>> Float(-1) |should| be_negative
 

@@ -1,4 +1,4 @@
-from .should_dsl import (should,
+from should_dsl.dsl import (should,
                          should_not,
                          should_be,
                          should_not_be,
@@ -6,3 +6,4 @@ from .should_dsl import (should,
                          should_not_have,
                          matcher,
                          add_predicate_regex,)
+from should_dsl import matchers
