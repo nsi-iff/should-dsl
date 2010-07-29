@@ -81,7 +81,10 @@ exclude_patterns = ['_build']
 #show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = 'native'
+#['manni', 'perldoc', 'borland', 'colorful', 'default', 'murphy', 'trac', 'fruity', 'autumn', 'bw', 'emacs', 'pastie', 'friendly', 'native']
+
+
 
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
@@ -91,12 +94,13 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+html_theme = 'basic'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#html_theme_options = {}
+html_theme_options = {
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []

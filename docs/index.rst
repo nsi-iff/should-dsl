@@ -1,20 +1,6 @@
-.. ..include:: ../README.rst
 
-=============================================================
-Should-DSL: Improve readability for should-style expectations
-=============================================================
-
-Contents:
-
-.. toctree::
-    :maxdepth: 1
-
-    available_matchers
-    predicate_matchers
-    custom_matchers
-    unittest
-    contributing
-    license
+In a nutshell
+=============
 
 
 The goal of *Should-DSL* is to write should expectations in Python as clear and readable as possible, using **"almost"** natural language (limited - sometimes - by the Python language constraints).
@@ -26,16 +12,82 @@ For example::
     >>> from should_dsl import should
 
     >>> 1 |should| equal_to(1)
-    True
+
     >>> 'should' |should| include('oul')
-    True
+
     >>> 3 |should| be_into([0, 1, 2])
     Traceback (most recent call last):
     ...
     ShouldNotSatisfied: 3 is not into [0, 1, 2]
 
+Should-DSL with unittest
+-------------------------
+
+*should-dsl* is unittest-compatible, so, in any unittest test case, failures on should expectations will result on unittest failures, not errors::
+
+    >>> from should_dsl import *
+    >>> import os
+    >>> import unittest
+
+    >>> class UsingShouldExample(unittest.TestCase):
+    ...     def test_showing_should_not_be_works(self):
+    ...         'hello world!' |should_not| be('Hello World!')
+    ...
+    ...     def test_showing_should_include_fails(self):
+    ...         [1, 2, 3] |should| include(5)
+    ...
+    ...     def test_showing_should_include_works(self):
+    ...         'hello world!' |should| include('world')
+    ...
+    ...     def test_showing_should_not_include_fails(self):
+    ...         {'one': 1, 'two': 2} |should_not| include('two')
+    ...
+    ...     def test_showing_should_not_include_works(self):
+    ...         ["that's", 'all', 'folks'] |should_not| include('that')
+
+    >>> devnull = open(os.devnull, 'w')
+    >>> runner = unittest.TextTestRunner(stream=devnull)
+    >>> suite = unittest.TestLoader().loadTestsFromTestCase(UsingShouldExample)
+    >>> runner.run(suite)
+    <unittest...TextTestResult run=5 errors=0 failures=2>
+    >>> devnull.close()
+
+
+Should-DSL
+==========
+
+Should-DSL: Documentation
+-------------------------
+
+Below there are some explanations about the available matchers in should_dsl package.
+
+.. toctree::
+
+    available_matchers
+
+
+Predicate matchers are the matchers work with boolean methods and attributes, to give users more freedom to write more readable specifications.
+
+.. toctree::
+
+    predicate_matchers
+
+
+Extending Should-DSL with custom matchers is very easy. It is possible to add matchers through functions and classes, for simple and complex behaviors.
+
+.. toctree::
+
+    custom_matchers
+
+
+.. toctree::
+
+    contributing
+    license
+
+
 Installing Should-DSL
-=====================
+---------------------
 
 
 Should-DSL can be installed through PyPI, using :command:`pip` or :command:`easy_install`.
@@ -59,3 +111,6 @@ If you want to have a clone of Should-DSL's repository and then install Should-D
     $ git clone http://github.com/hugobr/should-dsl.git
     $ cd should-dsl
     $ [sudo] python setup.py install
+    
+
+
