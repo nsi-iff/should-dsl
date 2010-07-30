@@ -81,7 +81,7 @@ exclude_patterns = ['_build']
 #show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'monokai'
+pygments_style = 'default'
 #['manni', 'perldoc', 'borland', 'colorful', 'default', 'murphy', 'trac', 'fruity', 'autumn', 'bw', 'emacs', 'pastie', 'friendly', 'native']
 
 

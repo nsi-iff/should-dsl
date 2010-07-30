@@ -1,6 +1,5 @@
-
-In a nutshell
-=============
+Basic Usage
+===========
 
 
 The goal of *Should-DSL* is to write should expectations in Python as clear and readable as possible, using **"almost"** natural language (limited - sometimes - by the Python language constraints).
@@ -56,34 +55,18 @@ Should-DSL with unittest
 Should-DSL
 ==========
 
-Should-DSL: Documentation
--------------------------
+Documentation
+-------------
 
-Below there are some explanations about the available matchers in should_dsl package.
+`Should-DSL Matchers <available_matchers.html>`_: all available matchers
 
-.. toctree::
+`Predicate Matchers <predicate_matchers.html>`_: predicate matchers are the matchers work with boolean methods and attributes, to give users more freedom to write more readable specifications.
 
-    available_matchers
+`Custom Matchers <custom_matchers.html>`_: extending Should-DSL with custom matchers is very easy. It is possible to add matchers through functions and classes, for simple and complex behaviors.
 
+`Contributing <contributing.html>`_: see how you can contribute to Should-DSL development
 
-Predicate matchers are the matchers work with boolean methods and attributes, to give users more freedom to write more readable specifications.
-
-.. toctree::
-
-    predicate_matchers
-
-
-Extending Should-DSL with custom matchers is very easy. It is possible to add matchers through functions and classes, for simple and complex behaviors.
-
-.. toctree::
-
-    custom_matchers
-
-
-.. toctree::
-
-    contributing
-    license
+`License <license.html>`_: MIT license
 
 
 Installing Should-DSL

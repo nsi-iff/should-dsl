@@ -4,13 +4,11 @@ Should-DSL Matchers
 Below there are some explanations about the available matchers in *should_dsl* package.
 
 
-Available Matchers
-------------------
-
-
 Before all, you need to import the following::
 
     >>> from should_dsl import should, should_not
+
+------------
 
 
 **be**

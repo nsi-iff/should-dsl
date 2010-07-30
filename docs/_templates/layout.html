@@ -13,35 +13,26 @@
 
     <div class="menu">
         <a href='{{ pathto('index.html', 1) }}'>
-            <img src="{{ pathto('_static/img/_home.png', 1) }}" />
+            <img  title="Home" src="{{ pathto('_static/img/_home.png', 1) }}" />
         </a>
         <a href='http://groups.google.com.br/group/should-dsl'>
-            <img src="{{ pathto('_static/img/_comunidade.png', 1) }}" />
+            <img title="Mailing list" src="{{ pathto('_static/img/_comunidade.png', 1) }}" />
         </a>
         <a href='{{ pathto('index.html', 1) }}'>
-            <img src="{{ pathto('_static/img/_documentacao.png', 1) }}" />
+            <img title="Documentation" src="{{ pathto('_static/img/_documentacao.png', 1) }}" />
         </a>
         <a href='http://github.com/hugobr/should-dsl/archives/master'>
-            <img src="{{ pathto('_static/img/_download.png', 1) }}" />
+            <img title="Download" src="{{ pathto('_static/img/_download.png', 1) }}" />
         </a>
         <a href='http://github.com/hugobr/should-dsl'>
-            <img src="{{ pathto('_static/img/_programando.png', 1) }}" />
-        </a>
-        <a href='{{ pathto('search.html', 1) }}'>
-            <img src="{{ pathto('_static/img/_busca.png', 1) }}" />
-        </a>
-        <a href='{{ pathto('license.html', 1) }}'>
-            <img src="{{ pathto('_static/img/_livre.png', 1) }}" />
-        </a>
-        <a href=''>
-            <img src="{{ pathto('_static/img/_baloes.png', 1) }}" />
+            <img title="Development repository" src="{{ pathto('_static/img/_programando.png', 1) }}" />
         </a>
     </div>
 
 <div id="searchbox" style="display: none">
     <form class="search" action="{{ pathto('search') }}" method="get">
       <input type="text" name="q" class="text" />
-      <input type="submit" value="{{ _('Go') }}" class="submit" />
+      <input type="submit" value="{{ _('Search') }}" class="submit" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>

@@ -2,16 +2,19 @@
     display:none;
 }
 
+body {
+    font-family: helvetica, arial, freesans, clean, sans-serif;
+}
 pre {
     display: block;
-    min-width:300px;
+    min-width:350px;
     width:90%;
-    background-color: #222222;
+    background-color: #d6d6d6;
     border-radius:10px;
     -moz-border-radius:10px;
-    color: #ffffff !important;
     border: 0 solid transparent;
-    padding:1em;
+    padding: 0.8em;
+    font-size: 92%;
 }
 
 h1, h2 {
@@ -47,10 +50,12 @@ body {
 .document {
     padding-top: 170px;
     background: url(../img/bg.png) top center no-repeat transparent;
-    margin-left:1em;
+    margin-left: 1em;
+    margin-right: 1em;
+
 }
 
-#in-a-nutshell, #should-dsl {
+#basic-usage, #should-dsl {
     display:inline-block;
     width:48%;
     vertical-align: top;
@@ -84,8 +89,8 @@ body {
     height: 23px;
     margin: 0;
     border: 0;
-    background: transparent url(../img/search.png) no-repeat center top;
-    color:transparent;
+    background-color: #000000;
+    color: #ffffff;
     vertical-align: top;
 }
 
@@ -94,7 +99,14 @@ body {
     height: 23px;
     margin: 0;
     border: 0;
-    background: transparent url(../img/searchinput.png) no-repeat center top;
     vertical-align: top;
 }
 
+a {
+    color: #000000;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #3d48c4;
+}
