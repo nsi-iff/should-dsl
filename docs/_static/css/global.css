@@ -2,13 +2,26 @@
     display:none;
 }
 
+div.sphinxsidebar, div.related {
+    display: none;
+}
+
+div.footer {
+    text-align: center;
+}
+
+a.headerlink {
+    font-size: 80%;
+}
+
 body {
     font-family: helvetica, arial, freesans, clean, sans-serif;
 }
+
 pre {
     display: block;
-    min-width:350px;
-    width:90%;
+    min-width:360px;
+    width:93%;
     background-color: #d6d6d6;
     border-radius:10px;
     -moz-border-radius:10px;
@@ -18,7 +31,7 @@ pre {
 }
 
 h1, h2 {
-    text-shadow:2px 2px 1px #ffffff; 
+    text-shadow:2px 2px 1px #cccccc; 
 }
 h1 {
     border-bottom:1px solid black;
@@ -98,6 +111,7 @@ body {
     width: 213px;
     height: 23px;
     margin: 0;
+    padding: 0;
     border: 0;
     vertical-align: top;
 }
