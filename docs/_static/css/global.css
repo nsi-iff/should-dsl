@@ -43,17 +43,6 @@ h2 {
     font-size:1.5em;
 }
 
-h1.documentation{
-    background: url(../img/documentacao.png)  bottom left no-repeat transparent;
-}
-h1.development{
-    background: url(../img/programando.png)  0 2px  no-repeat transparent;
-}
-h1.install {
-    background: url(../img/install.png) bottom left no-repeat transparent;
-}
-
-
 body {
     background: url(../img/bg_main.jpg) 0 0 repeat-x transparent;
     padding: 0;

@@ -69,8 +69,8 @@ Documentation
 `License <license.html>`_: MIT license
 
 
-Installing Should-DSL
----------------------
+Installation
+------------
 
 
 Should-DSL can be installed through PyPI, using :command:`pip` or :command:`easy_install`.
