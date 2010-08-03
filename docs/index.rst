@@ -1,6 +1,17 @@
 Basic Usage
 ===========
 
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+
+    available_matchers
+    predicate_matchers
+    custom_matchers
+    unittest
+    contributing
+    license
+
 
 The goal of *Should-DSL* is to write should expectations in Python as clear and readable as possible, using **"almost"** natural language (limited - sometimes - by the Python language constraints).
 
