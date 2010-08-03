@@ -22,7 +22,6 @@ The first tuple item is the function (or lambda), receiving two parameters, to b
     ...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
 
     >>> 3 |should| be_the_square_root_of(9)
-    True
 
     >>> 4 |should| be_the_square_root_of(9)
     Traceback (most recent call last):
@@ -69,13 +68,11 @@ Below is an example of the square root matcher defined as a class::
     >>> matcher(SquareRoot)
     <class ...SquareRoot...>
     >>> 3 |should| be_the_square_root_of(9)
-    True
     >>> 4 |should| be_the_square_root_of(9)
     Traceback (most recent call last):
     ...
     ShouldNotSatisfied: expected 4 to be the square root of 9, got 3.0
     >>> 2 |should_not| be_the_square_root_of(4.1)
-    True
     >>> 2 |should_not| be_the_square_root_of(4)
     Traceback (most recent call last):
     ...

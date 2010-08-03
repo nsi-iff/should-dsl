@@ -10,7 +10,6 @@ Should-DSL supports predicate matchers on attributes::
     ...     def __init__(self, is_valid):
     ...         self.valid = is_valid
     >>> Foo(is_valid=True) |should| be_valid
-    True
 
 
 And methods::
@@ -23,7 +22,6 @@ And methods::
     ...
     >>> john = Person(money_in_wallet=999999999)
     >>> john |should| be_rich
-    True
 
 
 
@@ -34,7 +32,6 @@ And methods::
     ...         return self._kind.upper() == kind.upper()
     >>> house = House('Wood')
     >>> house |should| be_made_of('wood')
-    True
     >>> house |should| be_made_of('stone')
     Traceback (most recent call last):
     ...

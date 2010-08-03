@@ -45,7 +45,6 @@ A nice example of exceptions would be::
 All Should-DSL releases **before 2.0** uses a deprecated style, although we still support this old style, it will be dropped soon and we discourage you to use that style. Old style usage like::
 
     >>> 3 |should_not.equal_to| 2.99
-    True
 
 should be written as::
 

@@ -18,7 +18,6 @@ Checks object identity (*is*).
 ::
 
     >>> 1 |should| be(1)
-    True
 
     >>> a = "some message"
     >>> b = "some message"
@@ -34,7 +33,6 @@ Checks object identity (*is*).
     >>> id(c) == id(d)
     True
     >>> c |should| be(d)
-    True
 
 
 **be_greater_than**
@@ -50,13 +48,9 @@ Simply checks the given comparisons.
 ::
 
     >>> 1 |should_not| be_greater_than(1)
-    True
     >>> 2 |should| be_greater_than_or_equal_to(2)
-    True
     >>> 0.1 |should| be_less_than(0.11)
-    True
     >>> 3000 |should| be_less_than_or_equal_to(3001)
-    True
 
 
 **be_into**
@@ -70,15 +64,10 @@ Verifies if an object is contained (*be_into*) or contains (*contain*) another. 
 ::
 
     >>> 1 |should| be_into(range(2))
-    True
     >>> ['a'] |should_not| be_into(['a'])
-    True
     >>> ['a'] |should| be_into([['a']])
-    True
     >>> ['x', 'y', 'z'] |should| contain('z')
-    True
     >>> ['x', 'y', 'z'] |should| include('z')
-    True
 
 
 **be_kind_of**
@@ -88,14 +77,11 @@ Verifies if an object is of a given type.
 ::
 
     >>> 1 |should| be_kind_of(int)
-    True
 
     >>> class Foo: pass
     >>> Foo() |should| be_kind_of(Foo)
-    True
     >>> class Bar(Foo): pass
     >>> Bar() |should| be_kind_of(Foo)
-    True
 
 **be_instance_of**
 
@@ -109,9 +95,7 @@ Checks matching against a regular expression.
 ::
 
     >>> 'Hello World' |should| be_like(r'Hello W.+')
-    True
     >>> '123 is a number' |should_not| be_like(r'^[12]+ is a number')
-    True
 
 
 **be_thrown_by**
@@ -123,9 +107,7 @@ Checks if a given piece of code raises an arbitrary exception.
 ::
 
     >>> ZeroDivisionError |should| be_thrown_by(lambda: 1/0)
-    True
     >>> (lambda: 1/0.000001) |should_not| throw(ZeroDivisionError)
-    True
 
 *throw* matcher also supports message checking.
 
@@ -133,7 +115,6 @@ Checks if a given piece of code raises an arbitrary exception.
 
     >>> def foo(): raise TypeError("Hey, it's cool!")
     >>> foo |should| throw(TypeError, message="Hey, it's cool!")
-    True
     >>> foo |should| throw(TypeError, message="This won't work...")
     Traceback (most recent call last):
     ...
@@ -144,9 +125,7 @@ If the function or method has parameters, it must be called within a lambda or u
 
     >>> def divide(x, y): return x / y
     >>> (lambda: divide(1, 0)) |should| throw(ZeroDivisionError)
-    True
     >>> (divide, 1, 0) |should| throw(ZeroDivisionError)
-    True
 
 The same works for *be_thrown_by* matcher.
 
@@ -170,23 +149,18 @@ Checks for changes on the result of a given function, method or lambda.
     >>> box = Box()
     >>> box.add_items(5, 4, 3)
     >>> box.clear |should| change(box.item_count)
-    True
     >>> box.clear |should_not| change(box.item_count)
-    True
 
 If the function or method has parameters, it must be called within a lambda or using a tuple. The following ways are both equivalent::
 
     >>> (lambda: box.add_items(1, 2, 3)) |should| change(box.item_count)
-    True
     >>> (box.add_items, 1, 2, 3) |should| change(box.item_count)
-    True
 
 *change* also works given an arbitrary change count::
 
     >>> box.clear()
     >>> box.add_items(1, 2, 3)
     >>> box.clear |should| change(box.item_count).by(-3)
-    True
     >>> box.add_items(1, 2, 3)
     >>> box.clear |should| change(box.item_count).by(-2)
     Traceback (most recent call last):
@@ -196,14 +170,12 @@ If the function or method has parameters, it must be called within a lambda or u
 *change* has support for maximum and minumum with *by_at_most* and *by_at_least*::
 
     >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_most(3)
-    True
     >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_most(2)
     Traceback (most recent call last):
     ...
     ShouldNotSatisfied: result should have changed by at most 2, but was changed by 3
 
     >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_least(3)
-    True
     >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).by_at_least(4)
     Traceback (most recent call last):
     ...
@@ -214,9 +186,7 @@ And, finally, *change* supports specifying the initial and final values or only 
 
     >>> box.clear()
     >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).from_(0).to(3)
-    True
     >>> box.clear |should| change(box.item_count).to(0)
-    True
     >>> box.clear |should| change(box.item_count).to(0)
     Traceback (most recent call last):
     ...
@@ -231,13 +201,9 @@ Checks if a number is close to another, given a delta.
 ::
 
     >>> 1 |should| close_to(0.9, delta=0.1)
-    True
     >>> 0.8 |should| close_to(0.9, delta=0.1)
-    True
     >>> 1 |should_not| close_to(0.89, delta=0.1)
-    True
     >>> 4.9 |should| close_to(4, delta=0.9)
-    True
 
 
 **end_with**
@@ -247,9 +213,7 @@ Verifies if a string ends with a given suffix.
 ::
 
     >>> "Brazil champion of 2010 FIFA world cup" |should| end_with('world cup')
-    True
     >>> "hello world" |should_not| end_with('worlds')
-    True
 
 
 **equal_to**
@@ -259,17 +223,14 @@ Checks object equality (not identity).
 ::
 
     >>> 1 |should| equal_to(1)
-    True
 
     >>> class Foo: pass
     >>> Foo() |should_not| equal_to(Foo())
-    True
 
     >>> class Foo(object):
     ...     def __eq__(self, other):
     ...         return True
     >>> Foo() |should| equal_to(Foo())
-    True
 
 
 **equal_to_ignoring_case**
@@ -279,10 +240,8 @@ Checks equality of strings ignoring case.
 ::
 
     >>> 'abc' |should| equal_to_ignoring_case('AbC')
-    True
 
     >>> 'XYZAb' |should| equal_to_ignoring_case('xyzaB')
-    True
 
 
 **have**
@@ -292,16 +251,12 @@ Checks the element count of a given collection. It can work with iterables, requ
 ::
 
     >>> ['b', 'c', 'd'] |should| have(3).elements
-    True
 
     >>> [1, [1, 2, 3], 'a', lambda: 1, 2**3] |should| have(5).heterogeneous_things
-    True
 
     >>> ['asesino', 'japanische kampfhoerspiele', 'facada'] |should| have(3).grindcore_bands
-    True
 
     >>> "left" |should| have(4).characters
-    True
 
 *have* also works with non-iterable objects, in which the qualifier is a name of attribute or method that contains the collection to be count.
 
@@ -313,9 +268,7 @@ Checks the element count of a given collection. It can work with iterables, requ
     ...     def pieces(self):
     ...         return range(10)
     >>> Foo() |should| have(3).inner_things
-    True
     >>> Foo() |should| have(10).pieces
-    True
 
 
 **have_at_least**
@@ -325,11 +278,8 @@ Same to *have*, but checking if the element count is greater than or equal to th
 ::
 
     >>> range(20) |should| have_at_least(19).items
-    True
     >>> range(20) |should| have_at_least(20).items
-    True
     >>> range(20) |should_not| have_at_least(21).items
-    True
 
 
 **have_at_most**
@@ -339,11 +289,8 @@ Same to *have*, but checking if the element count is less than or equal to the g
 ::
 
     >>> range(20) |should_not| have_at_most(19).items
-    True
     >>> range(20) |should| have_at_most(20).items
-    True
     >>> range(20) |should| have_at_most(21).items
-    True
 
 
 **include_all_of**
@@ -355,17 +302,11 @@ Check if a iterable includes all elements of another. Both matchers do the same 
 ::
 
    >>> [4, 5, 6, 7] |should| include_all_of([5, 6])
-   True
    >>> [4, 5, 6, 7] |should| include_in_any_order([5, 6])
-   True
    >>> ['b', 'c'] |should| include_all_of(['b', 'c'])
-   True
    >>> ['b', 'c'] |should| include_in_any_order(['b', 'c'])
-   True
    >>> ['b', 'c'] |should_not| include_all_of(['b', 'c', 'a'])
-   True
    >>> ['b', 'c'] |should_not| include_in_any_order(['b', 'c', 'a'])
-   True
 
 
 **include_any_of**
@@ -375,9 +316,7 @@ Checks if an iterable includes any element of another.
 ::
 
     >>> [1, 2, 3] |should| include_any_of([3, 4, 5])
-    True
     >>> (1,) |should| include_any_of([4, 6, 3, 1, 9, 7])
-    True
 
 
 **respond_to**
@@ -387,16 +326,13 @@ Checks if an object has a given attribute or method.
 ::
 
     >>> 'some string' |should| respond_to('startswith')
-    True
 
     >>> class Foo:
     ...     def __init__(self):
     ...         self.foobar = 10
     ...     def bar(self): pass
     >>> Foo() |should| respond_to('foobar')
-    True
     >>> Foo() |should| respond_to('bar')
-    True
 
 
 **start_with**
@@ -406,6 +342,5 @@ Verifies if a string starts with a given prefix.
 ::
 
     >>> "Brazil champion of 2010 FIFA world cup" |should| start_with('Brazil champion')
-    True
     >>> "hello world" |should_not| start_with('Hello')
-    True
+
