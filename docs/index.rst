@@ -46,11 +46,8 @@ In order to use this DSL, you need to import ``should`` and ``should_not`` objec
     >>> devnull.close()
 
 
-Should-DSL
-==========
-
 Documentation
--------------
+=============
 
 `Should-DSL Matchers <available_matchers.html>`_: all available matchers
 
@@ -66,28 +63,10 @@ Documentation
 Installation
 ------------
 
-
 Should-DSL can be installed through PyPI, using :command:`pip` or :command:`easy_install`.
 
 .. code-block:: bash
 
     $ [sudo] pip install should-dsl
-
-
-Or you can install the last development version from `github repository <http://github.com/hugobr/should-dsl>`_, using :command:`pip`:
-
-.. code-block:: bash
-
-    $ [sudo] pip install -e http://github.com/hugobr/should-dsl.git#egg=should-dsl
-
-
-If you want to have a clone of Should-DSL's repository and then install Should-DSL:
-
-.. code-block:: bash
-
-    $ git clone http://github.com/hugobr/should-dsl.git
-    $ cd should-dsl
-    $ [sudo] python setup.py install
-    
 
 
