@@ -2,6 +2,16 @@
     display:none;
 }
 
+#logo-link {
+    position: absolute;
+    top: 60px;
+    display: block;
+    width: 440px;
+    left: 50%;
+    margin-left: -220px;
+    height: 100px;
+}
+
 div.sphinxsidebar, div.related {
     display: none;
 }
@@ -21,6 +31,7 @@ body {
 pre {
     display: block;
     min-width:360px;
+    max-width: 48%;
     width:93%;
     background-color: #d6d6d6;
     border-radius:10px;
@@ -57,11 +68,19 @@ body {
 
 }
 
-#basic-usage, #should-dsl {
+#basic-usage, #documentation {
     display:inline-block;
     width:48%;
     vertical-align: top;
 }
+
+
+#installation h2{
+    border-bottom:1px solid black;
+    font-size:2em;
+    width:80%;
+}
+
 
 .menu {
     position:absolute;
