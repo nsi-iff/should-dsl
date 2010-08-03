@@ -8,7 +8,6 @@ Basic Usage
     available_matchers
     predicate_matchers
     custom_matchers
-    unittest
     contributing
     license
 
@@ -17,31 +16,15 @@ The goal of *Should-DSL* is to write should expectations in Python as clear and 
 
 In order to use this DSL, you need to import ``should`` and ``should_not`` objects from ``should_dsl`` module.
 
-For example::
+::
 
-    >>> from should_dsl import should
-
-    >>> 1 |should| equal_to(1)
-
-    >>> 'should' |should| include('oul')
-
-    >>> 3 |should| be_into([0, 1, 2])
-    Traceback (most recent call last):
-    ...
-    ShouldNotSatisfied: 3 is not into [0, 1, 2]
-
-Should-DSL with unittest
--------------------------
-
-*should-dsl* is unittest-compatible, so, in any unittest test case, failures on should expectations will result on unittest failures, not errors::
-
-    >>> from should_dsl import *
+    >>> from should_dsl import should, should_not
     >>> import os
     >>> import unittest
 
     >>> class UsingShouldExample(unittest.TestCase):
     ...     def test_showing_should_not_be_works(self):
-    ...         'hello world!' |should_not| be('Hello World!')
+    ...         'hello world!' |should_not| equal_to('Hello World!')
     ...
     ...     def test_showing_should_include_fails(self):
     ...         [1, 2, 3] |should| include(5)
