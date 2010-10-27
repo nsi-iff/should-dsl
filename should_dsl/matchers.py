@@ -173,9 +173,31 @@ def end_with():
     return (lambda x, y: x.endswith(y), "%r does %send with %r")
 
 
-@matcher
-def be_like():
-    return (lambda string, regex: re.match(regex, string) is not None, '%r is %slike %r')
+class BeLike(object):
+
+    name = 'be_like'
+
+    def __call__(self, regex, flags=0):
+        self._regex = regex
+        self._flags = flags
+        return self
+
+    def match(self, lvalue):
+        self._lvalue = lvalue
+        return re.match(self._regex, self._lvalue, self._flags) is not None
+
+    def message_for_failed_should(self):
+        return "%r is not like %r%s" % (self._lvalue, self._regex,
+            self._flags and ' with given flags' or '')
+
+    def message_for_failed_should_not(self):
+        return "%r is like %r%s" % (self._lvalue, self._regex,
+            self._flags and ' with given flags' or '')
+
+
+matcher(BeLike)
+#def be_like():
+#    return (lambda string, regex: re.match(regex, string) is not None, '%r is %slike %r')
 
 
 @matcher
@@ -499,7 +521,8 @@ def ended_with():
     return (lambda x, y: x.endswith(y), "%r is %sended with %r")
 
 
-@matcher
-def like():
-    return be_like()
+class Like(BeLike):
+    name = 'like'
+
+matcher(Like)
 
