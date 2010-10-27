@@ -38,10 +38,10 @@ Traceback (most recent call last):
     ...
 ShouldNotSatisfied: expected to throw 'Foo' with the message 'cool! it works!', got 'Foo' with 'what a pro!'
 
->>> (lambda: raise_foo('what a pro!')) |should| throw(Foo('cool! it works! blé'))
+>>> (lambda: raise_foo('what a pro!')) |should| throw(Foo('cool! it works! ble'))
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: expected to throw 'Foo' with the message 'cool! it works! bl\xc3\xa9', got 'Foo' with 'what a pro!'
+ShouldNotSatisfied: expected to throw 'Foo' with the message 'cool! it works! ble', got 'Foo' with 'what a pro!'
 
 >>> (lambda: raise_foo('who?')) |should_not| throw(Foo, message='who?')
 Traceback (most recent call last):
