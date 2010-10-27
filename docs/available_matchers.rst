@@ -97,6 +97,12 @@ Checks matching against a regular expression.
     >>> 'Hello World' |should| be_like(r'Hello W.+')
     >>> '123 is a number' |should_not| be_like(r'^[12]+ is a number')
 
+*be_like* accepts flags from *re* module as its optional second parameter.
+
+::
+    >>> import re
+    >>> 'Hello\nWorld' |should| be_like(r'hell.+', re.DOTALL + re.IGNORECASE)
+
 
 **be_thrown_by**
 
