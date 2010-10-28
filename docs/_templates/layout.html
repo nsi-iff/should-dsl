@@ -2,46 +2,32 @@
 
 {% block extrahead %}
 
-
     <link rel="stylesheet" href="{{ pathto('_static/css/global.css', 1) }}" type="text/css" charset="utf-8" />
-
 
 {% endblock %}
 
 
 {% block relbar1 %}
 
-    <div class="menu">
-        <a href='{{ pathto('index.html', 1) }}'>
-            <img  title="Home" src="{{ pathto('_static/img/_home.png', 1) }}" />
-        </a>
-        <a href='http://github.com/hugobr/should-dsl/archives/master'>
-            <img title="Download" src="{{ pathto('_static/img/_download.png', 1) }}" />
-        </a>
-        <a href='http://groups.google.com.br/group/should-dsl'>
-            <img title="Mailing list" src="{{ pathto('_static/img/_discussion.png', 1) }}" />
-        </a>
-        <a href='{{ pathto('contributing.html', 1) }}'>
-            <img title="Contributing" src="{{ pathto('_static/img/_comunidade.png', 1) }}" />
-        </a>
-        <a href='http://github.com/hugobr/should-dsl'>
-            <img title="Development repository" src="{{ pathto('_static/img/_programando.png', 1) }}" />
-        </a>
-    </div>
-    <div>
-      <a id="logo-link" href="{{ pathto('index.html', 1) }}"></a>
-    </div>
+  <div id="logo"></logo>
 
-<div id="searchbox" style="display: none">
-    <form class="search" action="{{ pathto('search') }}" method="get">
-      <input type="text" name="q" class="text" />
-      <input type="submit" value="{{ _('Search') }}" class="submit" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  <ul class="menu">
+    <li><a href='{{ pathto('index.html', 1) }}'>Home</a></li>
+    <li><a href='http://github.com/hugobr/should-dsl/archives/master'>Download</a></li>
+    <li><a href='http://groups.google.com.br/group/should-dsl'>Mailing list</a></li>
+    <li><a href='{{ pathto('contributing.html', 1) }}'>Contributing</a></li>
+    <li><a href='http://github.com/hugobr/should-dsl'>Development repository</a></li>
+  </ul>
+
+  <div id="searchbox" style="display: none">
+      <form class="search" action="{{ pathto('search') }}" method="get">
+        <input type="text" name="q" class="text" />
+        <input type="submit" value="{{ _('Search') }}" class="submit" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+  </div>
+  <script type="text/javascript">$('#searchbox').show(0);</script>
 
 {% endblock %}
-
 
