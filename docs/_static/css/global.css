@@ -81,6 +81,20 @@ body {
     width:80%;
 }
 
+#powered-by {
+    text-align: center;
+    margin: 25px 0;
+}
+
+#powered-by h1, h2 {
+    font-size: 16px;
+    border: 0;
+    width: 100%;
+}
+
+#powered-by h1:hover > a.headerlink, h2:hover > a.headerlink {
+    visibility: hidden;
+}
 
 .menu {
     position:absolute;
@@ -131,4 +145,8 @@ a {
 
 a:hover {
     color: #3d48c4;
+}
+
+.highlight {
+    background: none;
 }

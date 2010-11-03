@@ -38,3 +38,10 @@ And methods::
     ShouldNotSatisfied: expected made_of('stone') to return True, got False
 
 
+
+
+Powered By
+==========
+
+.. image:: _static/img/renapiLogo.jpg
+  :alt: RENAPI

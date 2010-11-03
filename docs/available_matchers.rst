@@ -350,3 +350,9 @@ Verifies if a string starts with a given prefix.
     >>> "Brazil champion of 2010 FIFA world cup" |should| start_with('Brazil champion')
     >>> "hello world" |should_not| start_with('Hello')
 
+
+Powered By
+==========
+
+.. image:: _static/img/renapiLogo.jpg
+  :alt: RENAPI
