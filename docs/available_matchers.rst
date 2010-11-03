@@ -101,7 +101,7 @@ Checks matching against a regular expression.
 
 ::
     >>> import re
-    >>> 'Hello\nWorld' |should| be_like(r'hell.+', re.DOTALL + re.IGNORECASE)
+    >>> 'Hello\nWorld' |should| be_like(r'hell.+', re.DOTALL|re.IGNORECASE)
 
 
 **be_thrown_by**
