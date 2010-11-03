@@ -79,7 +79,7 @@ Below is an example of the square root matcher defined as a class::
     ShouldNotSatisfied: expected 2 not to be the square root of 4
 
 
-.. note:: 
+.. note::
 
     If you are using Python 2.6 or greater you can use the class decorator feature (just a cool syntax sugar)::
 
@@ -117,3 +117,5 @@ Powered By
 
 .. image:: _static/img/renapiLogo.jpg
   :alt: RENAPI
+  :target: http://www.renapi.org/
+
