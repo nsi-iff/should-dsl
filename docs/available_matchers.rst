@@ -100,6 +100,7 @@ Checks matching against a regular expression.
 *be_like* accepts flags from *re* module as its optional second parameter.
 
 ::
+
     >>> import re
     >>> 'Hello\nWorld' |should| be_like(r'hell.+', re.DOTALL + re.IGNORECASE)
 
