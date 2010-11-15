@@ -13,4 +13,3 @@ ShouldNotSatisfied: 'a' is not 'b'
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: 1 is 1
-
