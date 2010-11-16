@@ -4,9 +4,26 @@ from decimal import Decimal
 from should_dsl import matcher
 
 
-@matcher
-def be():
-    return (lambda x, y: x is y, "%r is %s%r")
+class Be(object):
+
+    name = 'be'
+
+    def __call__(self, expected):
+        self._expected = expected
+        return self
+
+    def match(self, actual):
+        self._actual = actual
+        return self._actual is self._expected
+
+    def message_for_failed_should(self):
+        return "%r was expected to be %r" % (self._actual, self._expected)
+
+    def message_for_failed_should_not(self):
+        return "%r was not expected to be %r" % (self._actual, self._expected)
+
+
+matcher(Be)
 
 
 @matcher
