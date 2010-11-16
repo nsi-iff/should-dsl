@@ -196,8 +196,6 @@ class BeLike(object):
 
 
 matcher(BeLike)
-#def be_like():
-#    return (lambda string, regex: re.match(regex, string) is not None, '%r is %slike %r')
 
 
 @matcher
