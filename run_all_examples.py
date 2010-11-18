@@ -11,10 +11,14 @@ def test_suite():
     if sys.version_info >= (3,):
         flags |= doctest.IGNORE_EXCEPTION_DETAIL
     doctests_path = os.path.join('should_dsl', 'doctests')
+
     suite = unittest.TestSuite()
+
     for doc in glob.glob('docs/*.rst') + ['README.rst']:
         suite.addTest(doctest.DocFileSuite(doc, optionflags=flags))
+
     suite.addTest(doctest.DocFileSuite('README.rst', optionflags=flags))
+
     for doctest_file in os.listdir(doctests_path):
         if doctest_file.endswith('.txt'):
             suite.addTest(doctest.DocFileSuite(os.path.join(doctests_path,
