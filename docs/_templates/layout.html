@@ -12,7 +12,6 @@
 
   <div id="headerwrapper">
     <div id="header">
-
       <div id="logo"></div>
 
       <div id="menu-wrapper">
@@ -24,14 +23,14 @@
           <li><a href='http://github.com/hugobr/should-dsl'>Development repository</a></li>
         </ul>
 
-        <div id="searchbox" >
+        <!-- <div id="searchbox" >
             <form class="search" action="{{ pathto('search') }}" method="get">
               <input type="text" name="q" class="text" />
               <input type="submit" value="{{ _('Search') }}" class="submit" />
               <input type="hidden" name="check_keywords" value="yes" />
               <input type="hidden" name="area" value="default" />
             </form>
-        </div>
+        </div> -->
 
         <br />
 
@@ -39,5 +38,19 @@
     </div>
   </div>
 
+{% endblock %}
+
+{% block document %}
+  {{ super() }}
+
+  <br />
+
+  <div id="powered_by">
+    <h1>Power by</h1>
+
+    <p>
+      <a href="http://www.renapi.org/"><img src="_static/img/renapi_logo.png" width="260" height="46" /></a>
+    </p>
+  </div>
 {% endblock %}
 
