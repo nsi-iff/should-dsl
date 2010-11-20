@@ -45,8 +45,9 @@ p {
 }
 
 hr {
-    border: none;
-    border-bottom: 1px solid #444;
+    border-color:black;
+    border-style:none none groove;
+    border-width:1px;
 }
 
 /* ========================================================================== */
