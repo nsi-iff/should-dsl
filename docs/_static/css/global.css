@@ -189,7 +189,7 @@ hr {
 }
 
 .section {
-    margin: 5px 5px 0px 5px;
+    margin: 5px 0px 0px 0px;
     padding: 5px;
 }
 
@@ -202,11 +202,13 @@ hr {
 #basic-usage {
     float: left;
     width: 685px;
+    margin: 0px 5px;
 }
 
 #documentation {
     float: right;
     width: 275px;
+    margin: 0px 5px;
 }
 
 #powered_by {
