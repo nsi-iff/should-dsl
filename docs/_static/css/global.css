@@ -161,12 +161,11 @@ hr {
 .document {
     margin: 0px auto 0px auto;
     padding-top: 20px;
-    width: 1000px;
+    width: 1040px;
 
     background-image: url("../img/shadow_top.png");
     background-repeat: no-repeat;
     background-position: center top;
-
 }
 
 .bodywrapper {
@@ -181,10 +180,16 @@ hr {
     padding: 5px;
     background-color: #fff;
     min-height: 660px;
+
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -opera-border-radius: 5px;
 }
 
 .section {
-    margin: 5px 0px 0px 0px;
+    margin: 5px 5px 0px 5px;
     padding: 5px;
 }
 
