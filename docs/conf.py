@@ -82,7 +82,6 @@ exclude_patterns = ['_build']
 
 # The name of the Pygments (syntax highlighting) style to use.
 #pygments_style = 'default'
-pygments_style = 'vs'
 #['manni', 'perldoc', 'borland', 'colorful', 'default', 'murphy', 'trac', 'fruity', 'autumn', 'bw', 'emacs', 'pastie', 'friendly', 'native']
 
 
@@ -125,7 +124,7 @@ html_theme_options = {
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ['_static', '_static/css']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -219,3 +218,4 @@ man_pages = [
     ('index', 'should-dsl', u'Should-DSL Documentation',
      [u'Hugo Lopes Tavares'], 1)
 ]
+
