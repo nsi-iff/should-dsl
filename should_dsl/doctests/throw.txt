@@ -31,7 +31,7 @@ ShouldNotSatisfied: expected to throw 'ZeroDivisionError', got no exception
 
 >>> (raise_foo, 'cool! it works!') |should| throw(Foo, message='cool! it works!')
 
->>> (raise_foo, 'cool! it works! blé') |should| throw(Foo('cool! it works! blé'))
+>>> (raise_foo, 'cool! it works! ble') |should| throw(Foo('cool! it works! ble'))
 
 >>> (lambda: raise_foo('what a pro!')) |should| throw(Foo, message='cool! it works!')
 Traceback (most recent call last):

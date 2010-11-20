@@ -36,6 +36,34 @@ class Should(object):
         else:
             self._convert_deprecated_style(rvalue)
         return self._check_expectation()
+    
+    def _destroy_function_matchers(self):
+        self._remove_matchers_from_namespace()
+        self._put_original_identifiers_back()
+
+    def _remove_matchers_from_namespace(self):
+        self._remove_regular_matchers_from_namespace()
+        self._remove_predicate_matchers_from_namespace()
+
+    def _remove_regular_matchers_from_namespace(self):
+        f_globals = self._especific_namespace_level(5)
+        for matcher_name in list(self._matchers_by_name.keys()):
+            del f_globals[matcher_name]
+
+    def _remove_predicate_matchers_from_namespace(self):
+        f_globals = self._especific_namespace_level(5)
+        attr_names = [attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
+        for attr_name in attr_names:
+            del f_globals['be_' + attr_name]
+
+    def _put_original_identifiers_back(self):
+        f_globals = self._especific_namespace_level(4)
+        for attr_name, attr_ref in self._identifiers_named_equal_matchers.items():
+            f_globals[attr_name] = attr_ref
+        self._identifiers_named_equal_matchers.clear()
+
+    def _especific_namespace_level(self, level):
+        return sys._getframe(level).f_globals
 
     def _check_expectation(self):
         if not self._evaluate(self._rvalue.match(self._lvalue)):
@@ -44,17 +72,17 @@ class Should(object):
     def add_matcher(self, matcher_object):
         if (hasattr(matcher_object, 'func_name') or
             isinstance(matcher_object, FunctionType)):
-            func, message = matcher_object()
+            function, message = matcher_object()
             class GeneratedMatcher(object):
                 name = matcher_object.__name__
                 def __init__(self):
-                    self._func, self._message = func, message
+                    self._function, self._message = function, message
                 def __call__(self, arg):
                     self.arg = arg
                     return self
                 def match(self, value):
                     self._value = value
-                    return self._func(self._value, self.arg)
+                    return self._function(self._value, self.arg)
                 def message_for_failed_should(self):
                     return self._message % (self._value, "not ", self.arg)
                 def message_for_failed_should_not(self):
@@ -77,26 +105,28 @@ class Should(object):
                 raise
 
     def _create_function_matchers(self):
-        f_globals = sys._getframe(2).f_globals
-        self._save_clashed_identifiers(f_globals)
-        self._put_matchers_on_namespace(f_globals)
+        self._save_clashed_identifiers()
+        self._put_matchers_on_namespace()
 
-    def _save_clashed_identifiers(self, f_globals):
+    def _save_clashed_identifiers(self):
+        f_globals = self._especific_namespace_level(4)
         predicate_matcher_names = ['be_' + attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
         for matcher_name in list(self._matchers_by_name.keys()) + predicate_matcher_names:
             if matcher_name in f_globals:
                 self._identifiers_named_equal_matchers[matcher_name] = f_globals[matcher_name]
 
-    def _put_matchers_on_namespace(self, f_globals):
-        self._put_regular_matchers_on_namespace(f_globals)
-        self._put_predicate_matchers_on_namespace(f_globals)
+    def _put_matchers_on_namespace(self):
+        self._put_regular_matchers_on_namespace()
+        self._put_predicate_matchers_on_namespace()
 
-    def _put_regular_matchers_on_namespace(self, f_globals):
+    def _put_regular_matchers_on_namespace(self):
+        f_globals = self._especific_namespace_level(5)
         for matcher_name, matcher_function in self._matchers_by_name.items():
             matcher_function = self._matchers_by_name[matcher_name]
             f_globals[matcher_name] = matcher_function()
 
-    def _put_predicate_matchers_on_namespace(self, f_globals):
+    def _put_predicate_matchers_on_namespace(self):
+        f_globals = self._especific_namespace_level(5)
         predicate_and_matcher_names = []
         public_names = self._get_all_public_attr_names(self._lvalue)
         for attr_name in public_names:
@@ -110,29 +140,6 @@ class Should(object):
 
     def _get_all_public_attr_names(self, obj):
         return [attr_name for attr_name in dir(obj) if not attr_name.startswith('_')]
-
-    def _destroy_function_matchers(self):
-        f_globals = sys._getframe(2).f_globals
-        self._remove_matchers_from_namespace(f_globals)
-        self._put_original_identifiers_back(f_globals)
-
-    def _remove_matchers_from_namespace(self, f_globals):
-        self._remove_regular_matchers_from_namespace(f_globals)
-        self._remove_predicate_matchers_from_namespace(f_globals)
-
-    def _remove_regular_matchers_from_namespace(self, f_globals):
-        for matcher_name in list(self._matchers_by_name.keys()):
-            del f_globals[matcher_name]
-
-    def _remove_predicate_matchers_from_namespace(self, f_globals):
-        attr_names = [attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
-        for attr_name in attr_names:
-            del f_globals['be_' + attr_name]
-
-    def _put_original_identifiers_back(self, f_globals):
-        for attr_name, attr_ref in self._identifiers_named_equal_matchers.items():
-            f_globals[attr_name] = attr_ref
-        self._identifiers_named_equal_matchers.clear()
 
     # deprecated behaviour
     def __getattr__(self, method_name):
@@ -195,8 +202,8 @@ class _PredicateMatcher(object):
             self._display_attr(self._attr_name),
             self._display_verb(self._attr_name))
 
-    def _is_method(self, objekt):
-        return (hasattr(objekt, 'im_func') or hasattr(objekt, '__func__'))
+    def _is_method(self, object_):
+        return (hasattr(object_, 'im_func') or hasattr(object_, '__func__'))
 
     def _display_attr(self, attr_name):
         if self._is_method(getattr(self._value, attr_name)):
