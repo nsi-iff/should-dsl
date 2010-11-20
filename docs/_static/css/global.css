@@ -132,9 +132,9 @@ hr {
 /* ========================================================================== */
 
 #searchbox {
-    padding: 8px 9px 7px 9px;
+    padding-top: 8px;
     float: right;
-    width: 340px;
+    width: 350px;
 }
 
 #searchbox input {
@@ -155,6 +155,12 @@ hr {
     width: 260px;
 
     border: 0px;
+
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -opera-border-radius: 5px;
 }
 
 /* ========================================================================== */
