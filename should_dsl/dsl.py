@@ -46,23 +46,23 @@ class Should(object):
         self._remove_predicate_matchers_from_namespace()
 
     def _remove_regular_matchers_from_namespace(self):
-        f_globals = self._especific_namespace_level(5)
+        f_globals = self._specific_namespace_level(5)
         for matcher_name in list(self._matchers_by_name.keys()):
             del f_globals[matcher_name]
 
     def _remove_predicate_matchers_from_namespace(self):
-        f_globals = self._especific_namespace_level(5)
+        f_globals = self._specific_namespace_level(5)
         attr_names = [attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
         for attr_name in attr_names:
             del f_globals['be_' + attr_name]
 
     def _put_original_identifiers_back(self):
-        f_globals = self._especific_namespace_level(4)
+        f_globals = self._specific_namespace_level(4)
         for attr_name, attr_ref in self._identifiers_named_equal_matchers.items():
             f_globals[attr_name] = attr_ref
         self._identifiers_named_equal_matchers.clear()
 
-    def _especific_namespace_level(self, level):
+    def _specific_namespace_level(self, level):
         return sys._getframe(level).f_globals
 
     def _check_expectation(self):
@@ -109,7 +109,7 @@ class Should(object):
         self._put_matchers_on_namespace()
 
     def _save_clashed_identifiers(self):
-        f_globals = self._especific_namespace_level(4)
+        f_globals = self._specific_namespace_level(4)
         predicate_matcher_names = ['be_' + attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
         for matcher_name in list(self._matchers_by_name.keys()) + predicate_matcher_names:
             if matcher_name in f_globals:
@@ -120,13 +120,13 @@ class Should(object):
         self._put_predicate_matchers_on_namespace()
 
     def _put_regular_matchers_on_namespace(self):
-        f_globals = self._especific_namespace_level(5)
+        f_globals = self._specific_namespace_level(5)
         for matcher_name, matcher_function in self._matchers_by_name.items():
             matcher_function = self._matchers_by_name[matcher_name]
             f_globals[matcher_name] = matcher_function()
 
     def _put_predicate_matchers_on_namespace(self):
-        f_globals = self._especific_namespace_level(5)
+        f_globals = self._specific_namespace_level(5)
         predicate_and_matcher_names = []
         public_names = self._get_all_public_attr_names(self._lvalue)
         for attr_name in public_names:
