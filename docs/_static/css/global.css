@@ -134,6 +134,10 @@ hr {
     background-position: right center;
 }
 
+.menu li:last-child {
+    background: none;
+}
+
 .menu a {
     padding: 8px 10px;
     display: block;
