@@ -77,8 +77,13 @@ hr {
 
 
 #headerwrapper #header #logo {
-    width: 350px;
-    height: 142px;
+    margin: 20px auto 40px auto;
+    width: 341px;
+    height: 192px;
+
+    background-image: url("../img/logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #headerwrapper #header h1 {
@@ -143,11 +148,11 @@ hr {
 }
 
 #searchbox input.submit {
-    padding: 2px 5px;
+    padding: 3px 5px;
 
     font: 12px Verdana;
     font-weight: bold;
-    color: #fff;
+    color: #000;
 }
 
 .search input.text {
@@ -184,7 +189,7 @@ hr {
 }
 
 .body {
-    padding: 5px;
+    padding: 10px;
     background-color: #fff;
     min-height: 660px;
 
@@ -195,12 +200,17 @@ hr {
     -opera-border-radius: 5px;
 }
 
-.section {
-    margin: 5px 0px 0px 0px;
-    padding: 5px;
+.body h2 {
+    margin-top: 10px;
+
+    font: 20px helvetica, Arial;
 }
 
-.section h1 {
+.section {
+    margin: 5px 0px 0px 0px;
+}
+
+.body h1, .section h1 {
     font: 25px helvetica, Arial;
 }
 
