@@ -68,12 +68,3 @@ Should-DSL can be installed through PyPI, using :command:`pip` or :command:`easy
 .. code-block:: bash
 
     $ [sudo] pip install should-dsl
-
-
-Powered By
-==========
-
-.. image:: _static/img/renapiLogo.jpg
-  :alt: RENAPI
-  :target: http://www.renapi.org/
-

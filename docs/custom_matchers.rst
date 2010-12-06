@@ -110,12 +110,3 @@ information. By example, the *close_to* matcher's *__call__()* method receives 2
 the expected value and a delta. Once a matcher is a regular Python object, any Python can be used.
 In *close_to*, delta can be used as a named parameter for readability purposes.
 
-
-
-Powered By
-==========
-
-.. image:: _static/img/renapiLogo.jpg
-  :alt: RENAPI
-  :target: http://www.renapi.org/
-

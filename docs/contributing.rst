@@ -41,11 +41,3 @@ After these steps we will keep in touch with you as soon as possible! And if jus
 .. _Should-DSL's project page: http://github.com/hugobr/should-dsl
 .. _Github: http://github.com/
 
-
-Powered By
-==========
-
-.. image:: _static/img/renapiLogo.jpg
-  :alt: RENAPI
-  :target: http://www.renapi.org/
-

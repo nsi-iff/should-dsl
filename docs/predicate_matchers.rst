@@ -36,14 +36,3 @@ And methods::
     Traceback (most recent call last):
     ...
     ShouldNotSatisfied: expected made_of('stone') to return True, got False
-
-
-
-
-Powered By
-==========
-
-.. image:: _static/img/renapiLogo.jpg
-  :alt: RENAPI
-  :target: http://www.renapi.org/
-
