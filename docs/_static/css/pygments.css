@@ -1,188 +1,252 @@
-.hll {
-    background-color:#FFFFCC;
+.highlight-python, .highlight {
+    background-color: #fff !important;
 }
+
+.hll {
+    background-color:#fff;
+}
+
 .c {
     color:#408090;
     font-style:italic;
 }
+
 .err {
     border:1px solid #FF0000;
 }
+
 .k {
-    color:#ffffff;
+    color:#6ab825;
 }
+
 .o {
     color:#aaaaaa;
 }
+
 .cm {
     color:#408090;
     font-style:italic;
 }
+
 .cp {
     color:#ffffff;
 }
+
 .c1 {
     color:#408090;
     font-style:italic;
 }
+
 .cs {
     background-color:#FFF0F0;
     color:#408090;
 }
+
 .gd {
     color:#A00000;
 }
+
 .ge {
     font-style:italic;
 }
+
 .gr {
     color:#FF0000;
 }
+
 .gh {
     color:#000080;
 }
+
 .gi {
     color:#00A000;
 }
+
 .go {
     color:#aaaaaa;
 }
+
 .gp {
     color:#aaaaaa;
 }
+
 .gs {
 }
+
 .gu {
     color:#800080;
 }
+
 .gt {
-    color:#0040D0;
+    color:#408090;
 }
+
 .kc {
     color:#ffffff;
 }
+
 .kd {
     color:#ffffff;
 }
+
 .kn {
-    color: #ffa0a0;
+    color:#6ab825;
 }
+
 .kp {
     color:#ffffff;
 }
+
 .kr {
     color:#ffffff;
 }
+
 .kt {
     color:#902000;
 }
+
 .m {
     color:#ffe900;
 }
+
 .s {
-    color:#fff831;
+    color:#ed9d13;
 }
+
 .na {
     color:#4070A0;
 }
+
 .nb {
     color:#ffffff;
 }
+
 .nc {
-    color:#00A86B;
+    color:#447fcf;
 }
+
 .no {
     color:#60ADD5;
 }
+
 .nd {
     color:#555555;
 }
+
 .ni {
     color:#D55537;
 }
+
 .ne {
     color:#ffffff;
 }
+
 .nf {
-    color:#00A86B;
+    color:#447fcf;
 }
+
 .nl {
     color:#002070;
 }
+
 .nn {
     color:#ffffff;
 }
+
 .nt {
     color:#062873;
 }
+
 .nv {
     color:#BB60D5;
 }
+
 .ow {
     color:#ffffff;
 }
+
 .w {
     color:#BBBBBB;
 }
+
 .mf {
     color:#ffe900;
 }
+
 .mh {
     color:#ffe900;
 }
+
 .mi {
     color:#ffe900;
 }
+
 .mo {
     color:#ffe900;
 }
+
 .sb {
     color:#4070A0;
 }
+
 .sc {
     color:#4070A0;
 }
+
 .sd {
     color:#4070A0;
     font-style:italic;
 }
+
 .s2 {
     color:#4070A0;
 }
+
 .se {
     color:#4070A0;
 }
+
 .sh {
     color:#4070A0;
 }
+
 .si {
     color:#70A0D0;
     font-style:italic;
 }
+
 .sx {
     color:#ffff00;
 }
+
 .sr {
     color:#235388;
 }
+
 .s1 {
     color:#4070A0;
 }
+
 .ss {
     color:#517918;
 }
+
 .bp {
     color:#ffffff;
 }
+
 .vc {
     color:#BB60D5;
 }
+
 .vg {
     color:#BB60D5;
 }
+
 .vi {
     color:#BB60D5;
 }
+
 .il {
     color:#ffe900;
 }
