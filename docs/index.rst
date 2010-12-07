@@ -37,7 +37,7 @@ cards_game_spec.py::
       def test_discard_card(self):
         card = Card('Q', 'spades')
         self.player.discard(card)
-        self.player |should_not| contain(card)
+        self.player.hand |should_not| contain(card)
 
 
     if __name__ == '__main__':
