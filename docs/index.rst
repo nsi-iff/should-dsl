@@ -16,48 +16,59 @@ The goal of *Should-DSL* is to write should expectations in Python as clear and 
 
 In order to use this DSL, you need to import ``should`` and ``should_not`` objects from ``should_dsl`` module.
 
-::
+example.py::
 
-    >>> from should_dsl import should, should_not
-    >>> import os
-    >>> import unittest
+    import unittest
+    from should_dsl import should, should_not
 
-    >>> class UsingShouldExample(unittest.TestCase):
-    ...     def test_showing_should_not_be_works(self):
-    ...         'hello world!' |should_not| equal_to('Hello World!')
-    ...
-    ...     def test_showing_should_include_fails(self):
-    ...         [1, 2, 3] |should| include(5)
-    ...
-    ...     def test_showing_should_include_works(self):
-    ...         'hello world!' |should| include('world')
-    ...
-    ...     def test_showing_should_not_include_fails(self):
-    ...         {'one': 1, 'two': 2} |should_not| include('two')
-    ...
-    ...     def test_showing_should_not_include_works(self):
-    ...         ["that's", 'all', 'folks'] |should_not| include('that')
+    class UsingShouldExample(unittest.TestCase):
 
-    >>> devnull = open(os.devnull, 'w')
-    >>> runner = unittest.TextTestRunner(stream=devnull)
-    >>> suite = unittest.TestLoader().loadTestsFromTestCase(UsingShouldExample)
-    >>> runner.run(suite)
-    <unittest...TextTestResult run=5 errors=0 failures=2>
-    >>> devnull.close()
+      def test_hello_world(self):
+          'hello world!' |should_not| equal_to('Hello World!')
+
+      def test_include(self):
+          [1, 2, 3] |should| include(5)
+
+
+    if __name__ == '__main__':
+      unittest.main()
+
+.. code-block:: bash
+
+    $ python example.py -vvv
+    test_hello_world (__main__.UsingShouldExample) ... ok
+    test_include (__main__.UsingShouldExample) ... FAIL
+
+    ======================================================================
+    FAIL: test_include (__main__.UsingShouldExample)
+    ----------------------------------------------------------------------
+    Traceback (most recent call last):
+      File "example.py", line 10, in test_include
+        [1, 2, 3] |should| include(5)
+      File "build/bdist.macosx-10.6-universal/egg/should_dsl/dsl.py", line 38, in __or__
+        return self._check_expectation()
+      File "build/bdist.macosx-10.6-universal/egg/should_dsl/dsl.py", line 42, in _check_expectation
+        raise ShouldNotSatisfied(self._negate and self._rvalue.message_for_failed_should_not() or self._rvalue.message_for_failed_should())
+    ShouldNotSatisfied: [1, 2, 3] does not include 5
+
+    ----------------------------------------------------------------------
+    Ran 2 tests in 0.002s
+
+    FAILED (failures=1)
 
 
 Documentation
 =============
 
-`Should-DSL Matchers <available_matchers.html>`_: all available matchers
+`Should-DSL Matchers <available_matchers.html>`_: check all available matchers
 
-`Predicate Matchers <predicate_matchers.html>`_: predicate matchers are the matchers work with boolean methods and attributes, to give users more freedom to write more readable specifications.
+`Predicate Matchers <predicate_matchers.html>`_: predicate matchers are the matchers work with boolean methods and attributes and thetgive users more freedom to write more readable specifications.
 
 `Custom Matchers <custom_matchers.html>`_: extending Should-DSL with custom matchers is very easy. It is possible to add matchers through functions and classes, for simple and complex behaviors.
 
 `Contributing <contributing.html>`_: see how you can contribute to Should-DSL development
 
-`License <license.html>`_: MIT license
+`License <license.html>`_: MIT License
 
 
 Installation
@@ -67,4 +78,5 @@ Should-DSL can be installed through PyPI, using :command:`pip` or :command:`easy
 
 .. code-block:: bash
 
-    $ [sudo] pip install should-dsl
+    $ pip install should-dsl
+    # maybe you need to run it as sudo

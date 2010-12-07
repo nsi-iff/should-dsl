@@ -115,10 +115,16 @@ hr {
     margin: 20px auto 45px auto;
     width: 325px;
     height: 191px;
+    display: block;
+    cursor: pointer;
 
     background-image: url("../img/logo.png");
     background-repeat: no-repeat;
     background-position: center;
+}
+
+#headerwrapper #header a#logo:hover {
+    background-color: transparent;
 }
 
 #headerwrapper #header h1 {
@@ -228,9 +234,9 @@ hr {
 }
 
 .body {
-    padding: 10px;
+    padding: 20px;
     background-color: #fff;
-    min-height: 660px;
+    min-height: 800px;
 
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -296,6 +302,8 @@ hr {
     background-repeat: repeat-x;
     background-position: bottom;
     background-color: #333;
+
+    overflow: hidden;
 }
 
 /* ========================================================================== */
