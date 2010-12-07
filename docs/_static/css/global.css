@@ -112,9 +112,9 @@ hr {
 }
 
 #headerwrapper #header #logo {
-    margin: 20px auto 40px auto;
-    width: 341px;
-    height: 192px;
+    margin: 20px auto 45px auto;
+    width: 325px;
+    height: 191px;
 
     background-image: url("../img/logo.png");
     background-repeat: no-repeat;
