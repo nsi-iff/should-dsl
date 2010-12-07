@@ -4,25 +4,9 @@
 
 >>> [1, 2, 3] |should_not_have.any_of| [5, 6]
 
->>> 1 |should_be| 1
-
->>> 'hello world' |should_not_be.ended_with| 'world'
-Traceback (most recent call last):
-    ...
-ShouldNotSatisfied: 'hello world' is ended with 'world'
-
->>> 1 |should_be.equal_to| 1
-
->>> "I'm specifying it" |should.equal_to_ignoring_case| "I'M SPECIFYING it"
-
->>> 1 |should_not_be.greater_than| 1
-
->>> 1 |should_be.greater_than_or_equal_to| 0.9
-
-
 >>> import math
 >>> @matcher
-... def the_square_root_of():
+... def be_the_square_root_of():
 ...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
->>> 3 |should_be.the_square_root_of| 9
+>>> 3 |should.be_the_square_root_of| 9
 

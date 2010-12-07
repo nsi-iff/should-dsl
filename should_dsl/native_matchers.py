@@ -19,13 +19,3 @@ class NativeHaveMatcher(NativeMatcher):
         self._value = value
         return self.arg in self._value
 
-
-class NativeBeMatcher(NativeMatcher):
-    def __init__(self):
-        self._should_message = "%r is not %r"
-        self._should_not_message = "%r is %r"
-
-    def match(self, value):
-        self._value = value
-        return self._value is self.arg
-

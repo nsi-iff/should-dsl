@@ -9,12 +9,12 @@ _predicate_regexes = set(['is_(.+)', 'is(.+)'])
 
 class Should(object):
 
-    def __init__(self, negate=False, be=False, have=False):
+    def __init__(self, negate=False, have=False):
         self._negate = negate
         self._have = have
         self._matchers_by_name = dict()
-        if have or be:
-            self._set_default_matcher()
+        if have:
+            self._matcher = native_matchers.NativeHaveMatcher
         self._identifiers_named_equal_matchers = dict()
 
     def _evaluate(self, value):
@@ -36,7 +36,7 @@ class Should(object):
         else:
             self._convert_deprecated_style(rvalue)
         return self._check_expectation()
-    
+
     def _destroy_function_matchers(self):
         self._remove_matchers_from_namespace()
         self._put_original_identifiers_back()
@@ -149,24 +149,11 @@ class Should(object):
         return self._prepare_to_receive_rvalue(method_name)
 
     def _prepare_to_receive_rvalue(self, method_name):
-        should = Should(negate=self._negate, have=self._have, be=not self._have)
+        should = Should(negate=self._negate, have=self._have)
         should._matchers_by_name = self._matchers_by_name
         should._old_style_call = True
         should._matcher = self._matchers_by_name[method_name]
         return should
-
-    def _set_default_matcher(self):
-        '''The default behavior for a should object, called on constructor'''
-        if self._have:
-            self._turn_into_should_have()
-        else:
-            self._turn_into_should_be()
-
-    def _turn_into_should_have(self):
-        self._matcher = native_matchers.NativeHaveMatcher
-
-    def _turn_into_should_be(self):
-        self._matcher = native_matchers.NativeBeMatcher
 
     def _convert_deprecated_style(self, rvalue):
         self._rvalue = self._matcher()
@@ -232,15 +219,12 @@ should = Should(negate=False)
 should_not = Should(negate=True)
 
 # should objects for backwards compatibility
-should_be = Should(be=True)
-should_not_be = Should(negate=True, be=True)
 should_have = Should(negate=False, have=True)
 should_not_have = Should(negate=True, have=True)
 
 def matcher(matcher_object):
-    '''Create customer should_be matchers. We recommend you use it as a decorator'''
-    should_objects = (should, should_not, should_be, should_not_be, should_have,
-                      should_not_have)
+    '''Create customer should matchers. We recommend you use it as a decorator'''
+    should_objects = (should, should_not, should_have, should_not_have)
     for should_object in should_objects:
         should_object.add_matcher(matcher_object)
     return matcher_object
@@ -248,3 +232,4 @@ def matcher(matcher_object):
 
 def add_predicate_regex(regex):
     _predicate_regexes.update([regex])
+

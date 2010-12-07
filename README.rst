@@ -1,6 +1,6 @@
 =============================================================
 Should-DSL: Improve readability for should-style expectations
-=============================================================
+SH=============================================================
 
 The goal of *Should-DSL* is to write should expectations in Python as clear and readable as possible, using **"almost"** natural language (limited - sometimes - by the Python language constraints).
 
@@ -51,14 +51,15 @@ should be written as::
     >>> 3 |should_not| equal_to(2.99)
 
 
-``should_dsl`` module offers ``should_be``, ``should_have`` and their negative counterparts to be used with no matchers - but all old style::
+``should_dsl`` module offers ``should_have`` and ``should_not_have`` to be used with no matchers - but all old style::
 
-    >>> from should_dsl import should_be, should_have
+    >>> from should_dsl import should_have, should_not_have
 
     >>> [1, 2] |should_have| 1
 
-    >>> 1 |should_be| 1
+    >>> [2, 4, 6] |should_not_have| 5
 
 
 
 This new syntax for writing expectations has been changed because the requirement to have a single "right value" had been a limition to write new matchers and add other enhancements to Should-DSL and you should update the code that uses old style, because we plan to remove them soon.
+

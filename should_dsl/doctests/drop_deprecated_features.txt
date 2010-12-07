@@ -1,16 +1,12 @@
 >>> from should_dsl import *
 
 >>> 1 |should_be| 1
-
->>> 1 |should_not_be| 1.1
-
->>> 1 |should_be| 2
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 1 is not 2
+NameError: name 'should_be' is not defined
 
->>> 'b' |should_not_be| 'b'
+>>> 1 |should_not_be| 2
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 'b' is 'b'
+NameError: name 'should_not_be' is not defined
 
