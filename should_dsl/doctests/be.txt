@@ -7,9 +7,10 @@
 >>> 'a' |should| be('b')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 'a' is not 'b'
+ShouldNotSatisfied: 'a' was expected to be 'b'
 
 >>> 1 |should_not| be(1)
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 1 is 1
+ShouldNotSatisfied: 1 was not expected to be 1
+
