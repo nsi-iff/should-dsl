@@ -2,9 +2,9 @@
 Contributing
 ============
 
-Contributions are always welcome! You can send us any patch you want to.
+Contributions are always welcome! You can send us any patch you want.
 
-Here are listed some steps to make the integration os patches easier.
+Here are listed some steps to make the integration of patches easier.
 
 
 1) Fork the project

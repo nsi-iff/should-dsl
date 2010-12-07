@@ -1,5 +1,5 @@
 html, body {
-    margin: 0px;
+    margin: 5px 0 0;
     padding: 0px;
 
     font: 14px Verdana, helvetica, arial, freesans, clean, sans-serif;
@@ -9,17 +9,38 @@ html, body {
     background-color: #eee;
 }
 
-h1, h2 {
-    margin: 0px;
-    padding: 0px 0px 5px 0px;
-}
-
 h1 {
     font-size: 20px;
 }
 
 h2 {
     font-size: 15px;
+}
+
+#basic-usage h1,
+#documentation h1,
+#installation h2,
+#contributing h1,
+#user-mailing-list h1,
+#development-mailing-list h1,
+#keep-in-touch h1,
+#download-should-dsl-now h1 {
+    padding: 0px 0px 5px 0px;
+    font-size: 36px;
+    font-family: helvetica, Arial;
+}
+
+#download-should-dsl-now h1 {
+    margin-bottom: 30px;
+}
+
+#download-should-dsl-now p {
+    margin-bottom: 35px;
+}
+
+h1, h2 {
+    margin: 0px;
+    font-weight: bold;
 }
 
 br {
@@ -80,7 +101,7 @@ hr {
     margin: 25px 0;
 }
 
-#powered-by h1, h2 {
+#powered-by h1 {
     font-size: 16px;
     border: 0;
     width: 100%;
@@ -220,21 +241,12 @@ hr {
 
 .body h2 {
     margin-top: 10px;
-
-    font: 20px helvetica, Arial;
-}
-
-.section {
-    margin: 5px 0px 0px 0px;
 }
 
 .highlight {
     background: none;
 }
 
-.body h1, .section h1 {
-    font: 25px helvetica, Arial;
-}
 
 /* ========================================================================== */
 
