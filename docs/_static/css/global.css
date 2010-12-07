@@ -236,7 +236,7 @@ hr {
 .body {
     padding: 20px;
     background-color: #fff;
-    min-height: 783px;
+    overflow: auto;
 
     border-radius: 5px;
     -moz-border-radius: 5px;
