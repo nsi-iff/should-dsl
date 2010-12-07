@@ -39,6 +39,7 @@ cards_game_spec.py::
         self.player.discard(card)
         self.player |should_not| contain(card)
 
+
     if __name__ == '__main__':
         unittest.main()
 
