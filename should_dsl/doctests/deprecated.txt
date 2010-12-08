@@ -1,9 +1,5 @@
 >>> from should_dsl import *
 
->>> [1, 2, 3] |should_have.all_of| [2, 3]
-
->>> [1, 2, 3] |should_not_have.any_of| [5, 6]
-
 >>> import math
 >>> @matcher
 ... def be_the_square_root_of():

@@ -1,7 +1,6 @@
 import sys
 import re
 from types import FunctionType
-from should_dsl import native_matchers
 
 
 _predicate_regexes = set(['is_(.+)', 'is(.+)'])
@@ -9,12 +8,9 @@ _predicate_regexes = set(['is_(.+)', 'is(.+)'])
 
 class Should(object):
 
-    def __init__(self, negate=False, have=False):
+    def __init__(self, negate=False):
         self._negate = negate
-        self._have = have
         self._matchers_by_name = dict()
-        if have:
-            self._matcher = native_matchers.NativeHaveMatcher
         self._identifiers_named_equal_matchers = dict()
 
     def _evaluate(self, value):
@@ -149,7 +145,7 @@ class Should(object):
         return self._prepare_to_receive_rvalue(method_name)
 
     def _prepare_to_receive_rvalue(self, method_name):
-        should = Should(negate=self._negate, have=self._have)
+        should = Should(negate=self._negate)
         should._matchers_by_name = self._matchers_by_name
         should._old_style_call = True
         should._matcher = self._matchers_by_name[method_name]
@@ -218,13 +214,9 @@ class ShouldNotSatisfied(AssertionError):
 should = Should(negate=False)
 should_not = Should(negate=True)
 
-# should objects for backwards compatibility
-should_have = Should(negate=False, have=True)
-should_not_have = Should(negate=True, have=True)
-
 def matcher(matcher_object):
     '''Create customer should matchers. We recommend you use it as a decorator'''
-    should_objects = (should, should_not, should_have, should_not_have)
+    should_objects = (should, should_not)
     for should_object in should_objects:
         should_object.add_matcher(matcher_object)
     return matcher_object

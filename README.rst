@@ -51,15 +51,5 @@ should be written as::
     >>> 3 |should_not| equal_to(2.99)
 
 
-``should_dsl`` module offers ``should_have`` and ``should_not_have`` to be used with no matchers - but all old style::
-
-    >>> from should_dsl import should_have, should_not_have
-
-    >>> [1, 2] |should_have| 1
-
-    >>> [2, 4, 6] |should_not_have| 5
-
-
-
 This new syntax for writing expectations has been changed because the requirement to have a single "right value" had been a limition to write new matchers and add other enhancements to Should-DSL and you should update the code that uses old style, because we plan to remove them soon.
 
