@@ -34,6 +34,13 @@ class Should(object):
             self._convert_deprecated_style(rvalue)
         return self._check_expectation()
 
+    def _check_expectation(self):
+        if not self._evaluate(self._rvalue.match(self._lvalue)):
+            raise ShouldNotSatisfied(self._negate and \
+                self._rvalue.message_for_failed_should_not() or \
+                self._rvalue.message_for_failed_should())
+
+
     def _destroy_function_matchers(self):
         self._outer_frame = sys._getframe(2).f_globals
         self._remove_matchers_from_namespace()
@@ -60,44 +67,6 @@ class Should(object):
             f_globals[attr_name] = attr_ref
         self._identifiers_named_equal_matchers.clear()
 
-    def _check_expectation(self):
-        if not self._evaluate(self._rvalue.match(self._lvalue)):
-            raise ShouldNotSatisfied(self._negate and self._rvalue.message_for_failed_should_not() or self._rvalue.message_for_failed_should())
-
-    def add_matcher(self, matcher_object):
-        if (hasattr(matcher_object, 'func_name') or
-            isinstance(matcher_object, FunctionType)):
-            function, message = matcher_object()
-            class GeneratedMatcher(object):
-                name = matcher_object.__name__
-                def __init__(self):
-                    self._function, self._message = function, message
-                def __call__(self, arg):
-                    self.arg = arg
-                    return self
-                def match(self, value):
-                    self._value = value
-                    return self._function(self._value, self.arg)
-                def message_for_failed_should(self):
-                    return self._message % (self._value, "not ", self.arg)
-                def message_for_failed_should_not(self):
-                    return self._message % (self._value, "", self.arg)
-            matcher_object = GeneratedMatcher
-            name = GeneratedMatcher.name
-        else:
-            name = matcher_object.name
-        self._ensure_matcher_init_doesnt_have_arguments(matcher_object)
-        self._matchers_by_name[name] = matcher_object
-
-    def _ensure_matcher_init_doesnt_have_arguments(self, matcher_object):
-        try:
-            matcher_object()
-        except TypeError:
-            e = sys.exc_info()[1]
-            if str(e).startswith('__init__() takes exactly'):
-                raise TypeError('matcher class constructor cannot have arguments')
-            else:
-                raise
 
     def _create_function_matchers(self):
         self._outer_frame = sys._getframe(2).f_globals
@@ -133,6 +102,42 @@ class Should(object):
         predicate_and_matcher_names += [(attr_name, attr_name) for attr_name in public_names]
         for predicate_name, attr_name in predicate_and_matcher_names:
             f_globals['be_' + predicate_name] = _PredicateMatcher(attr_name)
+
+
+    def add_matcher(self, matcher_object):
+        if (hasattr(matcher_object, 'func_name') or
+            isinstance(matcher_object, FunctionType)):
+            function, message = matcher_object()
+            class GeneratedMatcher(object):
+                name = matcher_object.__name__
+                def __init__(self):
+                    self._function, self._message = function, message
+                def __call__(self, arg):
+                    self.arg = arg
+                    return self
+                def match(self, value):
+                    self._value = value
+                    return self._function(self._value, self.arg)
+                def message_for_failed_should(self):
+                    return self._message % (self._value, "not ", self.arg)
+                def message_for_failed_should_not(self):
+                    return self._message % (self._value, "", self.arg)
+            matcher_object = GeneratedMatcher
+            name = GeneratedMatcher.name
+        else:
+            name = matcher_object.name
+        self._ensure_matcher_init_doesnt_have_arguments(matcher_object)
+        self._matchers_by_name[name] = matcher_object
+
+    def _ensure_matcher_init_doesnt_have_arguments(self, matcher_object):
+        try:
+            matcher_object()
+        except TypeError:
+            e = sys.exc_info()[1]
+            if str(e).startswith('__init__() takes exactly'):
+                raise TypeError('matcher class constructor cannot have arguments')
+            else:
+                raise
 
     def _get_all_public_attr_names(self, obj):
         return [attr_name for attr_name in dir(obj) if not attr_name.startswith('_')]
@@ -202,7 +207,6 @@ def matcher(matcher_object):
     for should_object in should_objects:
         should_object.add_matcher(matcher_object)
     return matcher_object
-
 
 def add_predicate_regex(regex):
     _predicate_regexes.update([regex])
