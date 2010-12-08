@@ -21,3 +21,9 @@ Traceback (most recent call last):
     ...
 NameError: name 'should_not_have' is not defined
 
+
+>>> "Brasil" |should.end_with| "sil"
+Traceback (most recent call last):
+    ...
+AttributeError: ...
+

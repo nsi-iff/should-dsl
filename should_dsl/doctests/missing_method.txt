@@ -1,7 +1,0 @@
->>> from should_dsl import *
-
->>> 10 |should.be_the_maximum_of| [1, 2, 10]
-Traceback (most recent call last):
-...
-AttributeError: Should object has no matcher 'be_the_maximum_of'
-

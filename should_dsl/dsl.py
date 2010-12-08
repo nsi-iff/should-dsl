@@ -137,24 +137,6 @@ class Should(object):
     def _get_all_public_attr_names(self, obj):
         return [attr_name for attr_name in dir(obj) if not attr_name.startswith('_')]
 
-    # deprecated behaviour
-    def __getattr__(self, method_name):
-        if method_name not in self._matchers_by_name:
-            raise AttributeError("%s object has no matcher '%s'" % (
-                self.__class__.__name__, method_name))
-        return self._prepare_to_receive_rvalue(method_name)
-
-    def _prepare_to_receive_rvalue(self, method_name):
-        should = Should(negate=self._negate)
-        should._matchers_by_name = self._matchers_by_name
-        should._old_style_call = True
-        should._matcher = self._matchers_by_name[method_name]
-        return should
-
-    def _convert_deprecated_style(self, rvalue):
-        self._rvalue = self._matcher()
-        self._rvalue.arg = rvalue
-
 
 class _PredicateMatcher(object):
 
