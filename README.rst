@@ -1,6 +1,6 @@
 =============================================================
 Should-DSL: Improve readability for should-style expectations
-SH=============================================================
+=============================================================
 
 The goal of *Should-DSL* is to write should expectations in Python as clear and readable as possible, using **"almost"** natural language (limited - sometimes - by the Python language constraints).
 
