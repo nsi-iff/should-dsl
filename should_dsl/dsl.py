@@ -36,7 +36,7 @@ class Should(object):
         else:
             self._convert_deprecated_style(rvalue)
         return self._check_expectation()
-    
+
     def _destroy_function_matchers(self):
         self._remove_matchers_from_namespace()
         self._put_original_identifiers_back()
@@ -91,10 +91,10 @@ class Should(object):
             name = GeneratedMatcher.name
         else:
             name = matcher_object.name
-        self._validate_matcher(matcher_object)
+        self._ensure_matcher_init_doesnt_have_arguments(matcher_object)
         self._matchers_by_name[name] = matcher_object
 
-    def _validate_matcher(self, matcher_object):
+    def _ensure_matcher_init_doesnt_have_arguments(self, matcher_object):
         try:
             matcher_object()
         except TypeError:
@@ -248,3 +248,4 @@ def matcher(matcher_object):
 
 def add_predicate_regex(regex):
     _predicate_regexes.update([regex])
+
