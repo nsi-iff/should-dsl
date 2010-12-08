@@ -202,10 +202,9 @@ should = Should(negate=False)
 should_not = Should(negate=True)
 
 def matcher(matcher_object):
-    '''Create customer should matchers. We recommend you use it as a decorator'''
-    should_objects = (should, should_not)
-    for should_object in should_objects:
-        should_object.add_matcher(matcher_object)
+    '''Adds given matcher to should objects. We recommend you use it as a decorator'''
+    should.add_matcher(matcher_object)
+    should_not.add_matcher(matcher_object)
     return matcher_object
 
 def add_predicate_regex(regex):
