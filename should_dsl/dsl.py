@@ -87,10 +87,10 @@ class Should(object):
             name = GeneratedMatcher.name
         else:
             name = matcher_object.name
-        self._validate_matcher(matcher_object)
+        self._ensure_matcher_init_doesnt_have_arguments(matcher_object)
         self._matchers_by_name[name] = matcher_object
 
-    def _validate_matcher(self, matcher_object):
+    def _ensure_matcher_init_doesnt_have_arguments(self, matcher_object):
         try:
             matcher_object()
         except TypeError:
