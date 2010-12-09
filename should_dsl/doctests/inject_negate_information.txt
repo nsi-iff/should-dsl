@@ -1,0 +1,19 @@
+>>> from should_dsl import should, should_not, matcher
+
+>>> class FooMatcher(object):
+...
+...     name = 'be_a_foo_object'
+...
+...     def match(self, right_object):
+...         print self.run_with_negate
+...         return not self.run_with_negate
+
+>>> matcher(FooMatcher)
+<class 'FooMatcher'>
+
+>>> 1 |should| be_a_foo_object
+False
+
+>>> 1 |should_not| be_a_foo_object
+True
+
