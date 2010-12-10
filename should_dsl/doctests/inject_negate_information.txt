@@ -17,3 +17,19 @@ Ran with negate? False
 >>> 1 |should_not| be_a_foo_object
 Ran with negate? True
 
+
+Matchers which __slots__ attribute will not cause AttributeError.
+
+>>> class BarMatcher(object):
+...     __slots__ = []
+...
+...     name = 'be_a_bar_object'
+...
+...     def match(self, right_object):
+...         return True
+
+>>> matcher(BarMatcher)
+<class 'BarMatcher'>
+
+>>> 1 |should| be_a_bar_object
+

@@ -89,8 +89,14 @@ class Should(object):
         for matcher_name, matcher_function in self._matchers_by_name.items():
             matcher_function = self._matchers_by_name[matcher_name]
             matcher = matcher_function()
-            matcher.run_with_negate = self._negate
+            self._inject_negate_information(matcher)
             f_globals[matcher_name] = matcher
+
+    def _inject_negate_information(self, matcher):
+        try:
+            matcher.run_with_negate = self._negate
+        except AttributeError:
+            pass
 
     def _put_predicate_matchers_on_namespace(self):
         f_globals = self._outer_frame
