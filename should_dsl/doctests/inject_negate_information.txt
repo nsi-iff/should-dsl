@@ -5,15 +5,15 @@
 ...     name = 'be_a_foo_object'
 ...
 ...     def match(self, right_object):
-...         print self.run_with_negate
+...         print "Ran with negate? %s" % self.run_with_negate
 ...         return not self.run_with_negate
 
 >>> matcher(FooMatcher)
 <class 'FooMatcher'>
 
 >>> 1 |should| be_a_foo_object
-False
+Ran with negate? False
 
 >>> 1 |should_not| be_a_foo_object
-True
+Ran with negate? True
 
