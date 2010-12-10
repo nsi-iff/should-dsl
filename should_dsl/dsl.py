@@ -71,7 +71,6 @@ class Should(object):
     def _create_function_matchers(self):
         self._outer_frame = sys._getframe(2).f_globals
         self._save_clashed_identifiers()
-        self._inject_negate_information_to_matchers()
         self._put_matchers_on_namespace()
 
     def _save_clashed_identifiers(self):
@@ -81,10 +80,6 @@ class Should(object):
             if matcher_name in f_globals:
                 self._identifiers_named_equal_matchers[matcher_name] = f_globals[matcher_name]
 
-    def _inject_negate_information_to_matchers(self):
-        for matcher in self._matchers_by_name.values():
-            matcher.run_with_negate = self._negate
-
     def _put_matchers_on_namespace(self):
         self._put_regular_matchers_on_namespace()
         self._put_predicate_matchers_on_namespace()
@@ -93,7 +88,9 @@ class Should(object):
         f_globals = self._outer_frame
         for matcher_name, matcher_function in self._matchers_by_name.items():
             matcher_function = self._matchers_by_name[matcher_name]
-            f_globals[matcher_name] = matcher_function()
+            matcher = matcher_function()
+            matcher.run_with_negate = self._negate
+            f_globals[matcher_name] = matcher
 
     def _put_predicate_matchers_on_namespace(self):
         f_globals = self._outer_frame
