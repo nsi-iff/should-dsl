@@ -1,0 +1,40 @@
+>>> from should_dsl import should, should_not
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should| include_values(1)
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should| include_values(1, 3)
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should| include_values(1, 2, 3)
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should| include_values(1, 4)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target to include value 4
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should| include_values(1, 4, 5)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target to include values 4 and 5
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should| include_values(6, 1, 4, 5)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target to include values 6, 4 and 5
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should_not| include_values(4, 5)
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should_not| include_values(1, 2, 4)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target to not include values 1 and 2
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should_not| include_values(3, 4)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target to not include value 3
+
+>>> ['a', 'b', 'c'] |should| include_values('does not matter')
+Traceback (most recent call last):
+    ...
+TypeError: target must be a dictionary
+

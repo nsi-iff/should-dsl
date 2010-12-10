@@ -542,7 +542,26 @@ class Like(BeLike):
 matcher(Like)
 
 
-class IncludeKeys(object):
+class IncludeDictElement(object):
+
+    def _pluralize(self, word):
+        return len(self._undesired_elements) > 1 and ('%ss' % word) or word
+
+    def _humanize_undesired_elements(self):
+        list_ = self._undesired_elements
+        if len(list_) == 1:
+            return repr(list_[0])
+        list_ = map(lambda x: repr(x), list_)
+        last = list_.pop()
+        list_[-1] = "%s and %s" % (list_[-1], last)
+        return ', '.join(list_)
+
+    def _ensure_it_is_really_a_dict(self, target):
+        if not isinstance(target, dict):
+            raise TypeError('target must be a dictionary')
+
+
+class IncludeKeys(IncludeDictElement):
 
     name = 'include_keys'
 
@@ -553,38 +572,53 @@ class IncludeKeys(object):
     def match(self, dictionary):
         self._ensure_it_is_really_a_dict(dictionary)
         self._actual_keys = dictionary.keys()
-        self._undesired_keys = []
+        self._undesired_elements = []
         if self.run_with_negate:
-            self._undesired_keys = [key for key in self._expected_keys if key in self._actual_keys]
-            return len(self._undesired_keys) != 0
+            self._undesired_elements = [key for key in self._expected_keys if key in self._actual_keys]
+            return len(self._undesired_elements) != 0
         else:
-            self._undesired_keys = [key for key in self._expected_keys if key not in self._actual_keys]
-            return len(self._undesired_keys) == 0
+            self._undesired_elements = [key for key in self._expected_keys if key not in self._actual_keys]
+            return len(self._undesired_elements) == 0
 
     def message_for_failed_should(self):
         return "expected target to include %s %s" % (
-            self._pluralize_key(), self._humanize_undesired_keys())
+            self._pluralize('key'), self._humanize_undesired_elements())
 
     def message_for_failed_should_not(self):
         return "expected target to not include %s %s" % (
-            self._pluralize_key(), self._humanize_undesired_keys())
-
-    def _ensure_it_is_really_a_dict(self, target):
-        if not isinstance(target, dict):
-            raise TypeError('target must be a dictionary')
-
-    def _pluralize_key(self):
-        return len(self._undesired_keys) > 1 and 'keys' or 'key'
-
-    def _humanize_undesired_keys(self):
-        list_ = self._undesired_keys
-        if len(list_) == 1:
-            return repr(list_[0])
-        list_ = map(lambda x: repr(x), list_)
-        last = list_.pop()
-        list_[-1] = "%s and %s" % (list_[-1], last)
-        return ', '.join(list_)
+            self._pluralize('key'), self._humanize_undesired_elements())
 
 
 matcher(IncludeKeys)
+
+
+class IncludeValues(IncludeDictElement):
+
+    name = 'include_values'
+
+    def __call__(self, *values):
+        self._expected_values = values
+        return self
+
+    def match(self, dictionary):
+        self._ensure_it_is_really_a_dict(dictionary)
+        self._actual_values = dictionary.values()
+        self._undesired_elements = []
+        if self.run_with_negate:
+            self._undesired_elements = [value for value in self._expected_values if value in self._actual_values]
+            return len(self._undesired_elements) != 0
+        else:
+            self._undesired_elements = [value for value in self._expected_values if value not in self._actual_values]
+            return len(self._undesired_elements) == 0
+
+    def message_for_failed_should(self):
+        return "expected target to include %s %s" % (
+            self._pluralize('value'), self._humanize_undesired_elements())
+
+    def message_for_failed_should_not(self):
+        return "expected target to not include %s %s" % (
+            self._pluralize('value'), self._humanize_undesired_elements())
+
+
+matcher(IncludeValues)
 
