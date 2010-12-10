@@ -1,0 +1,40 @@
+>>> from should_dsl import should, should_not
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should| include_keys('a')
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should| include_keys('a', 'c')
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should| include_keys('a', 'c', 'b')
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should| include_keys('a', 'd')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target to include key 'd'
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should| include_keys('a', 'd', 'e')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target to include keys 'd' and 'e'
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should| include_keys('f', 'a', 'd', 'e')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target to include keys 'f', 'd' and 'e'
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should_not| include_keys('d', 'e')
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should_not| include_keys('a', 'b', 'd')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target to not include keys 'a' and 'b'
+
+>>> {'a': 1, 'b': 2, 'c': 3} |should_not| include_keys('c', 'd')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected target to not include key 'c'
+
+>>> ['a', 'b', 'c'] |should| include_keys('a', 'b', 'c')
+Traceback (most recent call last):
+    ...
+TypeError: target must be a dictionary
+
