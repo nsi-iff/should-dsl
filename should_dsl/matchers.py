@@ -574,7 +574,7 @@ class IncludeDictElement(object):
         list_ = self._undesired_elements
         if len(list_) == 1:
             return repr(list_[0])
-        list_ = map(lambda x: repr(x), list_)
+        list_ = map(repr, list_)
         last = list_.pop()
         list_[-1] = "%s and %s" % (list_[-1], last)
         return ', '.join(list_)
