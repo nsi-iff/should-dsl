@@ -336,6 +336,16 @@ Checks if a dictionary includes all the given keys.
     >>> {'a': 1, 'b': 2, 'c': 3} |should_not| include_keys('d')
 
 
+**include_values**
+
+Checks if a dictionary includes all the given values.
+
+::
+
+    >>> {'a': 1, 'b': 2, 'c': 3} |should| include_values(2, 3)
+    >>> {'a': 1, 'b': 2, 'c': 3} |should_not| include_values(0, 4)
+
+
 **respond_to**
 
 Checks if an object has a given attribute or method.
