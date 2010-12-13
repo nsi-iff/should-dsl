@@ -68,14 +68,14 @@ def be_less_than_or_equal_to():
 
 def check_exception(expected_exception, callable_and_possible_params):
     if getattr(callable_and_possible_params, '__getitem__', False):
-        callable = callable_and_possible_params[0]
+        callable_object = callable_and_possible_params[0]
         params = callable_and_possible_params[1:]
     else:
-        callable = callable_and_possible_params
+        callable_object = callable_and_possible_params
         params = []
 
     try:
-        callable(*params)
+        callable_object(*params)
         return False
     except expected_exception:
         return True
