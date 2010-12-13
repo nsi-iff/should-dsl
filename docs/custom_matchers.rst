@@ -110,3 +110,38 @@ information. By example, the *close_to* matcher's *__call__()* method receives 2
 the expected value and a delta. Once a matcher is a regular Python object, any Python can be used.
 In *close_to*, delta can be used as a named parameter for readability purposes.
 
+
+should or should_not?
+=====================
+
+For the most matchers, should is the exact opposite to should_not. For the same
+expected and actual values, if should_not fails, should will pass; in the same
+way, if should fails, should_not passes. However, this is not true for all matchers.
+Depending on your matcher semantics, the same expected and actual values can
+fail or pass both should and should_not. A good example is the matcher
+include_keys. The calls shown below will fail::
+
+    >>> {'a': 1, 'b': 2, 'c': 3} |should| include_keys('a', 'd')
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: expected target to include key 'd'
+
+    >>> {'a': 1, 'b': 2, 'c': 3} |should_not| include_keys('a', 'd')
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: expected target to not include key 'a'
+
+
+In order to make possible to implement matchers like include_keys, Should-DSL
+injects, into all matchers, information about what kind of should is being run:
+should or should_not. The matcher can access this information in the attribte
+"run_with_negate". So, within your matcher you can have::
+
+    if self.run_with_negate:
+        # do what you want for a should_not
+    else:
+        # this matcher was run with should
+
+
+With this information, the matcher can act according to the way it is being run.
+
