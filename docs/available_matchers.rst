@@ -326,6 +326,16 @@ Checks if an iterable includes any element of another.
     >>> (1,) |should| include_any_of([4, 6, 3, 1, 9, 7])
 
 
+**include_keys**
+
+Checks if a dictionary includes all the given keys.
+
+::
+
+    >>> {'a': 1, 'b': 2, 'c': 3} |should| include_keys('a', 'b')
+    >>> {'a': 1, 'b': 2, 'c': 3} |should_not| include_keys('d')
+
+
 **respond_to**
 
 Checks if an object has a given attribute or method.
@@ -350,3 +360,4 @@ Verifies if a string starts with a given prefix.
 
     >>> "Brazil champion of 2010 FIFA world cup" |should| start_with('Brazil champion')
     >>> "hello world" |should_not| start_with('Hello')
+
