@@ -26,12 +26,7 @@ class Should(object):
 
     def __or__(self, rvalue):
         self._destroy_function_matchers()
-        if not hasattr(self, '_old_style_call'):
-            self._rvalue = rvalue
-            if not hasattr(rvalue, 'match'):
-                self._convert_deprecated_style(rvalue)
-        else:
-            self._convert_deprecated_style(rvalue)
+        self._rvalue = rvalue
         return self._check_expectation()
 
     def _check_expectation(self):
