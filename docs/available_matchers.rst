@@ -70,6 +70,18 @@ Verifies if an object is contained (*be_into*) or contains (*contain*) another. 
     >>> ['x', 'y', 'z'] |should| include('z')
 
 
+**be_empty**
+
+Verifies if an object is empty. Works for lists, strings, tuples, dictionaries, and any object that implements *__len__()*.
+
+::
+
+    >>> '' |should| be_empty
+    >>> [] |should| be_empty
+    >>> () |should| be_empty
+    >>> {} |should| be_empty
+
+
 **be_kind_of**
 
 Verifies if an object is of a given type.
