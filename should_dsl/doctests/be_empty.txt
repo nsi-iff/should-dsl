@@ -1,0 +1,47 @@
+>>> from should_dsl import should, should_not
+
+>>> [] |should| be_empty
+
+>>> [] |should_not| be_empty
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected [] not to be empty
+
+>>> [1] |should_not| be_empty
+
+>>> [1] |should| be_empty
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected [1] to be empty
+
+
+>>> () |should| be_empty
+
+>>> (1,) |should_not| be_empty
+
+>>> () |should_not| be_empty
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected () not to be empty
+
+>>> (1,) |should| be_empty
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected (1,) to be empty
+
+
+>>> '' |should| be_empty
+>>> 'a' |should_not| be_empty
+
+>>> {} |should| be_empty
+>>> {'a': 1} |should_not| be_empty
+
+>>> class MyCollection:
+...     def __init__(self, count):
+...          self.count = count
+...     def __len__(self):
+...          return self.count
+
+>>> MyCollection(0) |should| be_empty
+>>> MyCollection(1) |should_not| be_empty
+
