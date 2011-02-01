@@ -289,6 +289,19 @@ Checks the element count of a given collection. It can work with iterables, requ
     >>> Foo() |should| have(3).inner_things
     >>> Foo() |should| have(10).pieces
 
+*have* allows counting collections within field objects.
+
+::
+
+    >>> class Field:
+    ...     def __init__(self, number_of_players):
+    ...         self.players = range(number_of_players)
+
+    >>> class SoccerGame:
+    ...      def __init__(self):
+    ...          self.field = Field(22)
+
+    >>> SoccerGame() |should| have(22).players_on_field
 
 **have_at_least**
 
