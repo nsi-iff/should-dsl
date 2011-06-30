@@ -265,6 +265,13 @@ It can even show you a diff if you are comparing two big strings.
     -big+big
     +string
 
+This matcher can check string equality ignoring case too.
+A bonus: you can combine this feature with the diff parameter too.
+
+::
+
+    >>> 'abc' |should| equal_to('abC', case_sensitive=False)
+
 
 **equal_to_ignoring_case**
 
