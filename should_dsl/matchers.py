@@ -633,12 +633,12 @@ class HaveSameAttributes(object):
         self._other_object = other_object
         return self
 
-    def match(self, atual_object):
-        self._atual_object = atual_object
+    def match(self, actual_object):
+        self._actual_object = actual_object
         found_different_attribute = False
 
         for key in self._other_object.__dict__.iterkeys():
-            got = self._atual_object.__dict__.get(key)
+            got = self._actual_object.__dict__.get(key)
             expected =  self._other_object.__dict__.get(key)
             if got != expected:
                 found_different_attribute = True
@@ -647,9 +647,9 @@ class HaveSameAttributes(object):
         return found_different_attribute == False
 
     def message_for_failed_should(self):
-        return "expected %s to have the same attributes as %s" % (repr(self._atual_object), repr(self._other_object))
+        return "expected %s to have the same attributes as %s" % (repr(self._actual_object), repr(self._other_object))
 
     def message_for_failed_should_not(self):
-        return "expected %s to have not the same attributes as %s" % (repr(self._atual_object), repr(self._other_object))
+        return "expected %s to have not the same attributes as %s" % (repr(self._actual_object), repr(self._other_object))
 
 matcher(HaveSameAttributes)
