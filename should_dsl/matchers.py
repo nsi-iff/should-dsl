@@ -625,3 +625,31 @@ class BeEmpty(object):
 
 matcher(BeEmpty)
 
+class HaveSameAttributes(object):
+
+    name = 'have_same_attributes_as'
+
+    def __call__(self, other_object):
+        self._other_object = other_object
+        return self
+
+    def match(self, atual_object):
+        self._atual_object = atual_object
+        found_different_attribute = False
+
+        for key in self._other_object.__dict__.iterkeys():
+            got = self._atual_object.__dict__.get(key)
+            expected =  self._other_object.__dict__.get(key)
+            if got != expected:
+                found_different_attribute = True
+                break
+
+        return found_different_attribute == False
+
+    def message_for_failed_should(self):
+        return "expected %s to have the same attributes as %s" % (repr(self._atual_object), repr(self._other_object))
+
+    def message_for_failed_should_not(self):
+        return "expected %s to have not the same attributes as %s" % (repr(self._atual_object), repr(self._other_object))
+
+matcher(HaveSameAttributes)
