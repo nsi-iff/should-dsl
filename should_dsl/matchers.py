@@ -31,14 +31,18 @@ class EqualTo(object):
 
     name = 'equal_to'
 
-    def __call__(self, expected, diff=False):
+    def __call__(self, expected, diff=False, case_sensitive=True):
         self._expected = expected
         self._make_diff = diff
+        self._case_sensitive = case_sensitive
         return self
 
     def match(self, actual):
         self._actual = actual
         self._diff = ''
+
+        if not self._case_sensitive:
+            self._prepare_strings_to_case_insensitive()
 
         if not self._actual == self._expected:
             if isinstance(self._expected, str) and isinstance(self._actual, str) and self._make_diff:
@@ -48,6 +52,10 @@ class EqualTo(object):
                     self._diff += line
             return False
         return True
+
+    def _prepare_strings_to_case_insensitive(self):
+            self._expected = self._expected.lower()
+            self._actual = self._actual.lower()
 
     def _prepare_strings_to_diff(self):
             self._actual = self._actual.splitlines(True)
