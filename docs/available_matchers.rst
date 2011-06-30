@@ -251,6 +251,20 @@ Checks object equality (not identity).
     ...         return True
     >>> Foo() |should| equal_to(Foo())
 
+It can even show you a diff if you are comparing two big strings.
+
+::
+
+    >>> 'big' |should| equal_to('big\nstring', diff=True)
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: the strings are different, see the diff below:
+    --- actual
+    +++ expected
+    @@ -1,1 +1,2 @@
+    -big+big
+    +string
+
 
 **equal_to_ignoring_case**
 
@@ -267,7 +281,7 @@ Checks equality of strings ignoring case.
 
 Checks the element count of a given collection. It can work with iterables, requiring a qualifier expression for readability purposes that is only a syntax sugar.
 
-::
+::)
 
     >>> ['b', 'c', 'd'] |should| have(3).elements
 
