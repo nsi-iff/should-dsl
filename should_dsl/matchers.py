@@ -38,18 +38,20 @@ class EqualTo(object):
 
     def match(self, actual):
         self._actual = actual
-        is_str_match = False
         self._diff = ''
 
         if not self._actual == self._expected:
             if isinstance(self._expected, str) and isinstance(self._actual, str) and self._make_diff:
-                self._actual = self._actual.splitlines(True)
-                self._expected = self._expected.splitlines(True)
+                self._prepare_strings_to_diff()
                 diff_generator = unified_diff(self._actual, self._expected, fromfile='actual', tofile='expected')
                 for line in diff_generator:
                     self._diff += line
             return False
         return True
+
+    def _prepare_strings_to_diff(self):
+            self._actual = self._actual.splitlines(True)
+            self._expected = self._expected.splitlines(True)
 
     def message_for_failed_should(self):
         default_message = "%r is not equal to %r" % (self._actual, self._expected)
