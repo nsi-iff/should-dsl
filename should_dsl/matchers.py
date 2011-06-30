@@ -1,6 +1,7 @@
 import re
 import sys
 from decimal import Decimal
+from difflib import unified_diff
 from should_dsl import matcher
 
 
@@ -26,6 +27,42 @@ class Be(object):
 matcher(Be)
 
 
+class EqualTo(object):
+
+    name = 'equal_to'
+
+    def __call__(self, expected, diff=False):
+        self._expected = expected
+        self._make_diff = diff
+        return self
+
+    def match(self, actual):
+        self._actual = actual
+        is_str_match = False
+        self._diff = ''
+
+        if not self._actual == self._expected:
+            if isinstance(self._expected, str) and isinstance(self._actual, str) and self._make_diff:
+                self._actual = self._actual.splitlines(True)
+                self._expected = self._expected.splitlines(True)
+                diff_generator = unified_diff(self._actual, self._expected, fromfile='actual', tofile='expected')
+                for line in diff_generator:
+                    self._diff += line
+            return False
+        return True
+
+    def message_for_failed_should(self):
+        default_message = "%r is not equal to %r" % (self._actual, self._expected)
+        if not self._make_diff:
+            return default_message
+        return "the strings are different, see the diff below:\n%s" % self._diff
+
+    def message_for_failed_should_not(self):
+        return "%r is equal to %r" % (self._actual, self._expected)
+
+matcher(EqualTo)
+
+
 @matcher
 def include():
     return (lambda container, item: item in container, "%r does %sinclude %r")
@@ -34,11 +71,6 @@ def include():
 @matcher
 def contain():
     return (lambda container, item: item in container, "%r does %scontain %r")
-
-
-@matcher
-def equal_to():
-    return (lambda x, y: x == y, '%r is %sequal to %r')
 
 
 @matcher
