@@ -407,7 +407,7 @@ Verifies if an object have the same attributes as another one.
     ...        self.a = a
     ...        self.b = b
 
-    >>> a = Foo()
-    >>> b = Foo()
+    >>> a = Foo(1,2)
+    >>> b = Foo(1,2)
 
     >>> a |should| have_same_attributes_as(b)
