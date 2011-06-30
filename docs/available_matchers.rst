@@ -396,3 +396,18 @@ Verifies if a string starts with a given prefix.
     >>> "Brazil champion of 2010 FIFA world cup" |should| start_with('Brazil champion')
     >>> "hello world" |should_not| start_with('Hello')
 
+**have_same_attributes_as**
+
+Verifies if an object have the same attributes as another one.
+
+::
+
+    >>> class Foo(object):
+    ...    def __init__(self, a, b):
+    ...        self.a = a
+    ...        self.b = b
+
+    >>> a = Foo()
+    >>> b = Foo()
+
+    >>> a |should| have_same_attributes_as(b)
