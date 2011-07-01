@@ -4,7 +4,7 @@ Contributing
 
 Contributions are always welcome! You can send us any patch you want.
 
-Here are listed some steps to make the integration of patches easier.
+Below we list some steps to make the integration of patches easier.
 
 
 1) Fork the project
@@ -15,10 +15,10 @@ please, `make one <http://github.com/signup/free>`_.
 
 `Log in Github <https://github.com/login>`_, go to `Should-DSL's project page`_, click **Fork** button.
 
-2) Add the changes your fork
+2) Add the changes to your fork
 ============================
 
-After forking the project, you will have a should-dsl project under you account.
+After forking the project, you will have a should-dsl project under your account.
 
 Clone it, add your changes, commit, commit and push.
 
@@ -31,11 +31,11 @@ Clone it, add your changes, commit, commit and push.
 3) Pull Request
 ===============
 
-After adding your changes and etc, go to your fork page and click **Pull Request** button.
+After adding your changes, go to your fork page and click **Pull Request** button.
 
 Then, add a reasonable message explaining briefly what you have done and why.
 
-After these steps we will keep in touch with you as soon as possible! And if justified, apply your changes.
+After these steps, we will contact you as soon as possible! And if accepted, apply your changes.
 
 
 .. _Should-DSL's project page: http://github.com/hugobr/should-dsl
