@@ -50,3 +50,22 @@ ShouldNotSatisfied: expected not to throw 'Foo' with the message 'who?', but got
 
 >>> (lambda: raise_foo('who?')) |should_not| throw(Foo, message='what?')
 
+
+
+The expected message may also be expressed as a regular expression:
+
+>>> (raise_foo, 'what a pro!') |should| throw(Foo, message_regex=r'what a .+!')
+>>> (raise_foo, 'what a jerk!') |should| throw(Foo, message_regex=r'what a .+!')
+>>> (raise_foo, 'what a pro?') |should_not| throw(Foo, message_regex=r'what a .+!')
+>>> (raise_foo, 'what da hell!') |should_not| throw(Foo, message_regex=r'what a .+!')
+
+>>> (raise_foo, 'what a pro!') |should| throw(Foo, message_regex="what a .+ yeah")
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected to throw 'Foo' with a message that matches 'what a .+ yeah', got 'Foo' with no match for 'what a pro!'
+
+>>> (raise_foo, 'what a pro!') |should_not| throw(Foo, message_regex=r'what a .+!')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected not to throw 'Foo' with a message that matches 'what a .+!', but got it
+

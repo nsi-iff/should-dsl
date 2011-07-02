@@ -92,13 +92,15 @@ class Throw:
 
     name = 'throw'
 
-    def __call__(self, exception, message=None):
-        if message is None and isinstance(exception, Exception):
-            self._expected_message = str(exception)
+    def __call__(self, exception, message=None, message_regex=None):
+        self._expected_message = message
+        self._expected_message_regex = message_regex
+        if isinstance(exception, Exception):
             self._expected_exception = exception.__class__
+            if message is None and message_regex is None:
+                self._expected_message = str(exception)
         else:
             self._expected_exception = exception
-            self._expected_message = message
         return self
 
     def match(self, lvalue):
@@ -115,31 +117,54 @@ class Throw:
         except self._expected_exception:
             e = sys.exc_info()[1]
             self._actual_exception = self._expected_exception
-            if self._expected_message is None:
-                return True
             self._actual_message = str(e)
-            return self._actual_message == self._expected_message
+            return self._handle_expected_message() and self._handle_expected_regex()
         except Exception:
             e = sys.exc_info()[1]
             self._actual_exception = e.__class__
             return False
 
+    def _using_message(self):
+        return self._expected_message is not None
+
+    def _using_regex(self):
+        return self._expected_message_regex is not None and not self._using_message()
+
+    def _got_exception(self):
+        return hasattr(self, '_actual_exception') and self._actual_exception is not None
+
+    def _handle_expected_message(self):
+        if not self._using_message():
+            return True
+        return self._expected_message == self._actual_message
+
+    def _handle_expected_regex(self):
+        if not self._using_regex():
+            return True
+        return re.match(self._expected_message_regex, self._actual_message) is not None
+
     def message_for_failed_should(self):
         message = "expected to throw %r" % self._expected_exception.__name__
-        if self._expected_message is not None:
+        if self._using_message():
             message += " with the message %r" % self._expected_message
-        if self._actual_exception is None:
-            message += ', got no exception'
-        else:
+        elif self._using_regex():
+            message += " with a message that matches %r" % self._expected_message_regex
+        if self._got_exception():
             message += ', got %r' % self._actual_exception.__name__
-        if hasattr(self, '_actual_message'):
-            message += ' with %r' % self._actual_message
+            if self._using_message():
+                message += ' with %r' % self._actual_message
+            elif self._using_regex():
+                message += ' with no match for %r' % self._actual_message
+        else:
+            message += ', got no exception'
         return message
 
     def message_for_failed_should_not(self):
         message = "expected not to throw %r" % self._expected_exception.__name__
-        if self._expected_message is not None:
+        if self._using_message():
             message += " with the message %r" % self._expected_message
+        elif self._using_regex():
+            message += " with a message that matches %r" % self._expected_message_regex
         return "%s, but got it" % message
 
 matcher(Throw)
