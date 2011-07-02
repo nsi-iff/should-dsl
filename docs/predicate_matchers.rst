@@ -1,7 +1,7 @@
 Predicate matchers
 ------------------
 
-Predicate matchers are the matchers work with boolean methods and attributes, to give users more freedom to write more readable specifications.
+Predicate matchers work with boolean methods and attributes, aiming to give to users more freedom to write more readable specifications.
 
 Should-DSL supports predicate matchers on attributes::
 
@@ -12,7 +12,7 @@ Should-DSL supports predicate matchers on attributes::
     >>> Foo(is_valid=True) |should| be_valid
 
 
-And methods::
+And on methods::
 
     >>> class Person(object):
     ...    def __init__(self, money_in_wallet):
@@ -22,7 +22,6 @@ And methods::
     ...
     >>> john = Person(money_in_wallet=999999999)
     >>> john |should| be_rich
-
 
 
     >>> class House(object):
@@ -36,3 +35,4 @@ And methods::
     Traceback (most recent call last):
     ...
     ShouldNotSatisfied: expected made_of('stone') to return True, got False
+

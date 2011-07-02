@@ -10,7 +10,7 @@ Simple Custom Matchers through Functions
 
 For extending Should-DSL with simple matchers a simple decorated function is enough. The function name must be the name of the matcher. The function must have no parameters and it must return a tuple containing two elements.
 
-The first tuple item is the function (or lambda), receiving two parameters, to be run for the comparison, and the second is the failure message. The failure message must have three string formatting operators (like ``%s``, ``%r``, ``%d``, etc) placeholders. The first and the third will be used for the actual and expected values, respectively. The second operator will be the placeholder for a 'not ' string for failed expectations or an empty string for succeded expectation - and the opossite if ``should_not`` is used.
+The first tuple item is the function (or lambda), receiving two parameters, to be run for the comparison, and the second is the failure message. The failure message must have three string formatting operators (such as ``%s``, ``%r``, ``%d``, etc) placeholders. The first and the third will be used for the actual and expected values, respectively. The second operator will be the placeholder for a 'not ' string for failed expectations or an empty string for succeded expectation - and the opossite if ``should_not`` is used.
 
 ::
 
@@ -36,7 +36,7 @@ The first tuple item is the function (or lambda), receiving two parameters, to b
 
 
 
-Not So Simple Matchers through Classes
+Not so Simple Matchers through Classes
 ======================================
 
 If your custom matcher has a more complex behaviour, or if both should and should_not messages differ, you can create custom matchers as classes. In fact, classes as matchers are the preferred way to create matchers, being function matchers only a convenience for simple cases.
@@ -97,24 +97,24 @@ Below is an example of the square root matcher defined as a class::
 
 A matcher class must fill the following requirements:
 
-- a class attribute called *name* containing the desired name for the matcher;
-- a *match(actual)* method receiving the actual value of the expectation as a parameter (e.g., in
+- A class attribute called *name* containing the desired name for the matcher;
+- A *match(actual)* method receiving the actual value of the expectation as a parameter (e.g., in
   *2 \|should\| equal_to(3)* the actual is 2 and the expected is 3). This method should return
   the boolean result of the desired comparison;
-- two methods, called *message_for_failed_should* and *message_for_failed_should_not* for returning
+- Two methods, called *message_for_failed_should* and *message_for_failed_should_not* for returning
   the failure messages for, respectively, should and should_not.
 
-The most common way the expected value is inject to the matcher is through making the matcher
+The most common way the expected value is injected to the matcher is through making the matcher
 callable. Thus, the matcher call can get the expected value and any other necessary or optional
-information. By example, the *close_to* matcher's *__call__()* method receives 2 parameters:
-the expected value and a delta. Once a matcher is a regular Python object, any Python can be used.
+information. As example, the *close_to* matcher's *__call__()* method receives 2 parameters:
+the expected value and a delta. Once a matcher is a regular Python object, any Python statement can be used.
 In *close_to*, delta can be used as a named parameter for readability purposes.
 
 
 should or should_not?
 =====================
 
-For the most matchers, should is the exact opposite to should_not. For the same
+For most of the matchers, should is the exact opposite to should_not. For the same
 expected and actual values, if should_not fails, should will pass; in the same
 way, if should fails, should_not passes. However, this is not true for all matchers.
 Depending on your matcher semantics, the same expected and actual values can
@@ -134,7 +134,7 @@ include_keys. The calls shown below will fail::
 
 In order to make possible to implement matchers like include_keys, Should-DSL
 injects, into all matchers, information about what kind of should is being run:
-should or should_not. The matcher can access this information in the attribte
+should or should_not. The matcher can access this information in the attribute
 "run_with_negate". So, within your matcher you can have::
 
     if self.run_with_negate:
@@ -143,5 +143,5 @@ should or should_not. The matcher can access this information in the attribte
         # this matcher was run with should
 
 
-With this information, the matcher can act according to the way it is being run.
+With this information, the matcher can act in accordance to the way it is being run.
 

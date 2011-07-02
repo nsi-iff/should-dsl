@@ -1,7 +1,7 @@
 User mailing list
 =================
 
-Should-DSL has a user mailing list, where you can ask and check questions about daily usage of it:
+On Should-DSL user list you can ask questions on its daily use:
 
 http://groups.google.com.br/group/should-dsl
 
@@ -23,4 +23,5 @@ http://groups.google.com.br/group/should-dsl-dev
 Keep in touch!
 ==============
 
-We appreciate comments and ideas. Where are yours?
+We appreciate comments and ideas, send yours!
+

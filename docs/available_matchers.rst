@@ -1,10 +1,10 @@
 Should-DSL Matchers
 ===================
 
-Below there are some explanations about the available matchers in *should_dsl* package.
+You can find below some explanations on the available matchers of *should_dsl* package.
 
 
-Before all, you need to import the following::
+Before all, you need to import it::
 
     >>> from should_dsl import should, should_not
 
@@ -21,7 +21,7 @@ Checks object identity (*is*).
 
     >>> a = "some message"
     >>> b = "some message"
-    >>> id(a) == id(b) # the strings are equal but the ids are different
+    >>> id(a) == id(b) # the strings are equal but with different ids
     False
     >>> a |should| be(b)
     Traceback (most recent call last):
@@ -43,7 +43,7 @@ Checks object identity (*is*).
 
 **be_less_than_or_equal_to**
 
-Simply checks the given comparisons.
+Simply check the return of comparisons.
 
 ::
 
@@ -59,7 +59,7 @@ Simply checks the given comparisons.
 
 **include**
 
-Verifies if an object is contained (*be_into*) or contains (*contain*) another. The *contain* and *include* matchers do exactly the same job.
+Verify if an object is contained (*be_into*) or contains (*contain*) another. The *contain* and *include* matchers do exactly the same job.
 
 ::
 
@@ -97,7 +97,7 @@ Verifies if an object is of a given type.
 
 **be_instance_of**
 
-Like be_kind_of, but it uses *instance* word.
+Same as be_kind_of, but using *instance* word.
 
 
 **be_like**
@@ -109,7 +109,7 @@ Checks matching against a regular expression.
     >>> 'Hello World' |should| be_like(r'Hello W.+')
     >>> '123 is a number' |should_not| be_like(r'^[12]+ is a number')
 
-*be_like* accepts flags from *re* module as its optional second parameter.
+*be_like* accepts flags from *re* module as its (optional) second parameter.
 
 ::
 
@@ -121,7 +121,7 @@ Checks matching against a regular expression.
 
 **throw**
 
-Checks if a given piece of code raises an arbitrary exception.
+Check the raising  of exceptions.
 
 ::
 
@@ -175,7 +175,7 @@ If the function or method has parameters, it must be called within a lambda or u
     >>> (lambda: box.add_items(1, 2, 3)) |should| change(box.item_count)
     >>> (box.add_items, 1, 2, 3) |should| change(box.item_count)
 
-*change* also works given an arbitrary change count::
+*change* also works with an arbitrary change count::
 
     >>> box.clear()
     >>> box.add_items(1, 2, 3)
@@ -201,7 +201,7 @@ If the function or method has parameters, it must be called within a lambda or u
     ShouldNotSatisfied: result should have changed by at least 4, but was changed by 3
 
 
-And, finally, *change* supports specifying the initial and final values or only the final one::
+Finally, *change* supports specifying both the initial and final values or only the final one::
 
     >>> box.clear()
     >>> (box.add_items, 1, 2, 3) |should| change(box.item_count).from_(0).to(3)
@@ -265,7 +265,7 @@ Checks equality of strings ignoring case.
 
 **have**
 
-Checks the element count of a given collection. It can work with iterables, requiring a qualifier expression for readability purposes that is only a syntax sugar.
+Checks the element count of a given collection. Works with iterables, requiring a qualifier expression for readability purposes, which is in fact only a syntax sugar.
 
 ::
 
@@ -277,7 +277,7 @@ Checks the element count of a given collection. It can work with iterables, requ
 
     >>> "left" |should| have(4).characters
 
-*have* also works with non-iterable objects, in which the qualifier is a name of attribute or method that contains the collection to be count.
+*have* also works with non-iterable objects, if the qualifier is an attribute name or method that contains the collection to be count.
 
 ::
 
@@ -305,7 +305,7 @@ Checks the element count of a given collection. It can work with iterables, requ
 
 **have_at_least**
 
-Same to *have*, but checking if the element count is greater than or equal to the given value. Works for collections with syntax sugar, object attributes or methods.
+The same as *have*, but checking if the element count is greater than or equal to the given value. Works for collections with syntax sugar, object attributes, or methods.
 
 ::
 
@@ -316,7 +316,7 @@ Same to *have*, but checking if the element count is greater than or equal to th
 
 **have_at_most**
 
-Same to *have*, but checking if the element count is less than or equal to the given value. Works for collections with syntax sugar, object attributes or methods.
+The same as *have*, but checking if the element count is less than or equal to the given value. Works for collections with syntax sugar, object attributes, or methods.
 
 ::
 
@@ -329,7 +329,7 @@ Same to *have*, but checking if the element count is less than or equal to the g
 
 **include_in_any_order**
 
-Check if a iterable includes all elements of another. Both matchers do the same job.
+Check if an iterable includes all elements of another. Both matchers do the same job.
 
 ::
 
@@ -353,7 +353,7 @@ Checks if an iterable includes any element of another.
 
 **include_keys**
 
-Checks if a dictionary includes all the given keys.
+Checks if a dictionary includes all given keys.
 
 ::
 
@@ -363,7 +363,7 @@ Checks if a dictionary includes all the given keys.
 
 **include_values**
 
-Checks if a dictionary includes all the given values.
+Checks if a dictionary includes all given values.
 
 ::
 
