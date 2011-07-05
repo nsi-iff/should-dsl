@@ -145,6 +145,11 @@ class Should(object):
     def _get_all_public_attr_names(self, obj):
         return [attr_name for attr_name in dir(obj) if not attr_name.startswith('_')]
 
+    def add_aliases(self, **aliases):
+        for name, alias in aliases.iteritems():
+            matcher = self._matchers_by_name[name]
+            self._matchers_by_name[alias] = matcher
+
 
 class _PredicateMatcher(object):
 
@@ -213,3 +218,6 @@ def matcher(matcher_object):
 def add_predicate_regex(regex):
     _predicate_regexes.update([regex])
 
+def aliases(**kwargs):
+    should.add_aliases(**kwargs)
+    should_not.add_aliases(**kwargs)

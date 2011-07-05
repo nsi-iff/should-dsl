@@ -2,6 +2,7 @@ from should_dsl.dsl import (should,
                          should_not,
                          matcher,
                          add_predicate_regex,
+                         aliases,
                          ShouldNotSatisfied)
 from should_dsl import matchers
 
