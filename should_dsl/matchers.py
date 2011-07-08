@@ -3,6 +3,7 @@ import sys
 from decimal import Decimal
 from difflib import unified_diff
 from should_dsl import matcher
+from should_dsl.backwardscompat import string_types
 
 
 class Be(object):
@@ -45,7 +46,7 @@ class EqualTo(object):
             self._prepare_strings_to_case_insensitive()
 
         if not self._actual == self._expected:
-            if isinstance(self._expected, str) and isinstance(self._actual, str) and self._make_diff:
+            if isinstance(self._expected, string_types) and isinstance(self._actual, string_types) and self._make_diff:
                 self._prepare_strings_to_diff()
                 diff_generator = unified_diff(self._actual, self._expected, fromfile='actual', tofile='expected')
                 for line in diff_generator:
