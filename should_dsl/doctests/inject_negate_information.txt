@@ -5,7 +5,7 @@
 ...     name = 'be_a_foo_object'
 ...
 ...     def match(self, right_object):
-...         print "Ran with negate? %s" % self.run_with_negate
+...         print("Ran with negate? %s" % self.run_with_negate)
 ...         return not self.run_with_negate
 
 >>> matcher(FooMatcher)
