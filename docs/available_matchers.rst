@@ -251,6 +251,27 @@ Checks object equality (not identity).
     ...         return True
     >>> Foo() |should| equal_to(Foo())
 
+It can even show you a diff if you are comparing two big strings.
+
+::
+
+    >>> 'big' |should| equal_to('big\nstring', diff=True)
+    Traceback (most recent call last):
+    ...
+    ShouldNotSatisfied: the strings are different, see the diff below:
+    --- actual
+    +++ expected
+    @@ -1,1 +1,2 @@
+    -big+big
+    +string
+
+This matcher can check string equality ignoring case too.
+A bonus: you can combine this feature with the diff parameter too.
+
+::
+
+    >>> 'abc' |should| equal_to('abC', case_sensitive=False)
+
 
 **equal_to_ignoring_case**
 
@@ -267,7 +288,7 @@ Checks equality of strings ignoring case.
 
 Checks the element count of a given collection. Works with iterables, requiring a qualifier expression for readability purposes, which is in fact only a syntax sugar.
 
-::
+::)
 
     >>> ['b', 'c', 'd'] |should| have(3).elements
 
@@ -396,3 +417,18 @@ Verifies if a string starts with a given prefix.
     >>> "Brazil champion of 2010 FIFA world cup" |should| start_with('Brazil champion')
     >>> "hello world" |should_not| start_with('Hello')
 
+**have_same_attribute_values_as**
+
+Verifies if an object have the same attribute values as another one.
+
+::
+
+    >>> class Foo(object):
+    ...    def __init__(self, a, b):
+    ...        self.a = a
+    ...        self.b = b
+
+    >>> a = Foo(1,2)
+    >>> b = Foo(1,2)
+
+    >>> a |should| have_same_attribute_values_as(b)

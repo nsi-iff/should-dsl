@@ -1,7 +1,9 @@
 import re
 import sys
 from decimal import Decimal
+from difflib import unified_diff
 from should_dsl import matcher
+from should_dsl.backwardscompat import string_types
 
 
 class Be(object):
@@ -26,6 +28,52 @@ class Be(object):
 matcher(Be)
 
 
+class EqualTo(object):
+
+    name = 'equal_to'
+
+    def __call__(self, expected, diff=False, case_sensitive=True):
+        self._expected = expected
+        self._make_diff = diff
+        self._case_sensitive = case_sensitive
+        return self
+
+    def match(self, actual):
+        self._actual = actual
+        self._diff = ''
+
+        if not self._case_sensitive:
+            self._prepare_strings_to_case_insensitive()
+
+        if not self._actual == self._expected:
+            if isinstance(self._expected, string_types) and isinstance(self._actual, string_types) and self._make_diff:
+                self._prepare_strings_to_diff()
+                diff_generator = unified_diff(self._actual, self._expected, fromfile='actual', tofile='expected')
+                for line in diff_generator:
+                    self._diff += line
+            return False
+        return True
+
+    def _prepare_strings_to_case_insensitive(self):
+            self._expected = self._expected.lower()
+            self._actual = self._actual.lower()
+
+    def _prepare_strings_to_diff(self):
+            self._actual = self._actual.splitlines(True)
+            self._expected = self._expected.splitlines(True)
+
+    def message_for_failed_should(self):
+        default_message = "%r is not equal to %r" % (self._actual, self._expected)
+        if not self._make_diff:
+            return default_message
+        return "the strings are different, see the diff below:\n%s" % self._diff
+
+    def message_for_failed_should_not(self):
+        return "%r is equal to %r" % (self._actual, self._expected)
+
+matcher(EqualTo)
+
+
 @matcher
 def include():
     return (lambda container, item: item in container, "%r does %sinclude %r")
@@ -34,11 +82,6 @@ def include():
 @matcher
 def contain():
     return (lambda container, item: item in container, "%r does %scontain %r")
-
-
-@matcher
-def equal_to():
-    return (lambda x, y: x == y, '%r is %sequal to %r')
 
 
 @matcher
@@ -650,3 +693,31 @@ class BeEmpty(object):
 
 matcher(BeEmpty)
 
+class HaveSameAttributeValues(object):
+
+    name = 'have_same_attribute_values_as'
+
+    def __call__(self, other_object):
+        self._other_object = other_object
+        return self
+
+    def match(self, actual_object):
+        self._actual_object = actual_object
+        found_different_attribute = False
+
+        for key in self._other_object.__dict__.keys():
+            got = self._actual_object.__dict__.get(key)
+            expected =  self._other_object.__dict__.get(key)
+            if got != expected:
+                found_different_attribute = True
+                break
+
+        return found_different_attribute == False
+
+    def message_for_failed_should(self):
+        return "expected %r to have the same attribute values as %r" % (self._actual_object, self._other_object)
+
+    def message_for_failed_should_not(self):
+        return "expected %r to have not the same attribute values as %r" % (self._actual_object, self._other_object)
+
+matcher(HaveSameAttributeValues)

@@ -17,3 +17,25 @@ Traceback (most recent call last):
     ...
 ShouldNotSatisfied: 'dsl' is equal to 'dsl'
 
+>>> name |should| equal_to('dsl\ntest', diff=True)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: the strings are different, see the diff below:
+--- actual
++++ expected
+@@ -1,1 +1,2 @@
+-dsl+dsl
++test
+
+>>> 'CaSe' |should| equal_to('case', case_sensitive=False)
+
+>>> 'CaSE' |should| equal_to('CasE\nInsensitive', diff=True, case_sensitive=False)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: the strings are different, see the diff below:
+--- actual
++++ expected
+@@ -1,1 +1,2 @@
+-case+case
++insensitive
+
