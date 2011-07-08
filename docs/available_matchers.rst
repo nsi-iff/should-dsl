@@ -417,9 +417,9 @@ Verifies if a string starts with a given prefix.
     >>> "Brazil champion of 2010 FIFA world cup" |should| start_with('Brazil champion')
     >>> "hello world" |should_not| start_with('Hello')
 
-**have_same_attributes_as**
+**have_same_attribute_values_as**
 
-Verifies if an object have the same attributes as another one.
+Verifies if an object have the same attribute values as another one.
 
 ::
 
@@ -431,4 +431,4 @@ Verifies if an object have the same attributes as another one.
     >>> a = Foo(1,2)
     >>> b = Foo(1,2)
 
-    >>> a |should| have_same_attributes_as(b)
+    >>> a |should| have_same_attribute_values_as(b)
