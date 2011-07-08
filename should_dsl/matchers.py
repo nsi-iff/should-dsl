@@ -668,9 +668,9 @@ class BeEmpty(object):
 
 matcher(BeEmpty)
 
-class HaveSameAttributesValues(object):
+class HaveSameAttributeValues(object):
 
-    name = 'have_same_attributes_values_as'
+    name = 'have_same_attribute_values_as'
 
     def __call__(self, other_object):
         self._other_object = other_object
@@ -690,9 +690,9 @@ class HaveSameAttributesValues(object):
         return found_different_attribute == False
 
     def message_for_failed_should(self):
-        return "expected %r to have the same attributes as %r" % (self._actual_object, self._other_object)
+        return "expected %r to have the same attribute values as %r" % (self._actual_object, self._other_object)
 
     def message_for_failed_should_not(self):
-        return "expected %r to have not the same attributes as %r" % (self._actual_object, self._other_object)
+        return "expected %r to have not the same attribute values as %r" % (self._actual_object, self._other_object)
 
-matcher(HaveSameAttributesValues)
+matcher(HaveSameAttributeValues)
