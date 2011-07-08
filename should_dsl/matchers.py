@@ -680,7 +680,7 @@ class HaveSameAttributes(object):
         self._actual_object = actual_object
         found_different_attribute = False
 
-        for key in self._other_object.__dict__.iterkeys():
+        for key in self._other_object.__dict__.keys():
             got = self._actual_object.__dict__.get(key)
             expected =  self._other_object.__dict__.get(key)
             if got != expected:
