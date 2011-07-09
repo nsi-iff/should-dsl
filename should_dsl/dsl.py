@@ -164,6 +164,11 @@ class Should(object):
             nots = values[2]._negate and ('', 'not ') or ('not ', '')
         return (function, message) + nots
 
+    def add_aliases(self, **aliases):
+        for name, alias in aliases.items():
+            matcher = self._matchers_by_name[name]
+            self._matchers_by_name[alias] = matcher
+
 
 class _PredicateMatcher(object):
 
@@ -234,4 +239,8 @@ def add_predicate_regex(regex):
 
 def matcher_configuration(verifier, message, word_not_for=should_not):
     return (verifier, message, word_not_for)
+
+def aliases(**kwargs):
+    should.add_aliases(**kwargs)
+    should_not.add_aliases(**kwargs)
 
