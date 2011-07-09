@@ -232,7 +232,6 @@ def matcher(matcher_object):
 def add_predicate_regex(regex):
     _predicate_regexes.update([regex])
 
-def matcher_configuration(verifier, message,
-                          word_not_appears_on_error_messages_for=should_not):
-    return (verifier, message, word_not_appears_on_error_messages_for)
+def matcher_configuration(verifier, message, word_not_for=should_not):
+    return (verifier, message, word_not_for)
 

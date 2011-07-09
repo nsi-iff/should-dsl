@@ -58,7 +58,7 @@ with same effects than passing a regular tuple.
 ...     return matcher_configuration(
 ...         verifier=lambda x, y: x == y * 3,
 ...         message="expected %(not)striple %(expected)s, got %(actual)s",
-...         word_not_appears_on_error_messages_for=should_not)
+...         word_not_for=should_not)
 
 
 >>> 3.1 |should| be_triple(1)
