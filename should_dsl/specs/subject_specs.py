@@ -4,9 +4,18 @@ from should_dsl.subject import Subject
 from should_dsl.specs import Mock
 from should_dsl.dsl import ShouldNotSatisfied
 
+class SubjectBaseSpec(unittest.TestCase):
+
+    def assertRaisesWith(self, exception_obj, callable_obj, *args, **kw):
+        self.assertRaises(exception_obj.__class__, callable_obj, *args, **kw)
+        try:
+            callable_obj(*args, **kw)
+        except exception_obj.__class__, e:
+            self.assertEquals(exception_obj.args, e.args)
 
 
-class SubjectShouldSpec(unittest.TestCase):
+
+class SubjectShouldSpec(SubjectBaseSpec):
 
     def setUp(self):
         self.api = ShouldDSLApi()
@@ -37,12 +46,21 @@ class SubjectShouldSpec(unittest.TestCase):
     def test_should_raise_shouldnotsatisfied_if_does_not_match(self):
         matcher_mock = Mock()
         matcher_mock.match = Mock(return_value=False)
+        matcher_mock.message_for_failed_should = Mock(return_value='failed msg')
         self.api.find_matcher = Mock(return_value=matcher_mock)
         
         self.assertRaises(ShouldNotSatisfied, self.subject.should, **{'equal_to': 'foo'})
 
+    def test_should_raise_shouldnotsatisfied_calling_msg_method_on_matcher(self):
+        matcher_mock = Mock()
+        matcher_mock.match = Mock(return_value=False)
+        matcher_mock.message_for_failed_should = Mock(return_value='failed msg')
+        self.api.find_matcher = Mock(return_value=matcher_mock)
+        
+        self.assertRaisesWith(ShouldNotSatisfied('failed msg'), self.subject.should, **{'equal_to': 'foo'})
 
-class SubjectShouldNotSpec(unittest.TestCase):
+
+class SubjectShouldNotSpec(SubjectBaseSpec):
 
     def setUp(self):
         self.api = ShouldDSLApi()
@@ -73,7 +91,16 @@ class SubjectShouldNotSpec(unittest.TestCase):
     def test_should_raise_shouldnotsatisfied_if_does_match(self):
         matcher_mock = Mock()
         matcher_mock.match = Mock(return_value=True)
+        matcher_mock.message_for_failed_should_not = Mock(return_value='failed msg')
         self.api.find_matcher = Mock(return_value=matcher_mock)
         
         self.assertRaises(ShouldNotSatisfied, self.subject.should_not, **{'equal_to': 'foo'})
+
+    def test_should_raise_shouldnotsatisfied_calling_msg_method_on_matcher(self):
+        matcher_mock = Mock()
+        matcher_mock.match = Mock(return_value=True)
+        matcher_mock.message_for_failed_should_not = Mock(return_value='failed msg')
+        self.api.find_matcher = Mock(return_value=matcher_mock)
+        
+        self.assertRaisesWith(ShouldNotSatisfied('failed msg'), self.subject.should_not, **{'equal_to': 'foo'})
 

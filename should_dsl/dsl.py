@@ -36,7 +36,6 @@ class Should(object):
                 self._rvalue.message_for_failed_should_not() or \
                 self._rvalue.message_for_failed_should())
 
-
     def _destroy_function_matchers(self):
         self._outer_frame = sys._getframe(2).f_globals
         self._remove_matchers_from_namespace()
@@ -62,7 +61,6 @@ class Should(object):
         for attr_name, attr_ref in self._identifiers_named_equal_matchers.items():
             f_globals[attr_name] = attr_ref
         self._identifiers_named_equal_matchers.clear()
-
 
     def _create_function_matchers(self):
         self._outer_frame = sys._getframe(2).f_globals
