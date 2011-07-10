@@ -41,5 +41,15 @@ class ShouldDSLApiSpec(unittest.TestCase):
         my_fake_matcher = Mock()
         my_fake_matcher.name = 'fake_matcher'
         self.api.add_matcher(my_fake_matcher)
-        self.api.add_aliases(foo='fake_matcher')
+        self.api.add_aliases(fake_matcher='foo')
         self.assertEquals(my_fake_matcher, self.api.find_matcher('foo'))
+
+    def test_should_raise_typeerror_if_matcher_constructor_expecs_more_than_one_arg(self):
+        def fake_matcher():
+            return (lambda x, y: x == y, "msg")
+        self.api.add_matcher(fake_matcher)
+        matcher_created = self.api.find_matcher('fake_matcher')
+        matcher_created.__init__ = lambda self, x, y: 'foo'
+
+        self.assertRaises(TypeError, self.api.add_matcher, matcher_created)
+

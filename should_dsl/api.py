@@ -1,3 +1,4 @@
+import sys
 from types import FunctionType
 
 
@@ -27,11 +28,22 @@ class ShouldDSLApi(object):
             name = GeneratedMatcher.name
         else:
             name = matcher.name
+        self._ensure_matcher_init_doesnt_have_arguments(matcher)
         self.matchers[matcher.name] = matcher
+
+    def _ensure_matcher_init_doesnt_have_arguments(self, matcher_object):
+         try:
+             matcher_object()
+         except TypeError:
+             e = sys.exc_info()[1]
+             if str(e).startswith('__init__() takes exactly'):
+                 raise TypeError('matcher class constructor cannot have arguments')
+             else:
+                 raise
 
     def find_matcher(self, matcher_name):
         return self.matchers[matcher_name]
 
     def add_aliases(self, **kw):
-        for alias, matcher_name in kw.items():
+        for matcher_name, alias in kw.items():
             self.matchers[alias] = self.find_matcher(matcher_name)

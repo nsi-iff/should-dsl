@@ -1,6 +1,7 @@
 import sys
 import re
 from types import FunctionType
+from api import ShouldDSLApi
 
 
 _predicate_regexes = set(['is_(.+)', 'is(.+)'])
@@ -8,9 +9,9 @@ _predicate_regexes = set(['is_(.+)', 'is(.+)'])
 
 class Should(object):
 
-    def __init__(self, negate=False):
+    def __init__(self, api, negate=False):
         self._negate = negate
-        self._matchers = dict()
+        self._api = api
         self._identifiers_named_equal_matchers = dict()
         self._outer_frame = None
 
@@ -47,7 +48,7 @@ class Should(object):
 
     def _remove_regular_matchers_from_namespace(self):
         f_globals = self._outer_frame
-        for matcher_name in list(self._matchers.keys()):
+        for matcher_name in list(self._api.matchers.keys()):
             del f_globals[matcher_name]
 
     def _remove_predicate_matchers_from_namespace(self):
@@ -71,7 +72,7 @@ class Should(object):
     def _save_clashed_identifiers(self):
         f_globals = self._outer_frame
         predicate_matcher_names = ['be_' + attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
-        for matcher_name in list(self._matchers.keys()) + predicate_matcher_names:
+        for matcher_name in list(self._api.matchers.keys()) + predicate_matcher_names:
             if matcher_name in f_globals:
                 self._identifiers_named_equal_matchers[matcher_name] = f_globals[matcher_name]
 
@@ -81,8 +82,8 @@ class Should(object):
 
     def _put_regular_matchers_on_namespace(self):
         f_globals = self._outer_frame
-        for matcher_name, matcher_function in self._matchers.items():
-            matcher_function = self._matchers[matcher_name]
+        for matcher_name, matcher_function in self._api.matchers.items():
+            matcher_function = self._api.matchers[matcher_name]
             matcher = matcher_function()
             self._inject_negate_information(matcher)
             f_globals[matcher_name] = matcher
@@ -106,48 +107,8 @@ class Should(object):
         for predicate_name, attr_name in predicate_and_matcher_names:
             f_globals['be_' + predicate_name] = _PredicateMatcher(attr_name)
 
-
-    def add_matcher(self, matcher_object):
-        if isinstance(matcher_object, FunctionType):
-            function, message = matcher_object()
-            class GeneratedMatcher(object):
-                name = matcher_object.__name__
-                def __init__(self):
-                    self._function, self._message = function, message
-                def __call__(self, arg):
-                    self.arg = arg
-                    return self
-                def match(self, value):
-                    self._value = value
-                    return self._function(self._value, self.arg)
-                def message_for_failed_should(self):
-                    return self._message % (self._value, "not ", self.arg)
-                def message_for_failed_should_not(self):
-                    return self._message % (self._value, "", self.arg)
-            matcher_object = GeneratedMatcher
-            name = GeneratedMatcher.name
-        else:
-            name = matcher_object.name
-        self._ensure_matcher_init_doesnt_have_arguments(matcher_object)
-        self._matchers[name] = matcher_object
-
-    def _ensure_matcher_init_doesnt_have_arguments(self, matcher_object):
-        try:
-            matcher_object()
-        except TypeError:
-            e = sys.exc_info()[1]
-            if str(e).startswith('__init__() takes exactly'):
-                raise TypeError('matcher class constructor cannot have arguments')
-            else:
-                raise
-
     def _get_all_public_attr_names(self, obj):
         return [attr_name for attr_name in dir(obj) if not attr_name.startswith('_')]
-
-    def add_aliases(self, **aliases):
-        for name, alias in aliases.items():
-            matcher = self._matchers[name]
-            self._matchers[alias] = matcher
 
 
 class _PredicateMatcher(object):
@@ -205,19 +166,18 @@ class ShouldNotSatisfied(AssertionError):
     '''Extends AssertionError for unittest compatibility'''
 
 
-should = Should(negate=False)
-should_not = Should(negate=True)
+api = ShouldDSLApi()
+should = Should(api, negate=False)
+should_not = Should(api, negate=True)
 
 def matcher(matcher_object):
     '''Adds given matcher to should objects. We recommend you use it as a decorator'''
-    should.add_matcher(matcher_object)
-    should_not.add_matcher(matcher_object)
+    api.add_matcher(matcher_object)
     return matcher_object
 
 def add_predicate_regex(regex):
     _predicate_regexes.update([regex])
 
 def aliases(**kwargs):
-    should.add_aliases(**kwargs)
-    should_not.add_aliases(**kwargs)
+    api.add_aliases(**kwargs)
 
