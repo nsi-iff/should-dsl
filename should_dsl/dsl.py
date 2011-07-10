@@ -10,7 +10,7 @@ class Should(object):
 
     def __init__(self, negate=False):
         self._negate = negate
-        self._matchers_by_name = dict()
+        self._matchers = dict()
         self._identifiers_named_equal_matchers = dict()
         self._outer_frame = None
 
@@ -47,7 +47,7 @@ class Should(object):
 
     def _remove_regular_matchers_from_namespace(self):
         f_globals = self._outer_frame
-        for matcher_name in list(self._matchers_by_name.keys()):
+        for matcher_name in list(self._matchers.keys()):
             del f_globals[matcher_name]
 
     def _remove_predicate_matchers_from_namespace(self):
@@ -71,7 +71,7 @@ class Should(object):
     def _save_clashed_identifiers(self):
         f_globals = self._outer_frame
         predicate_matcher_names = ['be_' + attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
-        for matcher_name in list(self._matchers_by_name.keys()) + predicate_matcher_names:
+        for matcher_name in list(self._matchers.keys()) + predicate_matcher_names:
             if matcher_name in f_globals:
                 self._identifiers_named_equal_matchers[matcher_name] = f_globals[matcher_name]
 
@@ -81,8 +81,8 @@ class Should(object):
 
     def _put_regular_matchers_on_namespace(self):
         f_globals = self._outer_frame
-        for matcher_name, matcher_function in self._matchers_by_name.items():
-            matcher_function = self._matchers_by_name[matcher_name]
+        for matcher_name, matcher_function in self._matchers.items():
+            matcher_function = self._matchers[matcher_name]
             matcher = matcher_function()
             self._inject_negate_information(matcher)
             f_globals[matcher_name] = matcher
@@ -130,7 +130,7 @@ class Should(object):
         else:
             name = matcher_object.name
         self._ensure_matcher_init_doesnt_have_arguments(matcher_object)
-        self._matchers_by_name[name] = matcher_object
+        self._matchers[name] = matcher_object
 
     def _ensure_matcher_init_doesnt_have_arguments(self, matcher_object):
         try:
@@ -147,8 +147,8 @@ class Should(object):
 
     def add_aliases(self, **aliases):
         for name, alias in aliases.items():
-            matcher = self._matchers_by_name[name]
-            self._matchers_by_name[alias] = matcher
+            matcher = self._matchers[name]
+            self._matchers[alias] = matcher
 
 
 class _PredicateMatcher(object):
