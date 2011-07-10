@@ -13,10 +13,12 @@ class ShouldDSLApiSpec(unittest.TestCase):
 
     def test_should_be_possible_to_add_matchers(self):
         my_fake_matcher = Mock()
-        self.api.add_matcher('my_fake_matcher', my_fake_matcher)
-        self.assertEquals({'my_fake_matcher': my_fake_matcher}, self.api.matchers)
+        my_fake_matcher.name = 'fake_matcher'
+        self.api.add_matcher(my_fake_matcher)
+        self.assertEquals({'fake_matcher': my_fake_matcher}, self.api.matchers)
 
     def test_should_be_possible_to_find_matcher_by_name(self):
         my_fake_matcher = Mock()
-        self.api.add_matcher('my_fake_matcher', my_fake_matcher)
-        self.assertEquals(my_fake_matcher, self.api.find_matcher('my_fake_matcher'))
+        my_fake_matcher.name = 'fake_matcher'
+        self.api.add_matcher(my_fake_matcher)
+        self.assertEquals(my_fake_matcher, self.api.find_matcher('fake_matcher'))
