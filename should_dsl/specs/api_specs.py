@@ -22,3 +22,24 @@ class ShouldDSLApiSpec(unittest.TestCase):
         my_fake_matcher.name = 'fake_matcher'
         self.api.add_matcher(my_fake_matcher)
         self.assertEquals(my_fake_matcher, self.api.find_matcher('fake_matcher'))
+
+    def test_should_generate_matcher_if_argument_is_a_function(self):
+        def fake_matcher():
+            return (lambda x, y: x == y, "msg")
+
+        self.api.add_matcher(fake_matcher)
+        matcher_created = self.api.find_matcher('fake_matcher')
+
+        self.assertTrue(hasattr(matcher_created, '__call__'))
+        self.assertTrue(hasattr(matcher_created, 'match'))
+        self.assertTrue(hasattr(matcher_created, 'message_for_failed_should'))
+        self.assertTrue(hasattr(matcher_created, 'message_for_failed_should_not'))
+        self.assertTrue(hasattr(matcher_created, 'name'))
+        self.assertEquals('fake_matcher', matcher_created.name)
+
+    def test_should_be_possible_to_add_aliases_to_matchers(self):
+        my_fake_matcher = Mock()
+        my_fake_matcher.name = 'fake_matcher'
+        self.api.add_matcher(my_fake_matcher)
+        self.api.add_aliases(foo='fake_matcher')
+        self.assertEquals(my_fake_matcher, self.api.find_matcher('foo'))
