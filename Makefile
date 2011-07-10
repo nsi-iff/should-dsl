@@ -1,7 +1,8 @@
 PYTHON=python
 
 test:
-	$(PYTHON) setup.py test
+	$(PYTHON) run_all_examples.py
+	specloud
 
 tox:
 	@python -c 'import tox' 2>/dev/null || pip install tox
