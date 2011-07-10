@@ -108,8 +108,7 @@ class Should(object):
 
 
     def add_matcher(self, matcher_object):
-        if (hasattr(matcher_object, 'func_name') or
-            isinstance(matcher_object, FunctionType)):
+        if isinstance(matcher_object, FunctionType):
             function, message = matcher_object()
             class GeneratedMatcher(object):
                 name = matcher_object.__name__
