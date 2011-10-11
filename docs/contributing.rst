@@ -38,6 +38,5 @@ Then, add a reasonable message explaining briefly what you have done and why.
 After these steps, we will contact you as soon as possible! And if accepted, apply your changes.
 
 
-.. _Should-DSL's project page: http://github.com/hugobr/should-dsl
+.. _Should-DSL's project page: http://github.com/nsi-iff/should-dsl
 .. _Github: http://github.com/
-
