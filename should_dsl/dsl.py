@@ -53,10 +53,9 @@ class Should(object):
     def _remove_predicate_matchers_from_namespace(self):
         f_globals = self._outer_frame
         for attr_name in dir(self._lvalue):
-            if attr_name.startswith('_'):
-                matcher = 'be_%s' % attr_name
-                if matcher in f_globals:
-                    del f_globals[matcher]
+            matcher = 'be_%s' % attr_name
+            if matcher in f_globals:
+                del f_globals[matcher]
 
     def _put_original_identifiers_back(self):
         f_globals = self._outer_frame
