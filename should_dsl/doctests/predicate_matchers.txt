@@ -79,3 +79,18 @@ NameError: name 'be__doing_some_private_things' is not defined
 ...         self.is_negative = value < 0
 >>> Float(-1) |should| be_negative
 
+
+>>> from should_dsl import should_not
+>>> class EmptyObject(object):
+...     def __len__(self):
+...         return 0
+...
+...     def __zero__(self):
+...         return True
+... 
+>>> obj = EmptyObject()
+>>> obj |should| be_empty
+>>> obj.empty = False
+>>> obj |should_not| be_empty
+>>> del obj.empty
+>>> obj |should| be_empty
