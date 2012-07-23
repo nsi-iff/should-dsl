@@ -261,7 +261,7 @@ It can even show you a diff if you are comparing two big strings.
     ShouldNotSatisfied: the strings are different, see the diff below:
     --- actual
     +++ expected
-    @@ -1,1 +1,2 @@
+    @@ -1 +1,2 @@
     -big+big
     +string
 
