@@ -12,6 +12,12 @@
 ...         self.items = []
 
 >>> box = Box()
+
+>>> (box.add_items, 1) |should| change(box.items)
+Traceback (most recent call last):
+    ...
+TypeError: parameter passed to change must be a callable or a iterable having a callable as its first element
+
 >>> (lambda: box.add_items(1)) |should| change(box.item_count)
 
 >>> (lambda: box.add_items(1)) |should_not| change(box.item_count)

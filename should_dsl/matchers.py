@@ -532,10 +532,11 @@ class Change(object):
     def _to_callable(self, objekt):
         if callable(objekt):
             return objekt
-        type_error_message = 'parameter passed to change must be a callable or a iterable having a callable as its first element'
-        if not getattr(objekt, '__getitem__', False) or not callable(objekt[0]):
-            raise TypeError(type_error_message)
-        return lambda *params: objekt[0](*objekt[1:])
+        if getattr(objekt, '__getitem__', False) and len(objekt) >= 2 and callable(objekt[0]):
+            return lambda *params: objekt[0](*objekt[1:])
+        else:
+            raise TypeError('parameter passed to change must be a callable ' +
+                'or a iterable having a callable as its first element')
 
     class _By(object):
         def __init__(self, comparison, name=''):
