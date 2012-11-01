@@ -5,7 +5,7 @@ except ImportError:
     use_setuptools()
 from setuptools import setup, find_packages
 
-version = '2.0a5'
+version = '2.1.1'
 readme = open('README.rst').read()
 
 setup(name='should_dsl',
@@ -30,7 +30,7 @@ setup(name='should_dsl',
       keywords='should dsl assertion bdd python expectation',
       author='Hugo Lopes Tavares',
       author_email='hltbra@gmail.com',
-      url='www.should-dsl.info',
+      url='http://www.should-dsl.info',
       license='MIT License',
       packages=find_packages(),
       test_suite='run_all_examples.test_suite',
