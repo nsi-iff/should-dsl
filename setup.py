@@ -5,7 +5,7 @@ except ImportError:
     use_setuptools()
 from setuptools import setup, find_packages
 
-version = '2.1.1'
+version = '2.1.2'
 readme = open('README.rst').read()
 
 setup(name='should_dsl',
