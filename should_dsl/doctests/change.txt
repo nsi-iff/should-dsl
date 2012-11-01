@@ -122,3 +122,16 @@ Traceback (most recent call last):
     ...
 ShouldNotSatisfied: result should have changed from 1 to 0, but was changed from 2 to 0
 
+
+Mutable references are supported as expected:
+
+>>> class ClientRepository(object):
+...     def __init__(self):
+...         self._clients = []
+...     def insert(self, client_name):
+...         self._clients.append(client_name)
+...     def clients(self):
+...         return self._clients
+
+>>> client_repository = ClientRepository()
+>>> (client_repository.insert, 'Paul') |should| change(client_repository.clients)

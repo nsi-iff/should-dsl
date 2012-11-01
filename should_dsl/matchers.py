@@ -1,5 +1,6 @@
 import re
 import sys
+import copy
 from decimal import Decimal
 from difflib import unified_diff
 from should_dsl import matcher
@@ -456,8 +457,7 @@ class Change(object):
 
     def match(self, action):
         self._action = self._to_callable(action)
-
-        self._before_result = self._verifier()
+        self._before_result = copy.copy(self._verifier())
         self._action()
         self._after_result = self._verifier()
 
@@ -530,10 +530,10 @@ class Change(object):
         return self
 
     def _to_callable(self, objekt):
-        if hasattr(objekt, '__call__'):
+        if callable(objekt):
             return objekt
         type_error_message = 'parameter passed to change must be a callable or a iterable having a callable as its first element'
-        if not getattr(objekt, '__getitem__', False) or not hasattr(objekt[0], '__call__'):
+        if not getattr(objekt, '__getitem__', False) or not callable(objekt[0]):
             raise TypeError(type_error_message)
         return lambda *params: objekt[0](*objekt[1:])
 
